@@ -1,3 +1,6 @@
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 function Home() {
   return (
     <div className="container">
@@ -7,46 +10,52 @@ function Home() {
             </div>
         </div>
         <div className="row">
-            <div className="col-md-3">
+            <div className="col-md-4">
                 <div className="card mt-4">
-                    <img className="card-img-top" src="jira-icon-512x512.png" alt="Card image cap"/>
-                    <div className="card-body">
+                    <img className="card-img-top" src="Jira-Logo.png" alt="Card image cap"/>
+                    <div className="card-body border-top">
                         <h5 className="card-title">Jira</h5>
                         <p className="card-text">One of the most popular project management tool for Planning, tracking, and releasing world-class software.</p>
-                        <a href="#" className="btn btn-primary">Details</a>
+                        <div class="d-flex justify-content-between align-items-center m-2">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Go to course  <FontAwesomeIcon icon="arrow-right" /></button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4">
                 <div className="card mt-4">
-                    <img className="card-img-top" src="github_512_black.png" alt="Card image cap"/>
-                    <div className="card-body">
+                    <img className="card-img-top" src="Github-Logo.png" alt="Card image cap"/>
+                    <div className="card-body border-top">
                         <h5 className="card-title">GitHub Copilot</h5>
                         <p className="card-text">Anartificial intelligence tool developed to assist users of Visual Studio Code, etc, by autocompleting code.</p>
-                        <a href="#" className="btn btn-primary">Details</a>
+                        <div class="d-flex justify-content-between align-items-center m-2">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4">
                 <div className="card mt-4">
-                    <img className="card-img-top" src="vscode_icon.png" alt="Card image cap"/>
-                    <div className="card-body">
+                    <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
+                    <div className="card-body border-top">
                         <h5 className="card-title">Visual Studio Code</h5>
                         <p className="card-text">A code editor redefined and optimized for building and debugging modern web and cloud applications.</p>
-                        <a href="#" className="btn btn-primary">Details</a>
+                        <div class="d-flex justify-content-between align-items-center m-2">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="col-md-3">
-                <div className="card mt-4">
-                    <img className="card-img-top" src="aml-1.png" alt="Card image cap"/>
-                    <div className="card-body">
-                        <h5 className="card-title">Anti-money laundering</h5>
-                        <p className="card-text">Regulations intended to stop criminals from disguising illegally obtained funds as legitimate income.</p>
-                        <a href="#" className="btn btn-primary">Details</a>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
   );

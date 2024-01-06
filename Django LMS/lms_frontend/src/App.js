@@ -3,12 +3,13 @@ import './App.css';
 
 import Home from './components/Home'
 import Navbar from './components/MainNav'
+import Footer from './components/Footer'
 import ReactDOM from 'react-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faCheckSquare, faHouse, faSquarePollVertical, faBookOpen, faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare, faHouse, faSquarePollVertical, faBookOpen, faCircleQuestion, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
-library.add(fab, faCheckSquare, faHouse, faSquarePollVertical, faBookOpen, faCircleQuestion)
+library.add(fab, faCheckSquare, faHouse, faSquarePollVertical, faBookOpen, faCircleQuestion, faArrowRight)
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <Home />
+      <Footer/>
     </div>
   );
 }
