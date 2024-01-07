@@ -1,5 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from  'react-router-dom'
 
 function Home() {
   return (
@@ -12,13 +13,13 @@ function Home() {
         <div className="row">
             <div className="col-md-4">
                 <div className="card mt-4">
-                    <img className="card-img-top" src="Jira-Logo.png" alt="Card image cap"/>
+                    <Link to="/details/1"><img className="card-img-top" src="Jira-Logo.png" alt="Card image cap"/></Link>
                     <div className="card-body border-top">
                         <h5 className="card-title">Jira</h5>
                         <p className="card-text">One of the most popular project management tool for Planning, tracking, and releasing world-class software.</p>
                         <div class="d-flex justify-content-between align-items-center m-2">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Go to course  <FontAwesomeIcon icon="arrow-right" /></button>
+                            <Link to="/details/1"><button type="button" class="btn btn-sm btn-outline-secondary">Go to course  <FontAwesomeIcon icon="arrow-right" /></button></Link>
                             </div>
                             <small class="text-muted">9 mins</small>
                         </div>
