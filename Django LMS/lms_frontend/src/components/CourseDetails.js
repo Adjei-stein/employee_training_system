@@ -29,7 +29,7 @@ function CourseDetails() {
                 </div>
                 <div className="card mt-4">
                     <div className="card-header bg-dark text-secondary">
-                        <h2>Chapters</h2>
+                        <h3 className="text-start fw-bold">Chapters</h3>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex align-items-center">
