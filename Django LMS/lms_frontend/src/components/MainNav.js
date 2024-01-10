@@ -26,13 +26,13 @@ function Navbar() {
                             <h5 className="text-light mb-0"><span className="d-none d-sm-inline mx-1"><b>User</b></span></h5>
                         </a>
                         <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
-                            <li><a className="dropdown-item" href="/">New project...</a></li>
-                            <li><a className="dropdown-item" href="/">Settings</a></li>
-                            <li><a className="dropdown-item" href="/">Profile</a></li>
+                            
+                            <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="user" /> View Profile</a></li>
+                            <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="screwdriver-wrench" /> Preferences</a></li>
                             <li>
                                 <hr className="dropdown-divider"/>
                             </li>
-                            <li><a className="dropdown-item" href="/">Sign out</a></li>
+                            <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="power-off" /> Sign Out</a></li>
                         </ul>
                     </div>
                     

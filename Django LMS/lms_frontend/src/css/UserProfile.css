@@ -1,0 +1,12 @@
+.nav-pills .nav-link.active {
+    background-color: #6c757d;
+    /* Add any other styles you'd like for the active link */
+}
+
+.first-card {
+    background-color: #343a40;
+}
+
+.first-card .nav .nav-link{
+    color: #fff;
+}
