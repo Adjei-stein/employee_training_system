@@ -22,14 +22,19 @@ function App() {
   return (
     <div className="App">
       <Navbar/>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/details/:course_id" element={<CourseDetails />} />
-      </Routes>
+        <div style={{paddingBottom: "8rem", paddingTop: "4rem"}}>
+
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="/details/:course_id" element={<CourseDetails />} />
+          </Routes>
+
+        </div>
+      
       
       <Footer/>
     </div>

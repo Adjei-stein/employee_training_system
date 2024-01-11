@@ -4,7 +4,7 @@ import { Link, NavLink } from  'react-router-dom'
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div className="container">
                 <Link className="navbar-brand" to="/">Logo</Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@ function Navbar() {
                         </a>
                         <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
                             
-                            <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="user" /> View Profile</a></li>
+                            <li><a className="dropdown-item" href="/user-profile"><FontAwesomeIcon icon="user" /> View Profile</a></li>
                             <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="screwdriver-wrench" /> Preferences</a></li>
                             <li>
                                 <hr className="dropdown-divider"/>

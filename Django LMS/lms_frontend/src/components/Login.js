@@ -9,7 +9,6 @@ function Login() {
     };
 
     return (
-      <div className="App">
         <div className="container">
             <div className="row mt-4 pt-1 d-flex align-items-center justify-content-center">
 
@@ -50,7 +49,6 @@ function Login() {
                 </div>
             </div>
         </div>
-      </div>
     );
   }
   
