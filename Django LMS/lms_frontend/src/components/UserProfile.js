@@ -30,22 +30,97 @@ function UserProfile() {
                         
                     </div>
                     <div className='col-md-9' style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }}>
-                        {activeTab === 'profile-settings' && (<div className="col-md-12 fade" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-profile-settings" role="tabpanel" aria-labelledby="list-profile-settings">
-                            <h2 className='text-dark'>Profile settings</h2>
+                        {activeTab === 'profile-settings' && (<div className="col-md-12" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-profile-settings" role="tabpanel" aria-labelledby="list-profile-settings">
+                            <div className="col-md-12">
+                                <div className="card mx-2" style={{ background: 'rgba(108, 117, 125)'}}>
+
+                                    <form>
+                                        
+                                            <div className="row mb-2">
+                                                <div className="col-md-12 d-flex align-items-center justify-content-center">
+                                                    <div className="profile-image-box">
+                                                        <div className="profile-image">
+                                                            <h2 className='text-dark'>profile-image-box</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
+                                                    <button type="button" class="btn btn-dark">Edit Profile Image</button>
+                                                </div>
+                                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
+                                                    <div class="form-group">
+                                                        <input type="text" className="form-contro" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="User"/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 mb-2">
+                                                    <div class="form-group mx-2">
+                                                        <input type="text" className="form-control px-3" placeholder="First Name" aria-label="Firstname" aria-describedby="basic-addon1" value="Hello"/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 mb-2">
+                                                    <div class="form-group mx-2">
+                                                        <input type="text" className="form-control px-3" placeholder="Last Name" aria-label="Lastname" aria-describedby="basic-addon1" value="World"/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
+                                                    <div className="col-md-12">
+                                                        <div class="form-group mx-2">
+                                                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value="helloworld@gmail.com"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 mb-2">
+                                                    <div class="form-group mx-2">
+                                                        <input type="text" class="form-control" id="inputAddress" placeholder="1st Address"/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 mb-2">
+                                                    <div class="form-group mx-2">
+                                                        <input type="text" class="form-control" id="inputAddress" placeholder="2nd Address"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row d-flex">
+                                                    <div className="col-md-5">
+                                                        <div class="form-group mx-2">
+                                                            <select id="inputState" class="form-control">
+                                                                <option selected>Choose Region</option>
+                                                                <option>...</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-7">
+                                                        <div class="form-group mx-2">
+                                                            <input type="text" class="form-control" id="inputCity" placeholder="Town/Village/City"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            
+                                            
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </form>
+
+
+                                    
+                                </div>
+                                
+                            </div>
                         </div>)}
 
-                        {activeTab === 'bookmarked-courses' && (<div className="col-md-12 fade" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-bookmarked-courses" role="tabpanel" aria-labelledby="list-bookmarked-courses">
+                        {activeTab === 'bookmarked-courses' && (<div className="col-md-12" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-bookmarked-courses" role="tabpanel" aria-labelledby="list-bookmarked-courses">
                             <h2 className='text-dark'>Bookmarked Courses</h2>
                         </div>)}
 
-                        {activeTab === 'bookmarked-courses' && (<div className="col-md-12 fade" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-badges" role="tabpanel" aria-labelledby="list-badges">
+                        {activeTab === 'bookmarked-courses' && (<div className="col-md-12" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-badges" role="tabpanel" aria-labelledby="list-badges">
                             <h2 className='text-dark'>Badges</h2>
                         </div>)}
 
-                        {activeTab === 'change-password' && (<div className="col-md-12 fade" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-change-password" role="tabpanel" aria-labelledby="list-change-password">
+                        {activeTab === 'change-password' && (<div className="col-md-12" style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-change-password" role="tabpanel" aria-labelledby="list-change-password">
                             <h2 className='text-dark'>CHange Password</h2>
                         </div>)}
-                        {activeTab === 'enrolled-courses' && (<div className="col-md-12 fade show active" id="list-enrolled-courses" role="tabpanel" aria-labelledby="list-enrolled-courses">
+                        {activeTab === 'enrolled-courses' && (<div className="col-md-12" id="list-enrolled-courses" role="tabpanel" aria-labelledby="list-enrolled-courses">
                             <div className="card bg-transparent border-0 first-card">
                             <div className="row py-2 px-3">
                                 <div className="col-md-12 mb-3">
