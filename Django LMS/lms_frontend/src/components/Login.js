@@ -45,7 +45,7 @@ function Login() {
                         <div className="d-flex align-items-center justify-content-center">
                             <p className="mb-3">New to Training Portal? <a href="/register">Sign Up</a> :)</p>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>

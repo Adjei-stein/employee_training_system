@@ -26,7 +26,7 @@ function Home() {
                             <div class="btn-group">
                             <Link to="/details/1"><button type="button" class="btn btn-sm btn-outline-secondary">Go to course  <FontAwesomeIcon icon="arrow-right" /></button></Link>
                             </div>
-                            <small class="text-muted">9 mins</small>
+                            <small class="text-secondary">9 mins</small>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ function Home() {
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button>
                             </div>
-                            <small class="text-muted">9 mins</small>
+                            <small class="text-secondary">9 mins</small>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@ function Home() {
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button>
                             </div>
-                            <small class="text-muted">9 mins</small>
+                            <small class="text-secondary">9 mins</small>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@ function Home() {
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button>
                             </div>
-                            <small class="text-muted">9 mins</small>
+                            <small class="text-secondary">9 mins</small>
                         </div>
                     </div>
                 </div>
