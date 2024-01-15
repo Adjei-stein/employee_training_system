@@ -3,7 +3,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 
-function CourseDetails() {
+function CourseInfo() {
     let {course_id} = useParams()
     return (
         <div className="main_container">
@@ -80,5 +80,5 @@ function CourseDetails() {
     );
 }
 
-export default CourseDetails;
+export default CourseInfo;
   

@@ -10,6 +10,7 @@
 .first-card .nav .nav-link{
     color: #fff!important;
     text-align: left!important;
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar {
