@@ -9,6 +9,7 @@ import CourseInfo from './components/CourseInfo'
 import Register from './components/Register';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
+import CourseDetails from './components/CourseDetails';
 import ReactDOM from 'react-dom'
 import {Routes, Route} from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -31,6 +32,7 @@ function App() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/course-info/:course_id" element={<CourseInfo />} />
+            <Route path="/course-details/:course_id" element={<CourseDetails />} />
           </Routes>
 
         </div>
