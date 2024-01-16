@@ -24,7 +24,7 @@ function Home() {
                         <p className="card-text text-start text-secondary">One of the most popular project management tool for Planning, tracking, and releasing world-class software.</p>
                         <div class="d-flex justify-content-between align-items-center m-2">
                             <div class="btn-group">
-                            <Link to="/details/1"><button type="button" class="btn btn-sm btn-outline-secondary">Go to course  <FontAwesomeIcon icon="arrow-right" /></button></Link>
+                            <Link to="/course-info/1"><button type="button" class="btn btn-sm btn-outline-secondary">Go to course  <FontAwesomeIcon icon="arrow-right" /></button></Link>
                             </div>
                             <small class="text-secondary">9 mins</small>
                         </div>
