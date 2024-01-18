@@ -16,16 +16,24 @@ function CourseDetails() {
         showContent(activate)
     }
 
-    const [pdfFile, setPdfFile] = useState(null);
+    const iframeRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(true); // Initial loading state
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
-        const fetchPdf = async () => {
-        const response = await fetch('https://drive.google.com/file/d/11WUByg11CErr_C1bexWZDz2WbJPC9UMG/view?usp=sharing');
-        const blob = await response.blob();
-        setPdfFile(blob);
-        };
+        const iframe = iframeRef.current;
+        const loadingIndicator = document.querySelector('.spinner-border');
 
-        fetchPdf();
+        // Attach event listeners only if iframe is not null
+    if (iframe) {
+        iframe.onload = () => {
+          setIsLoading(false);
+        };
+  
+        iframe.onerror = () => {
+          setIsError(true);
+        };
+      }
     }, []);
     
 
@@ -37,10 +45,12 @@ function CourseDetails() {
                         {activeTab === '1.1.1' && (
                             <div className="ratio ratio-16x9">
                                 <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowFullScreen></iframe>
+                                
                             </div>
                         )}
                         {activeTab === '1.1.2' && (
                             <div className="d-flex align-items-center justify-content-center" style={{height: "100%", width: "100%"}}>
+                            
                                 <iframe src="https://drive.google.com/file/d/11WUByg11CErr_C1bexWZDz2WbJPC9UMG/preview" width="600" height="400"></iframe>
                                 
                             </div>
