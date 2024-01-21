@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 
-import Home from './components/Home'
 import Navbar from './components/MainNav'
 import Footer from './components/Footer'
 import Courses from './components/Courses'
@@ -10,7 +9,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
 import CourseDetails from './components/CourseDetails';
-import Dashboard from './components/Dashboard';
+import Home from './components/Home';
 import Help from './components/Help';
 import ReactDOM from 'react-dom'
 import {Routes, Route} from 'react-router-dom'
@@ -31,7 +30,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            <Route path="/Dashboard" element={<Dashboard/>}/>
+            
             <Route path="/courses" element={<Courses />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/course-info/:course_id" element={<CourseInfo />} />
