@@ -1,3 +1,7 @@
 .list-group-item {
     background-color: rgb(0, 0, 0);
 }
+
+ul li .nav-link {
+    color: white
+}

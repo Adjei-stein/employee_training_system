@@ -14,8 +14,7 @@ function Navbar() {
                     <div className="navbar-nav">
                         <Link className="nav-item nav-link active" to="/"><FontAwesomeIcon icon="house" /> Home</Link>
                         <Link className="nav-item nav-link" to="/courses"><FontAwesomeIcon icon="book-open" /> Courses</Link>
-                        <Link className="nav-item nav-link" to="/"><FontAwesomeIcon icon="square-poll-vertical" /> Polls</Link>
-                        <Link className="nav-item nav-link" to="/"><FontAwesomeIcon icon="circle-question" /> Help</Link>
+                        <Link className="nav-item nav-link" to="/help"><FontAwesomeIcon icon="circle-question" /> Help</Link>
                     </div>
                 </div>
                 <div className="nav-item ms-auto">
@@ -32,7 +31,7 @@ function Navbar() {
                             <li>
                                 <hr className="dropdown-divider"/>
                             </li>
-                            <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="power-off" /> Sign Out</a></li>
+                            <li><a className="dropdown-item" href="/login"><FontAwesomeIcon icon="power-off" /> Sign Out</a></li>
                         </ul>
                     </div>
                     

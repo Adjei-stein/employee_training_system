@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from  'react-router-dom'
 import { faBookmark, faClock } from '@fortawesome/free-regular-svg-icons'
-import { faTriangleExclamation, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faTriangleExclamation, faPlus, faMinus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Col, Container, Row } from 'react-bootstrap';
 
 function Courses() {
@@ -17,9 +17,28 @@ function Courses() {
         <div className="row mt-3">
             <div className="col-md-12 mb-2">
                 <div className="row">
-                    <div className="card border-0 rounded-0 text-white pb-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-                        <div className="card-header p-0 d-flex justify-content-start border-dark">
-                            <h2 className='m-2'>Filer Area</h2>
+                    <div className="card border-0 rounded-0 text-white p-2" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+                        <div className="card-body p-0 d-flex justify-content-start border-dark">
+                            <form className='d-flex align-items-center justify-content-start'>
+                                <div class="form-group d-flex align-items-center justify-content-start">
+                                    <label for="CourseTitle">Course Title</label>
+                                    <div className="input-group">
+                                        <input type="text" class="form-control rounded-end-0" id="CourseTitle" placeholder="Course Title"/>
+                                        <div class="input-group-prepend" style={{minHeight: "100%"}}>
+                                            <button class="input-group-text rounded-start-0 bg-primary border-primary" id="basic-addon1" style={{minHeight: "100%"}}><FontAwesomeIcon icon={faSearch}/></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-start">
+                                    <label for="CategoryFilter">Select Category</label>
+                                    <select class="form-control" id="CategoryFilter">
+                                        <option>All</option>
+                                        <option>Programming</option>
+                                        <option>Cloud Computing</option>
+                                        <option>Cybersecurity</option>
+                                    </select>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

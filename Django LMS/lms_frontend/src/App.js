@@ -22,7 +22,7 @@ library.add(fab, faCheckSquare, faHouse, faSquarePollVertical, faBookOpen, faCir
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{minHeight: "100%"}}>
       <Navbar/>
         <div style={{paddingBottom: "8rem", paddingTop: "4rem"}}>
 
