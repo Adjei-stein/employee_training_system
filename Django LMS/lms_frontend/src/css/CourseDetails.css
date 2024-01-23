@@ -5,3 +5,15 @@
 ul li .nav-link {
     color: white
 }
+
+table tbody .odd {
+    background-color: rgba(15, 15, 18, 0.9);
+    
+}
+
+
+table tbody .even {
+    background-color: rgba(42, 42, 48, 0.8);
+    /* background-color: #2e3236;
+    opacity: 0.8; */
+}

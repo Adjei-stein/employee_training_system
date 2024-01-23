@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
-import { faAngleRight, faPlay } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faPlay, faDownload } from '@fortawesome/free-solid-svg-icons'
 import '../css/CourseDetails.css'
 
 function CourseInfo() {
@@ -26,16 +26,16 @@ function CourseInfo() {
                             <a class="nav-link" id="outline-tab" data-bs-toggle="tab" href="#outline" role="tab" aria-controls="outline" aria-selected="false"><b>Outline</b></a>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" id="questionsAndAnswers-tab" data-bs-toggle="tab" href="#questionsAndAnswers" role="tab" aria-controls="questionsAndAnswers" aria-selected="false"><b>Q&A</b></a>
+                            <a class="nav-link" id="materials-tab" data-bs-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><b>Materials</b></a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <div className="card border-0 rounded-0 p-2 bg-white">
+                                <div className="card border-0 rounded-0 p-0 bg-transparent" style={{minWidth: "100%"}}>
                                     
-                                    <div className="card-body d-flex align-items-center justify-content-center">
-                                        <div className="card" style={{minWidth: "100%"}}>
-                                            <div className="card-body" style={{textAlign: "start"}}>
+                                    <div className="card-body bg-transparent d-flex align-items-center justify-content-center p-0" style={{minWidth: "100%"}}>
+                                        <div className="card bg-transparent border-0 rounded-0" style={{minWidth: "100%"}}>
+                                            <div className="card-body bg-transparent text-white" style={{textAlign: "start"}}>
                                                 <h4><b>Description</b></h4>
                                                 <p>Jira is a proprietary product developed by Atlassian that allows bug tracking, issue tracking and agile project management. 
                                                 Jira is used by a large number of clients & users globally for project, time, requirements, task, bug, change, code, test, release, sprint management. 
@@ -46,89 +46,111 @@ function CourseInfo() {
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="outline" role="tabpanel" aria-labelledby="outline-tab">
-                                <div className="card border-0 rounded-0 p-2 bg-white">
+                                <div className="card border-0 rounded-0 p-2 bg-transparent">
                                         
-                                    <div className="card-body d-flex align-items-center justify-content-center">
-                                        <div className="shadow p-4 bg-white" style={{minWidth: "100%"}}>
-                                            <div className="mx-2">
-                                                <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                                    <div className="card rounded-0 text-white border-0 bg-dark">
-                                                        <div className="card-body d-flex p-1">
-                                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                                <FontAwesomeIcon icon={faPlay}/>
-                                                            </div>
-                                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
-                                                                <div className="col-sm-12 d-flex align-items-start justify-content-start">
-                                                                    <span><b>Getting Started</b></span>
+                                    <div className="card-body d-flex align-items-center justify-content-center bg-transparent">
+
+                                            <div className="mx-2" style={{minWidth: "100%"}}>
+                                                <table id="basic-datatables" class="m-0 display table table-striped table-hover dataTable" role="grid" aria-describedby="basic-datatables_info">
+                                                    <tbody>
+                                                        <tr role="row" class="odd d-flex">
+                                                            <a href="" className='text-white bg-transparent p-0' style={{textDecoration: 'none', width: '100%'}}>
+                                                                <div className="card rounded-0 text-white border-0 bg-transparent">
+                                                                    <div className="card-body d-flex p-1 bg-transparent">
+                                                                        <div className="col-sm-1 d-flex align-items-center justify-content-center">
+                                                                            <FontAwesomeIcon icon={faPlay}/>
+                                                                        </div>
+                                                                        <div className="col-sm-9" style={{paddingRight: "2%"}}>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                                <span><b>Getting Started</b></span>
+                                                                            </div>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                                <small>Video - </small>
+                                                                                &nbsp;
+                                                                                <small className="text-white">00:50 min</small>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-sm-2 d-flex align-items-center justify-content-center">
+                                                                            <div class="form-check">
+                                                                                <span class="badge bg-success">Completed</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="col-sm-12 d-flex align-items-start justify-content-start">
-                                                                    <small>Video - </small>
-                                                                    &nbsp;
-                                                                    <small className="text-white">00:50 min</small>
+                                                            </a>
+                                                        </tr>
+                                                        <tr role="row" class="even d-flex">
+                                                            <a href="" className='text-white bg-transparent p-0' style={{textDecoration: 'none', width: '100%'}}>
+                                                                <div className="card rounded-0 text-white border-0 bg-transparent">
+                                                                    <div className="card-body d-flex p-1 bg-transparent">
+                                                                        <div className="col-sm-1 d-flex align-items-center justify-content-center">
+                                                                            <FontAwesomeIcon icon={faPlay}/>
+                                                                        </div>
+                                                                        <div className="col-sm-9" style={{paddingRight: "2%"}}>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                                <span><b>The Agile Coach - Part 1</b></span>
+                                                                            </div>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                                <small>Slides - </small>
+                                                                                &nbsp;
+                                                                                <small className="text-white">4 pages</small>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-sm-2 d-flex align-items-center justify-content-center">
+                                                                            <div class="form-check">
+                                                                                <span class="badge bg-success">Completed</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                                <div class="form-check">
-                                                                    <span class="badge bg-success">Completed</span>
+                                                            </a>
+                                                        </tr>
+                                                        <tr role="row" class="odd d-flex">
+                                                            <a href="" className='text-white bg-transparent p-0' style={{textDecoration: 'none', width: '100%'}}>
+                                                                <div className="card rounded-0 text-white border-0  bg-transparent">
+                                                                    <div className="card-body d-flex p-1 bg-transparent">
+                                                                        <div className="col-sm-1 d-flex align-items-center justify-content-center">
+                                                                            <FontAwesomeIcon icon={faPlay}/>
+                                                                        </div>
+                                                                        <div className="col-sm-9" style={{paddingRight: "2%"}}>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                                <span><b>The Agile Coach - Part 2</b></span>
+                                                                            </div>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                                <small>Video</small>
+                                                                                &nbsp;
+                                                                                <small className="text-white">50:45 min</small>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-sm-2 d-flex align-items-center justify-content-center">
+                                                                            <div class="form-check">
+                                                                                <span class="badge bg-warning">Not Started</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                                    <div className="card rounded-0 text-white border-0 bg-secondary">
-                                                        <div className="card-body d-flex p-1">
-                                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                                <FontAwesomeIcon icon={faPlay}/>
-                                                            </div>
-                                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
-                                                                <div className="col-sm-12 d-flex align-items-start justify-content-start">
-                                                                    <span><b>The Agile Coach - Part 1</b></span>
-                                                                </div>
-                                                                <div className="col-sm-12 d-flex align-items-start justify-content-start">
-                                                                    <small>Slides - </small>
-                                                                    &nbsp;
-                                                                    <small className="text-white">4 pages</small>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                                <div class="form-check">
-                                                                    <span class="badge bg-success">Completed</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                                    <div className="card rounded-0 text-white border-0 bg-dark">
-                                                        <div className="card-body d-flex p-1">
-                                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                                <FontAwesomeIcon icon={faPlay}/>
-                                                            </div>
-                                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
-                                                                <div className="col-sm-12 d-flex align-items-start justify-content-start">
-                                                                    <span><b>The Agile Coach - Part 2</b></span>
-                                                                </div>
-                                                                <div className="col-sm-12 d-flex align-items-start justify-content-start">
-                                                                    <small>Video</small>
-                                                                    &nbsp;
-                                                                    <small className="text-white">50:45 min</small>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                                <div class="form-check">
-                                                                    <span class="badge bg-warning">Not Started</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                            </a>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">
+                                <div className="card border-0 rounded-0 p-0 bg-transparent" style={{minWidth: "100%"}}>
+                                    <div className="card-body bg-transparent d-flex align-items-center justify-content-center p-0" style={{minWidth: "100%"}}>
+                                        <div className="card bg-transparent border-0 rounded-0" style={{minWidth: "100%"}}>
+                                            <div className="card-body bg-transparent text-white" style={{textAlign: "start"}}>
+                                                <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>1. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.xlsx</p></a></p>
+                                                <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>2. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">Test file.docx</p></a></p>
+                                                <p className="m-0 d-flex align-items-center justify-content-start"><b>3. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.zip</p></a></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="questionsAndAnswers" role="tabpanel" aria-labelledby="questionsAndAnswers-tab"><h2>Q&A</h2></div>
                         </div>
                         </div>
                     </div>
