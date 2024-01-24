@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-
+import { useLocation } from 'react-router-dom';
 import Navbar from './components/MainNav'
 import Footer from './components/Footer'
 import Courses from './components/Courses'
@@ -21,10 +21,14 @@ library.add(fab, faCheckSquare, faHouse, faSquarePollVertical, faBookOpen, faCir
 
 
 function App() {
+  const location = useLocation();
+
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
   return (
-    <div className="App" style={{minHeight: "100%"}}>
-      <Navbar/>
-        <div style={{paddingBottom: "8rem", paddingTop: "4rem"}}>
+    <div className="App">
+      {!isAuthPage && <Navbar />}
+        {!isAuthPage && (<div style={!isAuthPage ? {paddingBottom: "8rem", paddingTop: "4rem", minHeight: "100%"} : {}}>
 
           <Routes>
             <Route path="/register" element={<Register />} />
@@ -38,10 +42,18 @@ function App() {
             <Route path="/help" element={<Help />} />
           </Routes>
 
-        </div>
+        </div>)}
+      { isAuthPage &&
+        (
+          <div className="auth-page">
+          <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Routes></div>)
+      }
       
       
-      <Footer/>
+      {!isAuthPage && <Footer />}
     </div>
   );
 }

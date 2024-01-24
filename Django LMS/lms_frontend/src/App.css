@@ -1,12 +1,13 @@
 body {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Ensure viewport height */
-  
+  height: 100%; /* Ensure viewport height */
+  min-height: 100vh;
 }
 
 #root {
   height: 100%;
+  min-height: 100vh;
 }
 
 .App {
@@ -16,6 +17,7 @@ body {
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover;
   background-attachment: fixed;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -51,4 +53,11 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

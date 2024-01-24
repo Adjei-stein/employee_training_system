@@ -1,11 +1,22 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import DashboardCarousel from './DashboardCarousel';
 import DashboardBarGraph from './DashboardBarGraph';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faClock } from '@fortawesome/free-regular-svg-icons'
 import { faTriangleExclamation, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
 
+const baseURL = "http://127.0.0.1:8000/"
 function Home() {
+    const [employee, getEmployee] = useState(null)
+
+    useEffect(() => {
+        axios.get(baseURL + '/api/employees')
+        .then((response) => {
+            // handle success
+            console.log(response.data);
+        })
+    }, [])
   return (
     <div className='container'>
         <div className="row mt-3">
