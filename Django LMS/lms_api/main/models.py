@@ -22,4 +22,5 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE)
+    mandatory = models.BooleanField(default=False, editable=True)
     date_created = models.DateTimeField(default=datetime.now)

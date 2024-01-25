@@ -5,18 +5,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faClock } from '@fortawesome/free-regular-svg-icons'
 import { faTriangleExclamation, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
+import  * as baseFunctions from '../js/base';
 
-const baseURL = "http://127.0.0.1:8000/"
+//const baseURL = "http://127.0.0.1:8000"
 function Home() {
     const [employee, getEmployee] = useState(null)
 
     useEffect(() => {
-        axios.get(baseURL + '/api/employees')
-        .then((response) => {
-            // handle success
-            console.log(response.data);
-        })
-    }, [])
+        baseFunctions.getData("courses")
+    }, []);
   return (
     <div className='container'>
         <div className="row mt-3">
