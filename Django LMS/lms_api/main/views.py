@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.api.serializers import EmployeeSerializer, CourseCategorySerializer, CourseSerializer
+from main.api.serializers import *
 from rest_framework.views import APIView
 from . import models
 from rest_framework.response import Response
@@ -36,3 +36,23 @@ class CourseDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class CourseChapterList(generics.ListCreateAPIView):
+    queryset = models.CourseChapter.objects.all()
+    serializer_class = CourseChapterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class UserEnrolledCoursesList(generics.ListCreateAPIView):
+    queryset = models.UserEnrolledCourses.objects.all()
+    serializer_class = UserEnrolledCoursesSerialzer
+    permission_classes = [permissions.IsAuthenticated]
+
+class BookmarkedCoursesList(generics.ListCreateAPIView):
+    queryset = models.BookmarkedCourses.objects.all()
+    serializer_class = BookmarkedCoursesSerialzer
+    permission_classes = [permissions.IsAuthenticated]
+
+""" class BookmarkedCoursesDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.IsAuthenticated] """
