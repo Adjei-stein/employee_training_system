@@ -19,8 +19,8 @@ function Footer() {
                         </div>
                     </div>
                     <div className="col-md-4 d-flex align-items-center justify-content-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Back to top  <FontAwesomeIcon icon="arrow-up" /></button>
+                        <div className="btn-group">
+                            <button type="button" className="btn btn-sm btn-outline-secondary">Back to top  <FontAwesomeIcon icon="arrow-up" /></button>
                         </div>
                     </div> 
                 </div> 

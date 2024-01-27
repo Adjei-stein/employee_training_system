@@ -4,7 +4,7 @@ import axios from 'axios';
 export const baseURL = "http://127.0.0.1:8000"
 
 //Get any data with this
-export const getData = (directory) => {
+export const getData = async(directory) => {
     axios.get(baseURL + '/api/' + directory, {
         headers: {
             Authorization: 'Token 911de59a37d99b815aa63c486d7e63cdb8b3db0a'
@@ -13,6 +13,9 @@ export const getData = (directory) => {
     .then((response) => {
         // handle success
         console.log(response.data);
+        console.log(response.data.length);
+        return [response.data, response.data.length]
+        
     })
     .catch((error) => {
         // handle error

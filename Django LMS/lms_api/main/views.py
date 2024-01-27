@@ -32,6 +32,11 @@ class CoursesList(generics.ListCreateAPIView):
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class MandatoryCoursesList(generics.ListCreateAPIView):
+    queryset = models.Course.objects.filter(mandatory=1)
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 class CourseDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Course.objects.all()
     serializer_class = CourseSerializer

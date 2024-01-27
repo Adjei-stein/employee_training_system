@@ -7,6 +7,7 @@ urlpatterns = [
     path('employee/<int:pk>/', views.EmployeeDetails.as_view()),
     path('course-category/', views.CourseCategoryList.as_view()),
     path('courses/', views.CoursesList.as_view()),
+    path('courses/mandatory/', views.MandatoryCoursesList.as_view()),
     path('course/<int:pk>/', views.CourseDetails.as_view()),
     path('course/chapter/', views.CourseChapterList.as_view()),
     path('enrolled-courses', views.UserEnrolledCoursesList.as_view()),

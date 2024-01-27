@@ -26,6 +26,7 @@ class Course(models.Model):
     mandatory = models.BooleanField(default=False, editable=True)
     estimated_completion_time = models.TimeField(default=time(0, 0), editable=True)
     date_created = models.DateTimeField(default=datetime.now)
+    mandatory_completion_date = models.DateField(default=datetime.now)
 
 class MediaTypes(models.Model):
     media_title = models.CharField(max_length=200, null=True, editable=True)
