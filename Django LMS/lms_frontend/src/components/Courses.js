@@ -14,7 +14,25 @@ function Courses() {
     const [allSortedCourses, setAllSortedCourses] = useState([]);
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [isCollapsedArray, setIsCollapsedArray] = useState([]);
+    const [filteredOption, getFilteredOption] = useState(allSortedCourses);
 
+    const handleCategorySelect = (selected_ctegory_id) => {
+        console.log(selected_ctegory_id)
+        console.log("Here wai")
+        if (selected_ctegory_id === "-1"){
+            getFilteredOption(allSortedCourses);
+        }
+        else {
+            for (let i = 0; i < allSortedCourses.length; i++) {
+                console.log(allSortedCourses[i].course_category_id)
+                if (String(allSortedCourses[i].course_category_id) === String(selected_ctegory_id)) {
+                    console.log(allSortedCourses[i])
+                    let newSortedCourses = [allSortedCourses[i]]
+                    getFilteredOption(newSortedCourses);
+                }
+            }
+        }
+    }
 
     const handleToggle = () => {
         setIsCollapsed(!isCollapsed);
@@ -24,7 +42,7 @@ function Courses() {
         setIsCollapsedArray((prevArray) => {
             const newArray = [...prevArray];
             newArray[index] = !newArray[index];
-            console.log(newArray)
+            //console.log(newArray)
             return newArray;
         });
     };
@@ -124,6 +142,7 @@ function Courses() {
                 console.log(coursesArray)
                 setIsCollapsedArray(Array(coursesArray.length).fill(false));
                 setAllSortedCourses(coursesArray)
+                getFilteredOption(coursesArray)
             }
             catch (error) {
                 console.log(error)
@@ -167,10 +186,10 @@ function Courses() {
                                 {categories ? (<div className="form-group d-flex align-items-center justify-content-start">
                                     <label htmlFor="CategoryFilter">Select Category</label>
                                     
-                                        <select className="form-control" id="CategoryFilter">
-                                            <option key={-1}>All</option>
+                                        <select className="form-control" id="CategoryFilter" onChange={(e) => handleCategorySelect(e.target.value)}>
+                                            <option key={-1} value="-1">All</option>
                                             {categories.map((categories, index) =>(
-                                                    <option key={index}>{categories.title}</option>
+                                                    <option key={index} value={categories.id}>{categories.title}</option>
                                             ))}
                                         </select>
                                 </div>) : (
@@ -196,12 +215,8 @@ function Courses() {
                                             <h2 className='m-2'><FontAwesomeIcon icon={isCollapsed ? faPlus : faMinus}/></h2>
                                         </div>
                                     </div>
-                                    
                                     <div id="collapseOne" className="collapse" aria-labelledby="headingOne">
                                         <div className="card-body p-0 d-flex align-items-center justify-content-start">
-                                            
-
-
                                             {mandatoryCourses.map((mandatoryCourse, index) =>(
                                                 <div className="col-md-4 p-2" key={index}>
                                                     <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
@@ -229,10 +244,9 @@ function Courses() {
                         </div>) : (
                             <div className="d-none"></div>
                         )
-
             }
 
-            {allSortedCourses ? (allSortedCourses.map((allSortedCourse, index) =>(<div className="col-md-12 mb-2" key={index}>
+            {filteredOption ? (filteredOption.map((allSortedCourse, index) =>(<div className="col-md-12 mb-2" key={index}>
                     <div className="row">
                         <div className="card border-0 rounded-0 text-white pb-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
                             <div className="card-header p-0 d-flex justify-content-start border-dark" id="headingOne" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded={isCollapsedArray[index] ? 'false' : 'true'} aria-controls="collapseOne" role="button" onClick={() => handleToggle2(index)}>
@@ -240,7 +254,7 @@ function Courses() {
                                     <h2 className='m-2'>{allSortedCourse.course_category_title}</h2>
                                 </div>
                                 <div className="col-md-1 d-flex align-items-center justify-content-center">
-                                    <h2 className='m-2'><FontAwesomeIcon icon={isCollapsed ? faPlus : faMinus}/></h2>
+                                    <h2 className='m-2'><FontAwesomeIcon icon={isCollapsedArray[index] ? faMinus : faPlus}/></h2>
                                 </div>
                             </div>
                             

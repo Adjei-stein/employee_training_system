@@ -16,7 +16,7 @@ function Help() {
                                 <div className="card-body">
                                     <div className="col-sm-12 mb-2 text-white justify-content-center">
                                         <div className="col-md-12 d-flex align-items-center">
-                                            <label for="exampleFormControlInput1">Title/Subject</label>
+                                            <label htmlFor="exampleFormControlInput1">Title/Subject</label>
                                         </div>
                                         <div className="input-group">
                                             <input type="text" className="form-control bg-dark text-white border-secondary" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1"/>
@@ -24,7 +24,7 @@ function Help() {
                                     </div>
                                     <div className="col-sm-12 mb-2 text-white justify-content-center">
                                         <div className="col-md-12 d-flex align-items-center">
-                                            <label for="exampleFormControlInput1">Description</label>
+                                            <label htmlFor="exampleFormControlInput1">Description</label>
                                         </div>
                                         <div className="input-group">
                                         <textarea id="description" className='form-control bg-dark text-white border-secondary' name="description" rows="4" cols="50"></textarea>
@@ -32,7 +32,7 @@ function Help() {
                                     </div>
                                 </div>
                                 <div className="card-footer pb-5">
-                                    <button type="submit" class="btn btn-success">Send</button>
+                                    <button type="submit" className="btn btn-success">Send</button>
                                 </div>
                             </div>
                         </div>

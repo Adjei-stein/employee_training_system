@@ -51,3 +51,8 @@ class BookmarkedCourses(models.Model):
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     chapters_completed = models.CharField(max_length=255, blank=True, null=True)
     date_created = models.DateTimeField(default=datetime.now)
+
+class FrequentlyAskedQuestions(models.Model):
+    question = models.CharField(max_length=500, blank=True, null=True)
+    answer = models.TextField()
+    date_created = models.DateTimeField(default=datetime.now)
