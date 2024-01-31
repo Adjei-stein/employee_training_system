@@ -11,7 +11,8 @@ urlpatterns = [
     path('course/<int:pk>/', views.CourseDetails.as_view()),
     path('course/chapter/', views.CourseChapterList.as_view()),
     path('courses/enrolled/', views.UserEnrolledCoursesList.as_view()),
-    path('bookmarks/', views.BookmarkedCoursesList.as_view()),
+    path('courses/bookmarks/', views.BookmarkedCoursesList.as_view()),
+    path('faqs/', views.FrequentlyAskedQuestionsList.as_view()),
 ]
 
 #urlpatterns = format_suffix_patterns(urlpatterns)

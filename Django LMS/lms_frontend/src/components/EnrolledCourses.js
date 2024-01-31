@@ -16,7 +16,7 @@ function EnrolledCourses(){
                                 <div className="progress mt-2 mb-2" style={{height: "0.5em"}}>
                                     <div className="progress-bar" role="progressbar" style={{width: "75%"}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center m-2">
+                                <div className="d-flex justify-content-between align-items-center m-2">
                                     <div className="btn-group">
                                         <div className="me-auto text-white">75% complete</div>
                                     </div>
@@ -37,7 +37,7 @@ function EnrolledCourses(){
                                 <div className="progress mt-2 mb-2" style={{height: "0.5em"}}>
                                     <div className="progress-bar" role="progressbar" style={{width: "75%"}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center m-2">
+                                <div className="d-flex justify-content-between align-items-center m-2">
                                     <div className="btn-group">
                                         <div className="me-auto text-white">75% complete</div>
                                     </div>
@@ -58,7 +58,7 @@ function EnrolledCourses(){
                                 <div className="progress mt-2 mb-2" style={{height: "0.5em"}}>
                                     <div className="progress-bar" role="progressbar" style={{width: "75%"}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center m-2">
+                                <div className="d-flex justify-content-between align-items-center m-2">
                                     <div className="btn-group">
                                         <div className="me-auto text-white">75% complete</div>
                                     </div>
@@ -79,7 +79,7 @@ function EnrolledCourses(){
                                 <div className="progress mt-2 mb-2" style={{height: "0.5em"}}>
                                     <div className="progress-bar" role="progressbar" style={{width: "75%"}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center m-2">
+                                <div className="d-flex justify-content-between align-items-center m-2">
                                     <div className="btn-group">
                                         <div className="me-auto text-white">75% complete</div>
                                     </div>

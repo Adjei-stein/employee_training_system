@@ -1,8 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import CommonTasks from '../js/CommonTasks'
 
 function Help() {
+    const commonTasks = new CommonTasks()
+    const [faqsArray, getFaqsArray] = useState(null)
+    const [isCollapsedArray, setIsCollapsedArray] = useState([]);
+    const handleToggle2 = (index) => {
+        setIsCollapsedArray((prevArray) => {
+            const newArray = [...prevArray];
+            newArray[index] = !newArray[index];
+            //console.log(newArray)
+            return newArray;
+        });
+    };
+
+    useEffect(() =>{
+        const getAllFAQs = async () => {
+            try {
+                const faqs = await commonTasks.getData("faqs")
+                getFaqsArray(faqs)
+                setIsCollapsedArray(Array(faqs.length).fill(false));
+                console.log("faqs is ", faqs)
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+        getAllFAQs()
+    }, [])
 
     return (
             <div className="container">
@@ -43,152 +70,34 @@ function Help() {
                                 </div>
                                 <div className="card-body" style={{overflowY: "auto", overflowX: "hidden", minHeight: "100%",maxHeight: "100%"}}>
 
-                                    {/* Commonly asked question 1 */}
-                                    <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                        <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                                            <div className="card-body">
-                                                <div className="col-md-12 d-flex align-items-center">
-                                                
-                                                    <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                                        <b>Can't find profile settings</b>
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <span className=''>
-                                                            <FontAwesomeIcon icon={faAngleRight}/>
-                                                        </span>
-                                                    </div>
+                                    {faqsArray ? (faqsArray.map((faq, index) => (
+                                        <div key={index} href="" className='text-white' style={{textDecoration: 'none'}}>
+                                            <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
+                                                    <div className="card-header bg-transparent col-md-12 d-flex align-items-center" id="headingOne" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded={isCollapsedArray[index] ? 'false' : 'true'} aria-controls="collapseOne" role="button" onClick={() => handleToggle2(index)}>
+                                                    
+                                                        <div className="col-md-11 d-flex align-items-center justify-content-start">
+                                                            <b>{faq.question}</b>
+                                                        </div>
+                                                        <div className="col-md-1">
+                                                            <span className=''>
+                                                            <FontAwesomeIcon icon={isCollapsedArray[index] ? faMinus : faPlus}/>
+                                                            </span>
+                                                        </div>
 
-                                                </div>
-                                                
+                                                    </div>
+                                                    <div id={`collapse${index}`} className="collapse" aria-labelledby="headingOne" style={{background: 'rgba(95, 102, 108, 0.3)'}}>
+                                                        <div className="card-body p-2 d-flex align-items-center justify-content-start">
+                                                            {faq.answer}
+                                                        </div>
+                                                    </div>
                                             </div>
                                         </div>
-                                    </a>
+                                        ))):(
+                                            <p>Nothing wai</p>
+                                        )
+                                    }
 
-                                    {/* Commonly asked question 2 */}
-                                    <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                        <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                                            <div className="card-body">
-                                                <div className="col-md-12 d-flex align-items-center">
-                                                
-                                                    <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                                        <b>Can't find profile settings</b>
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <span className=''>
-                                                            <FontAwesomeIcon icon={faAngleRight}/>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    {/* Commonly asked question 3 */}
-                                    <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                        <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                                            <div className="card-body">
-                                                <div className="col-md-12 d-flex align-items-center">
-                                                
-                                                    <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                                        <b>Can't find profile settings</b>
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <span className=''>
-                                                            <FontAwesomeIcon icon={faAngleRight}/>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    {/* Commonly asked question 4 */}
-                                    <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                        <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                                            <div className="card-body">
-                                                <div className="col-md-12 d-flex align-items-center">
-                                                
-                                                    <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                                        <b>Can't find profile settings</b>
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <span className=''>
-                                                            <FontAwesomeIcon icon={faAngleRight}/>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    {/* Commonly asked question 5 */}
-                                    <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                        <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                                            <div className="card-body">
-                                                <div className="col-md-12 d-flex align-items-center">
-                                                
-                                                    <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                                        <b>Can't find profile settings</b>
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <span className=''>
-                                                            <FontAwesomeIcon icon={faAngleRight}/>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    {/* Commonly asked question 6 */}
-                                    <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                        <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                                            <div className="card-body">
-                                                <div className="col-md-12 d-flex align-items-center">
-                                                
-                                                    <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                                        <b>Can't find profile settings</b>
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <span className=''>
-                                                            <FontAwesomeIcon icon={faAngleRight}/>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    {/* Commonly asked question 7 */}
-                                    <a href="" className='text-white' style={{textDecoration: 'none'}}>
-                                        <div className="card rounded-0 text-white border-0 border-bottom border-dark" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                                            <div className="card-body">
-                                                <div className="col-md-12 d-flex align-items-center">
-                                                
-                                                    <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                                        <b>Can't find profile settings</b>
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <span className=''>
-                                                            <FontAwesomeIcon icon={faAngleRight}/>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </a>
+                                    
                                 </div>
                                 
                             </div>

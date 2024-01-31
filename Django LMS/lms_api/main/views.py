@@ -61,3 +61,8 @@ class BookmarkedCoursesList(generics.ListCreateAPIView):
     queryset = models.Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated] """
+
+class FrequentlyAskedQuestionsList(generics.ListCreateAPIView):
+    queryset = models.FrequentlyAskedQuestions.objects.all()
+    serializer_class = FrequentlyAskedQuestionsSerialzer
+    permission_classes = [permissions.IsAuthenticated]

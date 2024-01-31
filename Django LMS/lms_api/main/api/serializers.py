@@ -30,3 +30,8 @@ class BookmarkedCoursesSerialzer(serializers.ModelSerializer):
     class Meta:
         model = BookmarkedCourses
         fields = ['user_id', 'course_id', 'chapters_completed', 'date_created']
+
+class FrequentlyAskedQuestionsSerialzer(serializers.ModelSerializer):
+    class Meta:
+        model = FrequentlyAskedQuestions
+        fields = ['id', 'question', 'answer']
