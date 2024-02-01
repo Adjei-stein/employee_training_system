@@ -6,14 +6,7 @@ import CommonTasks from '../js/CommonTasks'
 function BookmarkedCourses (){
     const commonTasks = new CommonTasks()
     const [allBookmarkedCourses, setAllBookmarkedCourses] = useState([]);
-    const [isCollapsed, setIsCollapsed] = useState(true);
-    const [isCollapsedArray, setIsCollapsedArray] = useState([]);
 
-
-
-
-    const [categories, setCategories] = useState(null)
-    const [mandatoryCourses, setMandatoryCourses] = useState(null)
     useEffect(() => {
 
         const getAllCoursesAndInfo = async () => {

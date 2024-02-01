@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from  'react-router-dom'
 import { faBookmark, faClock } from '@fortawesome/free-regular-svg-icons'
-import { faTriangleExclamation, faPlus, faMinus, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faTriangleExclamation, faPlus, faMinus, faSearch, faBookmark as fasBookmark } from '@fortawesome/free-solid-svg-icons'
 import { Col, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
 import  * as baseFunctions from '../js/base';
@@ -69,6 +69,7 @@ function Courses() {
             try {
                 const all_categories = await commonTasks.getData("courses/category")
                 const courses = await commonTasks.getData("courses")
+                const bookmarks = await getListOfBookmarked()
                 console.log("courses is ", courses)
                 const allCourses = courses
 
@@ -79,11 +80,23 @@ function Courses() {
                     for (let i = 0; i < allCourses.length; i++){
                         //console.log("Here 2")
                         if (allCourses[i].category == all_categories[j].id){
+                            let bookmark_status = false;
+                            for (let k = 0; k < bookmarks.length; k++) {
+                                if (bookmarks[k] === allCourses[i].id){
+                                    bookmark_status = true;
+                                    break
+                                }
+                                else {
+                                    bookmark_status = false;
+                                }
+                            }
                             //console.log("Here 3")
                             if (coursesArray.length > 0) {
                                 const existingCourseCategory = coursesArray.find(
                                     (coursesArray) => coursesArray.course_category_id === allCourses[i].category
                                 );
+                                
+                                
 
                                 if (existingCourseCategory){
                                     console.log("existingCourseCategory exists wai")
@@ -102,7 +115,8 @@ function Courses() {
                                             course_title: allCourses[i].title,
                                             course_description: allCourses[i].description,
                                             mandatory: allCourses[i].mandatory,
-                                            mandatory_date: allCourses[i].mandatory_completion_date
+                                            mandatory_date: allCourses[i].mandatory_completion_date,
+                                            bookmark_status: bookmark_status
                                         })
                                     }
                                 }
@@ -115,7 +129,8 @@ function Courses() {
                                             course_title: allCourses[i].title,
                                             course_description: allCourses[i].description,
                                             mandatory: allCourses[i].mandatory,
-                                            mandatory_date: allCourses[i].mandatory_completion_date
+                                            mandatory_date: allCourses[i].mandatory_completion_date,
+                                            bookmark_status: bookmark_status
                                         }]
                                     })
                                 }
@@ -130,7 +145,8 @@ function Courses() {
                                         course_title: allCourses[i].title,
                                         course_description: allCourses[i].description,
                                         mandatory: allCourses[i].mandatory,
-                                        mandatory_date: allCourses[i].mandatory_completion_date
+                                        mandatory_date: allCourses[i].mandatory_completion_date,
+                                        bookmark_status: bookmark_status
                                     }]
                                 })
                                 //console.log(coursesArray)
@@ -159,6 +175,25 @@ function Courses() {
                 console.log(error)
             }
         }
+
+        const getListOfBookmarked = async () => {
+            try {
+                const bookmarked_courses = await commonTasks.getData("courses/bookmarks")
+                console.log("bookmarked_courses is ", bookmarked_courses)
+                let bookmarked_arr = []
+                for (let i = 0; i < bookmarked_courses.length; i++){
+                    bookmarked_arr.push(bookmarked_courses[i].course_id)
+                }
+                console.log(bookmarked_arr)
+                return bookmarked_arr
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+        
+        
+        
         
         getAllCategories()
         getAllCoursesAndInfo()
@@ -267,7 +302,7 @@ function Courses() {
                                                 <div className="card-body border-top">
                                                     <div className="d-flex align-items-center">
                                                         <h5 className="card-title mb-0 me-auto text-white">{course.course_title}</h5>
-                                                        <button type="button" className="btn btn-secondary ms-auto"><FontAwesomeIcon icon={faBookmark} className="" /></button> 
+                                                        <button type="button" className="btn btn-secondary ms-auto"><FontAwesomeIcon icon={course.bookmark_status ? fasBookmark : faBookmark} className="" /></button> 
                                                     </div>
                                                     <div className="d-flex p-2 justify-content-start" style={{minHeight: "10rem"}}>
                                                         <p className="card-text text-start text-secondary">{course.course_description}</p>
