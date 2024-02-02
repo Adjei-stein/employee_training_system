@@ -58,9 +58,14 @@ class BookmarkedCoursesList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
 """ class BookmarkedCoursesDetails(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Course.objects.all()
-    serializer_class = CourseSerializer
+    queryset = models.BookmarkedCourses.objects.all()
+    serializer_class = BookmarkedCoursesSerialzer
     permission_classes = [permissions.IsAuthenticated] """
+
+class BookmarkedCoursesRemoval(generics.DestroyAPIView):
+    queryset = models.BookmarkedCourses.objects.all()
+    serializer_class = BookmarkedCoursesSerialzer
+    permission_classes = [permissions.IsAuthenticated]
 
 class FrequentlyAskedQuestionsList(generics.ListCreateAPIView):
     queryset = models.FrequentlyAskedQuestions.objects.all()
