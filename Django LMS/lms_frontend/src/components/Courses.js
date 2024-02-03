@@ -67,6 +67,7 @@ function Courses() {
 
         const getAllCourses = async () => {
             try {
+                await commonTasks.postBookmarkedCourse()
                 const all_categories = await commonTasks.getData("courses/category")
                 const courses = await commonTasks.getData("courses")
                 const bookmarks = await getListOfBookmarked()

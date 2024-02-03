@@ -24,4 +24,28 @@ export default class CommonTasks {
             return error
         };
     }
+
+    async postBookmarkedCourse() {
+
+        let payload = {
+            "user_id": "1",
+            "course_id": "2"
+        }
+        try {
+            const response = await axios.post(baseURL + '/api/courses/bookmarks/', payload, {
+                headers: {
+                    Authorization: 'Token 911de59a37d99b815aa63c486d7e63cdb8b3db0a'
+                }
+            })
+            // handle success
+            /* console.log(response.data);
+            console.log(response.data.length); */
+            console.log(response)
+        }
+        catch(error) {
+            // handle error
+            console.error(error);
+            //return error
+        };
+    }
 }
