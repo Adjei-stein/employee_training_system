@@ -47,6 +47,48 @@ function Courses() {
         });
     };
 
+    const bookmarkCourse = (category_id, course_status, course, user) => {
+        try {
+            let newFilteredOption = filteredOption
+            if (course_status === false){
+                const api_response = commonTasks.postBookmarkedCourse(course, user)
+                if (String(api_response) === "201") {
+                    for (let a = 0; a < newFilteredOption.length; a++) {
+                        if (newFilteredOption[a].course_category_id === category_id){
+                            for (let b = 0; b < newFilteredOption[a].courses_row.length; b++) {
+                                if (newFilteredOption[a].courses_row[b].course_id === course){
+                                    newFilteredOption[a].courses_row[b].bookmark_status = true
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            else {
+                //commonTasks.deleteBookmarkedCourse(course, user)
+                const api_response = commonTasks.deleteBookmarkedCourse(course, user)
+                if (String(api_response) === "204") {
+                    for (let a = 0; a < newFilteredOption.length; a++) {
+                        if (newFilteredOption[a].course_category_id === category_id){
+                            for (let b = 0; b < newFilteredOption[a].courses_row.length; b++) {
+                                if (newFilteredOption[a].courses_row[b].course_id === course){
+                                    newFilteredOption[a].courses_row[b].bookmark_status = false
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            getFilteredOption(newFilteredOption)
+            
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
     const [categories, setCategories] = useState(null)
     const [mandatoryCourses, setMandatoryCourses] = useState(null)
 
@@ -67,7 +109,7 @@ function Courses() {
 
         const getAllCourses = async () => {
             try {
-                await commonTasks.postBookmarkedCourse()
+                
                 const all_categories = await commonTasks.getData("courses/category")
                 const courses = await commonTasks.getData("courses")
                 const bookmarks = await getListOfBookmarked()
@@ -303,7 +345,7 @@ function Courses() {
                                                 <div className="card-body border-top">
                                                     <div className="d-flex align-items-center">
                                                         <h5 className="card-title mb-0 me-auto text-white">{course.course_title}</h5>
-                                                        <button type="button" className="btn btn-secondary ms-auto"><FontAwesomeIcon icon={course.bookmark_status ? fasBookmark : faBookmark} className="" /></button> 
+                                                        <button type="button" className="btn btn-secondary ms-auto" onClick={() => bookmarkCourse(allSortedCourse.course_category_id, course.bookmark_status, course.course_id, 3)}><FontAwesomeIcon icon={course.bookmark_status ? fasBookmark : faBookmark} className="" /></button> 
                                                     </div>
                                                     <div className="d-flex p-2 justify-content-start" style={{minHeight: "10rem"}}>
                                                         <p className="card-text text-start text-secondary">{course.course_description}</p>
