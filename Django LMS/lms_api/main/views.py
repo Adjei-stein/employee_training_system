@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from . import models
 from rest_framework.response import Response
 from rest_framework import status, generics, permissions
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 """class EmployeeList(APIView):
@@ -66,6 +67,14 @@ class BookmarkedCoursesRemoval(generics.DestroyAPIView):
     queryset = models.BookmarkedCourses.objects.all()
     serializer_class = BookmarkedCoursesSerialzer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        user_id = self.kwargs['user_id_id']
+        course_id = self.kwargs['course_id_id']
+        obj = get_object_or_404(queryset, user_id=user_id, course_id=course_id)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 class FrequentlyAskedQuestionsList(generics.ListCreateAPIView):
     queryset = models.FrequentlyAskedQuestions.objects.all()

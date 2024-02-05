@@ -62,11 +62,12 @@ export default class CommonTasks {
             /* console.log(response.data);
             console.log(response.data.length); */
             console.log(response)
+            return response.status
         }
         catch(error) {
             // handle error
             console.error(error);
-            //return error
+            return error
         };
     }
 }

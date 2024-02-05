@@ -47,47 +47,54 @@ function Courses() {
         });
     };
 
-    const bookmarkCourse = (category_id, course_status, course, user) => {
+    const bookmarkCourse = async (category_id, course_status, course, user) => {
         try {
-            let newFilteredOption = filteredOption
-            if (course_status === false){
-                const api_response = commonTasks.postBookmarkedCourse(course, user)
+            let newFilteredOption = [...filteredOption]; // Creating a new array to avoid mutating the state directly
+    
+            if (course_status === false) {
+                const api_response = await commonTasks.postBookmarkedCourse(course, user);
+    
                 if (String(api_response) === "201") {
                     for (let a = 0; a < newFilteredOption.length; a++) {
-                        if (newFilteredOption[a].course_category_id === category_id){
+                        if (newFilteredOption[a].course_category_id === category_id) {
                             for (let b = 0; b < newFilteredOption[a].courses_row.length; b++) {
-                                if (newFilteredOption[a].courses_row[b].course_id === course){
-                                    newFilteredOption[a].courses_row[b].bookmark_status = true
+                                if (newFilteredOption[a].courses_row[b].course_id === course) {
+                                    newFilteredOption[a].courses_row[b].bookmark_status = true;
                                 }
                             }
                         }
-                        
                     }
+                    getFilteredOption(newFilteredOption);
                 }
-            }
-            else {
-                //commonTasks.deleteBookmarkedCourse(course, user)
-                const api_response = commonTasks.deleteBookmarkedCourse(course, user)
+            } else {
+                // commonTasks.deleteBookmarkedCourse(course, user)
+                const api_response = await commonTasks.deleteBookmarkedCourse(course, user);
+                console.log("Here guy")
+    
                 if (String(api_response) === "204") {
+                    console.log("Here now guy")
                     for (let a = 0; a < newFilteredOption.length; a++) {
-                        if (newFilteredOption[a].course_category_id === category_id){
+                        if (newFilteredOption[a].course_category_id === category_id) {
                             for (let b = 0; b < newFilteredOption[a].courses_row.length; b++) {
-                                if (newFilteredOption[a].courses_row[b].course_id === course){
-                                    newFilteredOption[a].courses_row[b].bookmark_status = false
+                                if (newFilteredOption[a].courses_row[b].course_id === course) {
+                                    console.log("Here oooo")
+                                    newFilteredOption[a].courses_row[b].bookmark_status = false;
                                 }
                             }
                         }
-                        
                     }
+                    getFilteredOption(newFilteredOption);
                 }
             }
-            getFilteredOption(newFilteredOption)
+    
             
+            console.log("New filteredOption is ", filteredOption)
+    
+        } catch (error) {
+            console.log(error);
         }
-        catch (error) {
-            console.log(error)
-        }
-    }
+    };
+    
 
     const [categories, setCategories] = useState(null)
     const [mandatoryCourses, setMandatoryCourses] = useState(null)
