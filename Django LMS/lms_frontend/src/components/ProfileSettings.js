@@ -40,135 +40,170 @@ function ProfileSettings() {
                 <div className="card mx-2 bg-transparent border-0 my-4">
                     <form>
                             <div className="row mb-2">
-                                <div className="col-md-12 d-flex align-items-center justify-content-center">
+                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                     <div class="input-file input-file-image">
-                                    <img class="img-upload-preview img-circle" width="100" height="100" src="logo512.png" alt="preview"/>
+                                    <img class="img-upload-preview img-circle" width="100" height="100" src="avatar-profile-picture.png" alt="preview" style={{borderRadius: "50%"}}/>
                                     </div>
                                 </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
+                                {/* <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                         <div className="btn btn-dark" onClick={handleEditButtonClick}>
                                         Edit Profile Image
                                         <input type="file" className="d-none" id="uploadImg" name="uploadImg" accept="image/*" ref={fileInputRef} onChange={handleFileChange}/>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5 mx-2">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">@</span>
-                                            </div>
-                                            <input type="text" className="form-control bg-dark text-white border-secondary" placeholder="Username" id="username" value="User"/>
+                                    <div className="col-sm-3 mx-2">
+                                        <div className="input-group bg-transparent">
+                                            <input type="text" className="form-control bg-dark text-white border-0" placeholder="Username" id="username" value="User"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5 mx-2">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Firstname</span>
-                                            </div>
-                                            <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value="Hello"/>
+                                <div className="d-flex align-items-center justify-content-center">
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Firstname</strong></h5></label>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5 mx-2">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Lastname</span>
-                                            </div>
-                                            <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value="World"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Email</span>
-                                            </div>
-                                            <input type="email" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" placeholder="Enter email" value="helloworld@gmail.com"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    
-                                        <div className="col-sm-3" style={{paddingRight: "0.25rem"}}>
+                                        <div className="col-sm-11 mx-2">
                                             <div className="input-group">
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Gender</span>
-                                                </div>
+                                                {/* <div className="input-group-prepend">
+                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Firstname</span>
+                                                </div> */}
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value="Hello"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Lastname</strong></h5></label>
+                                        </div>
+                                        <div className="col-sm-11 mx-2">
+                                            <div className="input-group">
+                                                {/* <div className="input-group-prepend">
+                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Lastname</span>
+                                                </div> */}
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value="World"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="d-flex align-items-center justify-content-center">
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Email</strong></h5></label>
+                                        </div>
+                                        <div className="col-sm-11 mx-2">
+                                            <div className="input-group">
+                                                {/* <div className="input-group-prepend">
+                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Email</span>
+                                                </div> */}
+                                                <input type="email" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" placeholder="Enter email" value="helloworld@gmail.com"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Gender</strong></h5></label>
+                                        </div>
+                                        <div className="col-md-11 mx-2">
+                                            <div className="input-group">
                                                 <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                    <option selected>Select Gender</option>
+                                                    <option disabled selected hidden>Select Gender</option>
                                                     <option>Male</option>
                                                     <option>Female</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div className="col-sm-2">
+                                    </div>
+                                    <div className="col-md-3 mb-2">
+                                        <div className="col-md-10 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Date Of Birth</strong></h5></label>
+                                        </div>
+                                        <div className="col-md-10 mx-2">
                                             <div className="form-group">
                                                 <input type="date" id="datepicker" value={selectedDate} onChange={handleDateChange} min={maxDateFormatted} max={todayFormatted} className='form-control bg-dark text-white border-secondary'/>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="col-md-12 d-flex align-items-center justify-content-center">
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Telephone</strong></h5></label>
+                                        </div>
+                                        <div className="col-sm-11 mx-2">
+                                            <div className="input-group">
+                                                {/* <div className="input-group-prepend">
+                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}><FontAwesomeIcon icon={faPhone}/></span>
+                                                </div> */}
+                                                <input type="tel" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Mobile Number" value="+233545454545"/>
+                                            </div>
+                                        </div>
+                                    </div>
                                     
-                                </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Citizenship</span>
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Telephone</strong></h5></label>
+                                        </div>
+                                        <div className="col-sm-11 mx-2">
+                                            <div className="input-group">
+                                                <select id="region" className="form-control bg-dark text-white border-secondary">
+                                                    <option disabled selected hidden>Select citizenship</option>
+                                                    <option>Ghanaian</option>
+                                                    <option>Togolese</option>
+                                                </select>
                                             </div>
-                                            <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                <option selected>Select ...</option>
-                                                <option>Ghanaian</option>
-                                                <option>Togolese</option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5 mx-2">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}><FontAwesomeIcon icon={faPhone}/></span>
+
+                                <div className="d-flex align-items-center justify-content-center">
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Region</strong></h5></label>
+                                        </div>
+                                        <div className="col-sm-11 mx-2">
+                                            <div className="input-group">
+                                                {/* <div className="input-group-prepend">
+                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Region</span>
+                                                </div> */}
+                                                <select id="region" className="form-control bg-dark text-white border-secondary">
+                                                    <option selected>Choose Region</option>
+                                                    <option>...</option>
+                                                </select>
                                             </div>
-                                            <input type="tel" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Mobile Number" value="+233545454545"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>City</strong></h5></label>
+                                        </div>
+                                        <div className="col-sm-11 mx-2">
+                                            <div className="input-group">
+                                                {/* <div className="input-group-prepend">
+                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">City</span>
+                                                </div> */}
+                                                <input type="text" className="form-control bg-dark text-white border-secondary" id="inputCity" placeholder="Town/Village/City" value="Accra"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}>Educational level</span>
-                                            </div>
-                                            <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                <option selected>Choose Educational Level</option>
-                                                <option>...</option>
-                                            </select>
+                                
+                                <div className="d-flex align-items-center">
+                                    <div className="col-md-6 mb-2">
+                                        <div className="col-md-11 d-flex align-items-center mx-2">
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Educational Level</strong></h5></label>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5 mx-2">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Region</span>
+                                        <div className="col-sm-11 mx-2">
+                                            <div className="input-group">
+                                                {/* <div className="input-group-prepend">
+                                                    <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}>Educational level</span>
+                                                </div> */}
+                                                <select id="region" className="form-control bg-dark text-white border-secondary">
+                                                    <option selected>Choose Educational Level</option>
+                                                    <option>Bachelor's Degree</option>
+                                                </select>
                                             </div>
-                                            <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                <option selected>Choose Region</option>
-                                                <option>...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div className="col-sm-5 mx-2">
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Town/Village/City</span>
-                                            </div>
-                                            <input type="text" className="form-control bg-dark text-white border-secondary" id="inputCity" placeholder="Town/Village/City" value="Accra"/>
                                         </div>
                                     </div>
                                 </div>
