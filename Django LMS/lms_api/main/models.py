@@ -5,10 +5,23 @@ from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 class Employee(models.Model):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+    ]
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
     email = models.EmailField()
+    firstname = models.CharField(max_length=30, blank=True, null=True)
+    lastname = models.CharField(max_length=30, blank=True, null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    citizenship = models.CharField(max_length=100, blank=True, null=True)
+    region = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    educational_level = models.CharField(max_length=100, blank=True, null=True)
     date_created = models.DateTimeField(default=datetime.now)
 
 class CourseCategory(models.Model):
