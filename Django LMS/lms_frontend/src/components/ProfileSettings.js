@@ -1,9 +1,12 @@
-import React, {useState, useRef } from 'react'
+import React, {useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faTelegram } from '@fortawesome/free-brands-svg-icons'
+import CommonTasks from '../js/CommonTasks'
 
 function ProfileSettings() {
+    const commonTasks = new CommonTasks()
+    const [getUserDetails, setUserDetails] = useState();
 
     // Get today's date
     const today = new Date();
@@ -34,6 +37,23 @@ function ProfileSettings() {
         const selectedFile = e.target.files[0];
         console.log('Selected File:', selectedFile);
     };
+
+    useEffect (() => {
+        const getUserDetails = async () => {
+            try {
+                const employee = await commonTasks.getData("employee/1")
+                console.log("employee is ", employee)
+                setUserDetails(employee)
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+
+        getUserDetails()
+
+    }, [])
+
     return (
         <div className="col-md-12 bg-transparent" style={{overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-profile-settings" role="tabpanel" aria-labelledby="list-profile-settings">
             <div className="col-md-12">
@@ -54,7 +74,7 @@ function ProfileSettings() {
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                     <div className="col-sm-3 mx-2">
                                         <div className="input-group bg-transparent">
-                                            <input type="text" className="form-control bg-dark text-white border-0" placeholder="Username" id="username" value="User"/>
+                                            <input type="text" className="form-control bg-dark text-white border-0" placeholder="Username" id="username" value={getUserDetails ? getUserDetails.username : "null"}/>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +88,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Firstname</span>
                                                 </div> */}
-                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value="Hello"/>
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value={getUserDetails ? getUserDetails.firstname : "null"}/>
                                             </div>
                                         </div>
                                     </div>
@@ -81,7 +101,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Lastname</span>
                                                 </div> */}
-                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value="World"/>
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value={getUserDetails ? getUserDetails.lastname : "null"}/>
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +116,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Email</span>
                                                 </div> */}
-                                                <input type="email" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" placeholder="Enter email" value="helloworld@gmail.com"/>
+                                                <input type="email" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" placeholder="Enter email" value={getUserDetails ? getUserDetails.email : "null"}/>
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +140,7 @@ function ProfileSettings() {
                                         </div>
                                         <div className="col-md-10 mx-2">
                                             <div className="form-group">
-                                                <input type="date" id="datepicker" value={selectedDate} onChange={handleDateChange} min={maxDateFormatted} max={todayFormatted} className='form-control bg-dark text-white border-secondary'/>
+                                                <input type="date" id="datepicker" value={getUserDetails ? getUserDetails.lastname : selectedDate} onChange={handleDateChange} min={maxDateFormatted} max={todayFormatted} className='form-control bg-dark text-white border-secondary'/>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +156,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}><FontAwesomeIcon icon={faPhone}/></span>
                                                 </div> */}
-                                                <input type="tel" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Mobile Number" value="+233545454545"/>
+                                                <input type="tel" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Mobile Number" value={getUserDetails ? getUserDetails.phone_number : "null"}/>
                                             </div>
                                         </div>
                                     </div>
@@ -183,7 +203,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">City</span>
                                                 </div> */}
-                                                <input type="text" className="form-control bg-dark text-white border-secondary" id="inputCity" placeholder="Town/Village/City" value="Accra"/>
+                                                <input type="text" className="form-control bg-dark text-white border-secondary" id="inputCity" placeholder="Town/Village/City" value={getUserDetails ? getUserDetails.city : "null"}/>
                                             </div>
                                         </div>
                                     </div>

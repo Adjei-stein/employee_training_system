@@ -4,7 +4,7 @@ from main.models import *
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['id', 'username', 'password', 'email', 'date_created']
+        fields = ['id', 'username', 'password', 'email', 'firstname', 'lastname', 'gender', 'date_of_birth', 'phone_number', 'citizenship', 'region', 'city', 'educational_level', 'date_created']
 
 class CourseCategorySerializer(serializers.ModelSerializer):
     class Meta:
