@@ -5,6 +5,11 @@ function Register() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [inputPassword, setInputPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -13,6 +18,40 @@ function Register() {
     const togglePasswordVisibility2 = () => {
         setShowPassword2(!showPassword2);
     };
+
+    const takeUsername = (e) => {
+        setUsername(e.target.value)
+        console.log(username)
+    };
+
+    const takeEmail = (e) => {
+        setEmail(e.target.value)
+    };
+
+    const takeInputPassword = (e) => {
+        setInputPassword(e.target.value)
+    };
+
+    const takeConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value)
+    };
+
+    const createUser = () => {
+        const regex = /[^a-zA-Z0-9]/;
+        const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+        if (username.length < 3) {
+            setErrorMsg("Username should be more than 2 letters long")
+        }
+        else if (regex.test(username)) {
+            setErrorMsg("Username cannot contain symbols")
+        }
+        else if (emailRegex.test(email)) {
+            setErrorMsg("Invalid email")
+        }
+        else if (inputPassword !== confirmPassword) {
+            setErrorMsg("Passwords do not match")
+        }
+    }
 
     return (
             <div className="container">
@@ -23,29 +62,32 @@ function Register() {
                             <h1 className='m-0 text-primary'>Registration</h1>
                         </div>
                         <div className="card-body">
+                            <div className="error-message" display={errorMsg ? "block" : "none"} style={{background: 'rgba(238, 43, 36, 0.384)', color: 'white'}}>
+                                <p>{errorMsg}</p>
+                            </div>
                             <div className="col-sm-12 mb-2 text-white justify-content-center">
                                 <div className="col-md-12 d-flex align-items-center">
-                                    <label for="exampleFormControlInput1">Username</label>
+                                    <label htmlFor="exampleFormControlInput1">Username</label>
                                 </div>
                                 <div className="input-group">
-                                    <input type="text" className="form-control bg-dark text-white border-secondary" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
+                                    <input type="text" className="form-control bg-dark text-white border-secondary username" value={username} placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" onChange={ takeUsername}/>
                                 </div>
                             </div>
                             <div className="col-sm-12 mb-2 text-white justify-content-center">
                                 <div className="col-md-12 d-flex align-items-center">
-                                    <label for="exampleFormControlInput1">Email</label>
+                                    <label htmlFor="exampleFormControlInput1">Email</label>
                                 </div>
                                 <div className="input-group">
-                                <input type="email" className="form-control bg-dark text-white border-secondary" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1"/>
+                                <input type="email" className="form-control bg-dark text-white border-secondary email" value={email} placeholder="Email" aria-label="Email" aria-describedby="basic-addon1"  onChange={ takeEmail}/>
                                 </div>
                             </div>
                             <div className="col-sm-12 mb-2 text-white justify-content-center">
                                 <div className="col-md-12 d-flex align-items-center">
-                                    <label for="exampleFormControlInput1">Enter Password</label>
+                                    <label htmlFor="exampleFormControlInput1">Enter Password</label>
                                 </div>
                                 <div className="col-md-12">
                                     <div className="input-group">
-                                        <input type={showPassword ? 'text' : 'password'} className="form-control px-3 bg-dark border-end-0 text-white border-secondary" placeholder="Enter Current Password" id="lastname" value=""/>
+                                        <input type={showPassword ? 'text' : 'password'} className="form-control px-3 bg-dark border-end-0 text-white border-secondary input-password" placeholder="Enter Current Password" value={inputPassword} onChange={ takeInputPassword}/>
                                         <div className="input-group-prepend">
                                             <span className="input-group-text border-start-0 rounded-start-0 bg-dark text-white border-secondary" id="basic-addon1" onClick={togglePasswordVisibility} style={{height: "100%"}}><FontAwesomeIcon icon={showPassword ? "eye" : "eye-slash"} className="icon-eye"/></span>
                                         </div>
@@ -56,22 +98,22 @@ function Register() {
 
                             <div className="col-sm-12 mb-2 text-white">
                                 <div className="col-md-12 d-flex align-items-center">
-                                    <label for="exampleFormControlInput1">Confirm Password</label>
+                                    <label htmlFor="exampleFormControlInput1">Confirm Password</label>
                                 </div>
                                 <div className="col-md-12">
                                     <div className="input-group">
-                                        <input type={showPassword2 ? 'text' : 'password'} className="form-control px-3 bg-dark border-end-0 text-white border-secondary" placeholder="Enter New Password" id="lastname" value=""/>
+                                        <input type={showPassword2 ? 'text' : 'password'} className="form-control px-3 bg-dark border-end-0 text-white border-secondary confirm-password" placeholder="Enter New Password" value={confirmPassword} onChange={ takeConfirmPassword}/>
                                         <div className="input-group-prepend">
                                             <span className="input-group-text border-start-0 rounded-start-0 bg-dark text-white border-secondary" id="basic-addon1" onClick={togglePasswordVisibility2} style={{height: "100%"}}><FontAwesomeIcon icon={showPassword2 ? "eye" : "eye-slash"} className="icon-eye"/></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-check mx-3" style={{maxWidth: "18rem"}}>
-                                <input class="form-check-input" type="checkbox" id="gridCheck"/>
+                            <div className="form-check mx-3" style={{maxWidth: "18rem"}}>
+                                <input className="form-check-input" type="checkbox" id="gridCheck"/>
                                 <p className="text-start text-white">I agree to the <a href="#">Terms & Conditions</a></p>
                             </div>
-                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                            <button type="submit" className="btn btn-primary" onClick={createUser}>Sign Up</button>
                             <div className="d-flex align-items-center justify-content-center">
                                 <p className="my-3 text-white">Already have an account? <a href="/login">Log In</a></p>
                             </div>

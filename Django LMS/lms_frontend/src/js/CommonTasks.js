@@ -24,6 +24,26 @@ export default class CommonTasks {
         };
     }
 
+    async postData(directory, payload) {
+
+        try {
+            const response = await axios.post(baseURL + '/api/' + directory, payload, {
+                headers: {
+                    Authorization: 'Token 911de59a37d99b815aa63c486d7e63cdb8b3db0a'
+                }
+            })
+            // handle success
+            /* console.log(response.data);
+            console.log(response.data.length); */
+            return response.data
+        }
+        catch(error) {
+            // handle error
+            console.error(error);
+            return error
+        };
+    }
+
     async postBookmarkedCourse(course, user) {
 
         let payload = {
