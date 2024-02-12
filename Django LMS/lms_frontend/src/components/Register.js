@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CommonTasks from '../js/CommonTasks'
+
 
 function Register() {
-
+    const commonTasks = new CommonTasks()
     const [showPassword, setShowPassword] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [inputPassword, setInputPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [errorMsg, setErrorMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState(null);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -36,21 +38,69 @@ function Register() {
         setConfirmPassword(e.target.value)
     };
 
-    const createUser = () => {
+    const createUser = async() => {
         const regex = /[^a-zA-Z0-9]/;
         const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegexTwo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        const containsNumber = /\d/
+        const containsAlphabet = /[a-zA-Z]/
+        const containsCapital = /[A-Z]/
+        const containsSymbol = /[!@#$%^&*()\-_=+{};:,<.>]/
+        
         if (username.length < 3) {
             setErrorMsg("Username should be more than 2 letters long")
         }
         else if (regex.test(username)) {
             setErrorMsg("Username cannot contain symbols")
         }
-        else if (emailRegex.test(email)) {
+        else if (email.length === 0) {
+            setErrorMsg("No email provided")
+        }
+        else if (emailRegex.test(email) === false) {
             setErrorMsg("Invalid email")
         }
-        else if (inputPassword !== confirmPassword) {
-            setErrorMsg("Passwords do not match")
+        else {
+            if (inputPassword.length === 0) {
+                setErrorMsg("Provide a very strong Password you'll be able to remember")
+            }
+            else if (inputPassword.length < 8) {
+                setErrorMsg("Password length must be more than 7 characters")
+            }
+            else if (!containsNumber.test(inputPassword)) {
+                setErrorMsg("Password must contain a number")
+            }
+            else if (!containsAlphabet.test(inputPassword)) {
+                setErrorMsg("Password must contain an alphabet")
+            }
+            else if (!containsCapital.test(inputPassword)) {
+                setErrorMsg("Password must contain a capital letter")
+            }
+            else if (!containsSymbol.test(inputPassword)) {
+                setErrorMsg("Password must contain a symbol")
+            }
+            else {
+                
+                if (confirmPassword.length === 0 || confirmPassword === null) {
+                    setErrorMsg("Kindly provide confirmation password")
+                }
+                else if (inputPassword !== confirmPassword) {
+                    setErrorMsg("Passwords do not match")
+                }
+                else {
+                    setErrorMsg(null)
+                    let payload = {
+                        "username": username,
+                        "password": inputPassword,
+                        "email": email
+                    }
+                    const response = await commonTasks.postData("employees", payload)
+                    console.log(response.data)
+                    console.log(response.status)
+                }
+            }
         }
+
+        
     }
 
     return (
