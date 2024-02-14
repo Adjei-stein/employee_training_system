@@ -48,6 +48,7 @@ function Courses() {
     };
 
     const bookmarkCourse = async (category_id, course_status, course, user) => {
+        console.log("category_id: ", category_id, "course_status: ", course_status, "course: ", course, "user: ", user)
         try {
             let newFilteredOption = [...filteredOption]; // Creating a new array to avoid mutating the state directly
     

@@ -1,10 +1,30 @@
 from rest_framework import serializers
 from main.models import *
+from django.contrib.auth.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name', 'username']
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.username = validated_data.get('username', instance.username)
+        instance.save()
+        return instance
 
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['id', 'username', 'password', 'email', 'firstname', 'lastname', 'gender', 'date_of_birth', 'phone_number', 'citizenship', 'region', 'city', 'educational_level', 'date_created']
+        fields = ['id', 'user', 'gender', 'date_of_birth', 'phone_number', 'citizenship', 'region', 'city', 'educational_level']
 
 class CourseCategorySerializer(serializers.ModelSerializer):
     class Meta:

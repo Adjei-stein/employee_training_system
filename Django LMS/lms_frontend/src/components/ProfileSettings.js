@@ -41,8 +41,12 @@ function ProfileSettings() {
     useEffect (() => {
         const getUserDetails = async () => {
             try {
-                const employee = await commonTasks.getData("employee/1")
+                const employee = await commonTasks.getData("employee/3")
+                const users = await commonTasks.getData("users/3")
+                
+                console.log("employee is ", users)
                 console.log("employee is ", employee)
+                Object.assign(employee, users)
                 setUserDetails(employee)
             }
             catch (error) {
@@ -88,7 +92,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Firstname</span>
                                                 </div> */}
-                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value={getUserDetails ? getUserDetails.firstname : "null"}/>
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value={getUserDetails ? getUserDetails.first_name : "null"}/>
                                             </div>
                                         </div>
                                     </div>
@@ -101,7 +105,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Lastname</span>
                                                 </div> */}
-                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value={getUserDetails ? getUserDetails.lastname : "null"}/>
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value={getUserDetails ? getUserDetails.last_name : "null"}/>
                                             </div>
                                         </div>
                                     </div>

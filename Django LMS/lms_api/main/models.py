@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime, time
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -9,12 +10,13 @@ class Employee(models.Model):
         ('M', 'Male'),
         ('F', 'Female'),
     ]
-    id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=200)
-    password = models.CharField(max_length=200)
-    email = models.EmailField()
-    firstname = models.CharField(max_length=30, blank=True, null=True)
-    lastname = models.CharField(max_length=30, blank=True, null=True)
+    id = models.AutoField(primary_key=True, default=0)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    #username = models.CharField(max_length=200)
+    #password = models.CharField(max_length=200)
+    #email = models.EmailField()
+    #firstname = models.CharField(max_length=30, blank=True, null=True)
+    #lastname = models.CharField(max_length=30, blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
@@ -22,7 +24,7 @@ class Employee(models.Model):
     region = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     educational_level = models.CharField(max_length=100, blank=True, null=True)
-    date_created = models.DateTimeField(default=datetime.now)
+    #date_created = models.DateTimeField(default=datetime.now)
 
 class CourseCategory(models.Model):
     title = models.CharField(max_length=200)
@@ -54,13 +56,13 @@ class CourseChapter(models.Model):
     date_created = models.DateTimeField(default=datetime.now)
 
 class UserEnrolledCourses(models.Model):
-    user_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     chapters_completed = models.CharField(max_length=255, blank=True, null=True)
     date_created = models.DateTimeField(default=datetime.now)
 
 class BookmarkedCourses(models.Model):
-    user_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     chapters_completed = models.CharField(max_length=255, blank=True, null=True)
     date_created = models.DateTimeField(default=datetime.now)

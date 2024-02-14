@@ -5,6 +5,7 @@ from . import models
 from rest_framework.response import Response
 from rest_framework import status, generics, permissions
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 # Create your views here.
 """class EmployeeList(APIView):
@@ -13,15 +14,34 @@ from django.shortcuts import get_object_or_404
         serializer = EmployeeSerializer(employees, many=True)
         return Response(serializer.data)"""
 
+class UserList(generics.ListCreateAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class UserDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
 class EmployeeList(generics.ListCreateAPIView):
     queryset = models.Employee.objects.all()
     serializer_class = EmployeeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+
 class EmployeeDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Employee.objects.all()
     serializer_class = EmployeeSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        user_id = self.kwargs['user_id']
+        obj = get_object_or_404(queryset, user_id=user_id)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 class CourseCategoryList(generics.ListCreateAPIView):
     queryset = models.CourseCategory.objects.all()
