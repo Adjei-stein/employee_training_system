@@ -4,8 +4,11 @@ from rest_framework.views import APIView
 from . import models
 from rest_framework.response import Response
 from rest_framework import status, generics, permissions
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 # Create your views here.
 """class EmployeeList(APIView):
@@ -13,6 +16,27 @@ from django.contrib.auth.models import User
         employees=models.Employee.objects.all()
         serializer = EmployeeSerializer(employees, many=True)
         return Response(serializer.data)"""
+class UserLoginAPIView(generics.CreateAPIView):
+    serializer_class = UserLoginSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        username = serializer.validated_data.get('username')
+        password = serializer.validated_data.get('password')
+
+        # Authenticate user
+        user = authenticate(username=username, password=password)
+
+        if user:
+            # Generate or retrieve token
+            token, created = Token.objects.get_or_create(user=user)
+
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class UserList(generics.ListCreateAPIView):
     queryset = models.User.objects.all()
