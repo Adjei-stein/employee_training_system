@@ -6,30 +6,40 @@ import { faBookmark, faClock } from '@fortawesome/free-regular-svg-icons'
 import { faTriangleExclamation, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import  * as baseFunctions from '../js/base';
+import CommonTasks from '../js/CommonTasks';
 
 function Home() {
+    const commonTasks = new CommonTasks()
     //const [employee, getEmployee] = useState(null)
     const [mandatoryCourses, setMandatoryCourses] = useState(null)
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         const mandatory_courses = baseFunctions.getData("courses/mandatory")
         const getData = async() => {
-            axios.get(baseFunctions.baseURL + '/api/courses/mandatory', {
-                headers: {
-                    Authorization: 'Token 911de59a37d99b815aa63c486d7e63cdb8b3db0a'
-                }
-            })
-            .then((response) => {
-                // handle success
-                console.log(response.data);
-                console.log(response.data.length);
-                setMandatoryCourses(response.data)
+            if (token){
+                axios.get(baseFunctions.baseURL + '/api/courses/mandatory', {
+                    headers: {
+                        Authorization: 'Token ' + token
+                    }
+                })
+                .then((response) => {
+                    // handle success
+                    console.log(response.data);
+                    console.log(response.data.length);
+                    setMandatoryCourses(response.data)
+                    
+                })
+                .catch((error) => {
+                    // handle error
+                    console.error(error);
+                });
+            }
+            else {
+                window.location.href = '/';
                 
-            })
-            .catch((error) => {
-                // handle error
-                console.error(error);
-            });
+            }
+            
         }
         getData()
     }, []);

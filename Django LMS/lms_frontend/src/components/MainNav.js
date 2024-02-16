@@ -1,8 +1,13 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link, NavLink } from  'react-router-dom'
+import CommonTasks from '../js/CommonTasks';
 
 function Navbar() {
+    const commonTasks = new CommonTasks()
+    const handleLogout = () => {
+        commonTasks.logoutUser()
+    };
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div className="container">
@@ -31,7 +36,7 @@ function Navbar() {
                             <li>
                                 <hr className="dropdown-divider"/>
                             </li>
-                            <li><a className="dropdown-item" href="/login"><FontAwesomeIcon icon="power-off" /> Sign Out</a></li>
+                            <li><a className="dropdown-item" onClick={handleLogout}><FontAwesomeIcon icon="power-off" /> Sign Out</a></li>
                         </ul>
                     </div>
                     

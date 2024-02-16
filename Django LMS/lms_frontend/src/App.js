@@ -23,7 +23,7 @@ library.add(fab, faCheckSquare, faHouse, faSquarePollVertical, faBookOpen, faCir
 function App() {
   const location = useLocation();
 
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  const isAuthPage = location.pathname === '/' || location.pathname === '/register';
 
   return (
     <div className="App">
@@ -32,8 +32,8 @@ function App() {
 
           <Routes>
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
             
             <Route path="/courses" element={<Courses />} />
             <Route path="/user-profile" element={<UserProfile />} />
@@ -48,7 +48,7 @@ function App() {
           <div className="auth-page">
           <Routes>
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
         </Routes></div>)
       }
       
