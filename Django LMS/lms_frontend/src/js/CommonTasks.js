@@ -61,6 +61,7 @@ export default class CommonTasks {
             // You can save the token in localStorage or sessionStorage for future use
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('username', username);
+            localStorage.setItem('userID', response.data.user_id);
             //localStorage.setItem('token', response.data.token);
 
             // Set the token as a cookie
@@ -84,6 +85,7 @@ export default class CommonTasks {
                 }
             });
             localStorage.removeItem('token');
+            localStorage.removeItem('userID');
             window.location.href = '/';
             /* const response = await axios.delete(baseURL + '/api/logout/', {
                 headers: {
@@ -185,3 +187,4 @@ export default class CommonTasks {
         }
     }
 }
+

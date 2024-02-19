@@ -7,7 +7,7 @@ import CommonTasks from '../js/CommonTasks'
 function ProfileSettings() {
     const commonTasks = new CommonTasks()
     const [getUserDetails, setUserDetails] = useState();
-
+    
     // Get today's date
     const today = new Date();
     
@@ -39,10 +39,11 @@ function ProfileSettings() {
     };
 
     useEffect (() => {
+        const userID = localStorage.getItem('userID');
         const getUserDetails = async () => {
             try {
-                const employee = await commonTasks.getData("employee/3")
-                const users = await commonTasks.getData("users/3")
+                const employee = await commonTasks.getData("employee/" + userID)
+                const users = await commonTasks.getData("users/" + userID)
                 
                 console.log("employee is ", users)
                 console.log("employee is ", employee)

@@ -55,7 +55,7 @@ class UserLoginAPIView(generics.CreateAPIView):
             # Generate token for user
             token, created = Token.objects.get_or_create(user=user)
 
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            return Response({'token': token.key, 'user_id': user.id}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         
