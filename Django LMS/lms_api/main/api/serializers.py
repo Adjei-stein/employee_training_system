@@ -60,3 +60,8 @@ class FrequentlyAskedQuestionsSerialzer(serializers.ModelSerializer):
     class Meta:
         model = FrequentlyAskedQuestions
         fields = ['id', 'question', 'answer']
+
+class CourseMaterialURLSerialzer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseMaterialURL
+        fields = ['id', 'course_id', 'material_url']

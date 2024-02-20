@@ -159,3 +159,8 @@ class FrequentlyAskedQuestionsList(generics.ListCreateAPIView):
     queryset = models.FrequentlyAskedQuestions.objects.all()
     serializer_class = FrequentlyAskedQuestionsSerialzer
     permission_classes = [permissions.IsAuthenticated]
+
+class CourseMaterialURLList(generics.ListCreateAPIView):
+    queryset = models.CourseMaterialURL.objects.all()
+    serializer_class = CourseMaterialURLSerialzer
+    permission_classes = [permissions.IsAuthenticated]

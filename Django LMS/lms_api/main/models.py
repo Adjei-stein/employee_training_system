@@ -71,3 +71,7 @@ class FrequentlyAskedQuestions(models.Model):
     question = models.CharField(max_length=500, blank=True, null=True)
     answer = models.TextField()
     date_created = models.DateTimeField(default=datetime.now)
+
+class CourseMaterialURL(models.Model):
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
+    material_url = models.CharField(max_length=255, blank=False, null=False)

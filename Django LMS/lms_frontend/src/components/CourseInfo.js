@@ -1,11 +1,36 @@
 import { useParams } from "react-router-dom";
-import React from 'react'
+import React, {useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 import { faAngleRight, faPlay, faDownload } from '@fortawesome/free-solid-svg-icons'
 import '../css/CourseDetails.css'
+import CommonTasks from '../js/CommonTasks'
 
 function CourseInfo() {
+    const commonTasks = new CommonTasks()
+    const [CourseDetails, setCourseDetails] = useState();
+
+    useEffect (() => {
+        const userID = localStorage.getItem('userID');
+        const getCourseDetails = async () => {
+            try {
+                const courseMaterialUrl = await commonTasks.getData("course-material-url")
+                
+                /* console.log("employee is ", users)
+                console.log("employee is ", employee)
+                Object.assign(employee, users) */
+                setCourseDetails(courseMaterialUrl)
+                console.log(courseMaterialUrl)
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+
+        getCourseDetails()
+
+    }, [])
+
     let {course_id} = useParams()
     return (
         <div className='container'>
@@ -146,6 +171,11 @@ function CourseInfo() {
                                                 <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>1. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.xlsx</p></a></p>
                                                 <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>2. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">Test file.docx</p></a></p>
                                                 <p className="m-0 d-flex align-items-center justify-content-start"><b>3. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.zip</p></a></p>
+                                                {CourseDetails ? (CourseDetails.map((image_name, index) => (
+                                                    <p className="m-0 d-flex align-items-center justify-content-start" key={index}><b>3. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">http://localhost:8000/static/images/{image_name.material_url}</p></a></p>
+                                                ))) : (
+                                                    <div className="div">Hi</div>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
