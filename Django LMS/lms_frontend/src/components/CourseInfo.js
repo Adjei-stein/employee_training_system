@@ -3,12 +3,46 @@ import React, {useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 import { faAngleRight, faPlay, faDownload } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
 import '../css/CourseDetails.css'
 import CommonTasks from '../js/CommonTasks'
 
 function CourseInfo() {
     const commonTasks = new CommonTasks()
     const [CourseDetails, setCourseDetails] = useState();
+
+    const downloadFile = (id, url) => {
+        // Disable the <a> tag
+        const aTag = document.getElementById("dfile" + id);
+        if (aTag) {
+            aTag.disabled = true;
+        } else {
+            console.error("Error: Unable to find <a> element.");
+            return;
+        }
+        console.log("Hiiiii")
+    
+        axios.get(url)
+            .then(response => {
+                const blobURL = window.URL.createObjectURL(new Blob([response.data]));
+                const fileName = url.split("/").pop();
+                aTag.href = blobURL;
+                aTag.setAttribute("download", fileName);
+                aTag.click();
+                window.URL.revokeObjectURL(blobURL);
+            })
+            .catch(error => {
+                console.error("Error downloading file:", error);
+            })
+            .finally(() => {
+                // Re-enable the <a> tag after the download is complete or if an error occurs
+                aTag.disabled = false;
+            });
+    };
+    
+    
+    
+    
 
     useEffect (() => {
         const userID = localStorage.getItem('userID');
@@ -172,7 +206,7 @@ function CourseInfo() {
                                                 <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>2. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">Test file.docx</p></a></p>
                                                 <p className="m-0 d-flex align-items-center justify-content-start"><b>3. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.zip</p></a></p>
                                                 {CourseDetails ? (CourseDetails.map((image_name, index) => (
-                                                    <p className="m-0 d-flex align-items-center justify-content-start" key={index}><b>3. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">http://localhost:8000/static/images/{image_name.material_url}</p></a></p>
+                                                    <p className="m-0 d-flex align-items-center justify-content-start" key={index}><b>3. </b><a onClick={()=>downloadFile(index, `http://127.0.0.1:8000/api/download/${image_name.material_url}`)} id={`dfile${index}`} className="px-2 d-flex align-items-center justify-content-center" ><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">http://localhost:8000/static/images/{image_name.material_url}</p></a></p>
                                                 ))) : (
                                                     <div className="div">Hi</div>
                                                 )}

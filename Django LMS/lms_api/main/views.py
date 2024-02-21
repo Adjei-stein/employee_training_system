@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from main.api.serializers import *
 from rest_framework.views import APIView
 from . import models
@@ -9,6 +9,59 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+import mimetypes
+import os
+from pathlib import Path
+
+def download_file(request, filename):
+    """Downloads a file from the static folder based on the provided filename.
+
+    Args:
+        request: The Django request object.
+        filename: The name of the file to download.
+
+    Returns:
+        An HttpResponse object with the file content and appropriate headers for download,
+        or an error response if the file is not found, unauthorized access is attempted,
+        or other errors occur.
+    """
+
+    # Check if user is authenticated (if necessary)
+    # Add authentication checks here based on your requirements
+
+    # Extract filename and extension using pathlib
+    filepath = Path(filename)
+    filename = filepath.name  # Get only the filename without path
+    extension = filepath.suffix  # Get the extension
+
+    # Check if valid extension based on allowed files
+    allowed_extensions = (".pdf", ".zip", ".jpg", ".png")  # Adjust based on allowed types
+    if extension not in allowed_extensions:
+        return render(request, 'error.html', {'error_message': 'Invalid file type'})
+
+    # Construct the full path to the file, ensuring it stays within static folder
+    static_url = os.path.join(os.path.dirname(__file__), '..', 'static')
+    file_path = os.path.join(static_url, filename)
+
+    # Check if the file exists within the allowed path
+    if not os.path.commonpath([static_url, file_path]) == static_url:
+        return render(request, 'error.html', {'error_message': 'Unauthorized access attempt'})
+
+    # Try to open the file and read content (if allowed)
+    try:
+        with open(file_path, 'rb') as file_object:
+            file_content = file_object.read()
+    except Exception as e:
+        return render(request, 'error.html', {'error_message': f"Error opening file: {e}"})
+
+    # Determine content type based on extension
+    content_type = mimetypes.types_map.get(extension, 'application/octet-stream')
+
+    # Create an HttpResponse object and set its content, headers, etc.
+    response = HttpResponse(file_content, content_type=content_type)
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response
 
 # Create your views here.
 """class EmployeeList(APIView):
