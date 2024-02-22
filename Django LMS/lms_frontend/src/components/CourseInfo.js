@@ -11,33 +11,39 @@ function CourseInfo() {
     const commonTasks = new CommonTasks()
     const [CourseDetails, setCourseDetails] = useState();
 
-    const downloadFile = (id, url) => {
+    const downloadFile = (url) => {
         // Disable the <a> tag
-        const aTag = document.getElementById("dfile" + id);
-        if (aTag) {
+        //const aTag = document.getElementById("dfile" + id);
+        /* if (aTag) {
             aTag.disabled = true;
         } else {
             console.error("Error: Unable to find <a> element.");
             return;
-        }
+        } */
         console.log("Hiiiii")
     
-        axios.get(url)
+        axios.get(url, { responseType: 'blob' })
             .then(response => {
-                const blobURL = window.URL.createObjectURL(new Blob([response.data]));
+                // Handle the blob response
+                const blob = response.data;
+                const blobURL = window.URL.createObjectURL(blob);
                 const fileName = url.split("/").pop();
-                aTag.href = blobURL;
-                aTag.setAttribute("download", fileName);
-                aTag.click();
-                window.URL.revokeObjectURL(blobURL);
+                const aTag = document.createElement("a");
+                if (aTag) {
+                    aTag.href = blobURL;
+                    aTag.setAttribute("download", fileName);
+                    document.body.appendChild(aTag);
+                    aTag.click();
+                    aTag.remove();
+                } else {
+                    console.error("Error: Unable to create <a> element.");
+                }
             })
             .catch(error => {
                 console.error("Error downloading file:", error);
-            })
-            .finally(() => {
-                // Re-enable the <a> tag after the download is complete or if an error occurs
-                aTag.disabled = false;
             });
+
+
     };
     
     
@@ -202,14 +208,22 @@ function CourseInfo() {
                                     <div className="card-body bg-transparent d-flex align-items-center justify-content-center p-0" style={{minWidth: "100%"}}>
                                         <div className="card bg-transparent border-0 rounded-0" style={{minWidth: "100%"}}>
                                             <div className="card-body bg-transparent text-white" style={{textAlign: "start"}}>
-                                                <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>1. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.xlsx</p></a></p>
+                                                {/* <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>1. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.xlsx</p></a></p>
                                                 <p className="m-0 mt-1 d-flex align-items-center justify-content-start"><b>2. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">Test file.docx</p></a></p>
-                                                <p className="m-0 d-flex align-items-center justify-content-start"><b>3. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.zip</p></a></p>
-                                                {CourseDetails ? (CourseDetails.map((image_name, index) => (
-                                                    <p className="m-0 d-flex align-items-center justify-content-start" key={index}><b>3. </b><a onClick={()=>downloadFile(index, `http://127.0.0.1:8000/api/download/${image_name.material_url}`)} id={`dfile${index}`} className="px-2 d-flex align-items-center justify-content-center" ><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">http://localhost:8000/static/images/{image_name.material_url}</p></a></p>
-                                                ))) : (
+                                                <p className="m-0 d-flex align-items-center justify-content-start"><b>3. </b><a  className="px-2 d-flex align-items-center justify-content-center"><FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">file.zip</p></a></p> */}
+                                                {CourseDetails ? (
+                                                    CourseDetails.map((image_name, index) => (
+                                                        <div className="m-0 d-flex align-items-center justify-content-start download-file-div" key={index}>
+                                                            <b>{index + 1}. </b>{/* <span>{image_name.material_url}</span><button onClick={() => downloadFile(`http://127.0.0.1:8000/api/download/${image_name.material_url}`)} className="btn btn-primary"><FontAwesomeIcon icon={faDownload}/> Download</button> */}
+                                                            <a onClick={() => downloadFile(`http://127.0.0.1:8000/api/download/${image_name.material_url}`)} id={`dfile${index}`} className="px-2 d-flex align-items-center justify-content-center">
+                                                                <FontAwesomeIcon icon={faDownload}/> <p className="m-0 px-1">{image_name.material_url}</p>
+                                                            </a>
+                                                        </div>
+                                                    ))
+                                                ) : (
                                                     <div className="div">Hi</div>
                                                 )}
+                                                
                                             </div>
                                         </div>
                                     </div>

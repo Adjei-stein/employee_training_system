@@ -167,7 +167,8 @@ function Courses() {
                                             course_description: allCourses[i].description,
                                             mandatory: allCourses[i].mandatory,
                                             mandatory_date: allCourses[i].mandatory_completion_date,
-                                            bookmark_status: bookmark_status
+                                            bookmark_status: bookmark_status,
+                                            course_image_url: allCourses[i].course_image_url
                                         })
                                     }
                                 }
@@ -181,7 +182,8 @@ function Courses() {
                                             course_description: allCourses[i].description,
                                             mandatory: allCourses[i].mandatory,
                                             mandatory_date: allCourses[i].mandatory_completion_date,
-                                            bookmark_status: bookmark_status
+                                            bookmark_status: bookmark_status,
+                                            course_image_url: allCourses[i].course_image_url
                                         }]
                                     })
                                 }
@@ -197,7 +199,8 @@ function Courses() {
                                         course_description: allCourses[i].description,
                                         mandatory: allCourses[i].mandatory,
                                         mandatory_date: allCourses[i].mandatory_completion_date,
-                                        bookmark_status: bookmark_status
+                                        bookmark_status: bookmark_status,
+                                        course_image_url: allCourses[i].course_image_url
                                     }]
                                 })
                                 //console.log(coursesArray)
@@ -306,7 +309,7 @@ function Courses() {
                                             {mandatoryCourses.map((mandatoryCourse, index) =>(
                                                 <div className="col-md-4 p-2" key={index}>
                                                     <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
-                                                        <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
+                                                        <img className="card-img-top" src={`http://127.0.0.1:8000/api/download/${mandatoryCourse.course_image_url}`} alt="Card image cap"/>
                                                         <div className="card-body border-top">
                                                             <div className="d-flex justify-content-start align-items-center">
                                                                 <h5 className="card-title mb-0 me-auto text-white">{mandatoryCourse.title}</h5>
@@ -349,7 +352,7 @@ function Courses() {
                                     {allSortedCourse.courses_row.map((course, index) =>(
                                         <div className="col-md-4 p-2 h-100" key={index}>
                                             <div className="card mt-4 border-0 h-100" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
-                                                <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
+                                                <img className="card-img-top" src={`http://127.0.0.1:8000/api/download/${course.course_image_url}`} alt="Card image cap"/>
                                                 <div className="card-body border-top">
                                                     <div className="d-flex align-items-center">
                                                         <h5 className="card-title mb-0 me-auto text-white">{course.course_title}</h5>

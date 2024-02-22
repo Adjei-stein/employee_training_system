@@ -17,3 +17,7 @@ table tbody .even {
     /* background-color: #2e3236;
     opacity: 0.8; */
 }
+
+.download-file-div:hover {
+    cursor: pointer;
+}

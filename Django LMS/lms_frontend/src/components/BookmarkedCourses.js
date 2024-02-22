@@ -93,7 +93,7 @@ function BookmarkedCourses (){
                                 {allBookmarkedCourses ? (allBookmarkedCourses.map((BookmarkedCourse, index) => (
                                     <div key={index} className="col-md-6">
                                         <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-                                            <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
+                                            <img className="card-img-top" src={`http://127.0.0.1:8000/api/download/${BookmarkedCourse.course_image_url}`} alt="Card image cap"/>
                                             <div className="card-body border-top">
                                                 <div className="d-flex align-items-center">
                                                     <h5 className="card-title mb-0 me-auto text-white">{BookmarkedCourse.title}</h5>
