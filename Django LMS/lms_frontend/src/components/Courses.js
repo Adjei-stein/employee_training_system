@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from  'react-router-dom'
+//import { Link } from  'react-router-dom'
 import { faBookmark, faClock } from '@fortawesome/free-regular-svg-icons'
-import { faTriangleExclamation, faPlus, faMinus, faSearch, faBookmark as fasBookmark } from '@fortawesome/free-solid-svg-icons'
-import { Col, Container, Row } from 'react-bootstrap';
-import axios from 'axios';
-import  * as baseFunctions from '../js/base';
+import { faPlus, faMinus, faSearch, faBookmark as fasBookmark } from '@fortawesome/free-solid-svg-icons'
+//import { Col, Container, Row } from 'react-bootstrap';
+//import axios from 'axios';
+//import  * as baseFunctions from '../js/base';
 import CommonTasks from '../js/CommonTasks'
+import '../css/Courses.css'
 
 function Courses() {
     const commonTasks = new CommonTasks()
@@ -15,6 +16,11 @@ function Courses() {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [isCollapsedArray, setIsCollapsedArray] = useState([]);
     const [filteredOption, getFilteredOption] = useState(allSortedCourses);
+
+    const goToSelectedCourse = (course_id) => {
+        localStorage.setItem('course_selected', course_id);
+        window.location.href = '/course-details/' + course_id;
+    }
 
     const handleCategorySelect = (selected_ctegory_id) => {
         console.log(selected_ctegory_id)
@@ -102,7 +108,7 @@ function Courses() {
 
     useEffect(() => {
 
-        
+        localStorage.removeItem('course_selected');
         const getAllCategories = async () => {
             try {
                 const categories = await commonTasks.getData("courses/category")
@@ -130,7 +136,7 @@ function Courses() {
                     //console.log(all_categories)
                     for (let i = 0; i < allCourses.length; i++){
                         //console.log("Here 2")
-                        if (allCourses[i].category == all_categories[j].id){
+                        if (allCourses[i].category === all_categories[j].id){
                             let bookmark_status = false;
                             for (let k = 0; k < bookmarks.length; k++) {
                                 if (bookmarks[k] === allCourses[i].id){
@@ -153,8 +159,8 @@ function Courses() {
                                     console.log("existingCourseCategory exists wai")
                                     const duplicateCoursesRow = existingCourseCategory.courses_row.find(
                                     (courses_row) =>
-                                        courses_row.course_id == allCourses[i].id &&
-                                        courses_row.course_title == allCourses[i].title
+                                        courses_row.course_id === allCourses[i].id &&
+                                        courses_row.course_title === allCourses[i].title
                                     );
                         
                                     if (duplicateCoursesRow) {
@@ -164,7 +170,7 @@ function Courses() {
                                         existingCourseCategory.courses_row.push({
                                             course_id: allCourses[i].id,
                                             course_title: allCourses[i].title,
-                                            course_description: allCourses[i].description,
+                                            course_description: allCourses[i].description.substring(0, 150) + "...",
                                             mandatory: allCourses[i].mandatory,
                                             mandatory_date: allCourses[i].mandatory_completion_date,
                                             bookmark_status: bookmark_status,
@@ -179,7 +185,7 @@ function Courses() {
                                         courses_row: [{
                                             course_id: allCourses[i].id,
                                             course_title: allCourses[i].title,
-                                            course_description: allCourses[i].description,
+                                            course_description: allCourses[i].description.substring(0, 150) + "...",
                                             mandatory: allCourses[i].mandatory,
                                             mandatory_date: allCourses[i].mandatory_completion_date,
                                             bookmark_status: bookmark_status,
@@ -196,7 +202,7 @@ function Courses() {
                                     courses_row: [{
                                         course_id: allCourses[i].id,
                                         course_title: allCourses[i].title,
-                                        course_description: allCourses[i].description,
+                                        course_description: allCourses[i].description.substring(0, 150) + "...",
                                         mandatory: allCourses[i].mandatory,
                                         mandatory_date: allCourses[i].mandatory_completion_date,
                                         bookmark_status: bookmark_status,
@@ -348,22 +354,22 @@ function Courses() {
                             </div>
                             
                             <div id={`collapse${index}`} className="collapse" aria-labelledby="headingOne">
-                                <div className="card-body p-0 d-flex align-items-center justify-content-start">
+                                <div className="card-body p-0 d-flex align-items-stretch justify-content-start">
                                     {allSortedCourse.courses_row.map((course, index) =>(
                                         <div className="col-md-4 p-2 h-100" key={index}>
                                             <div className="card mt-4 border-0 h-100" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
                                                 <img className="card-img-top" src={`http://127.0.0.1:8000/api/download/${course.course_image_url}`} alt="Card image cap"/>
                                                 <div className="card-body border-top">
-                                                    <div className="d-flex align-items-center">
+                                                    <div className="d-flex align-items-center" style={{height: "3rem"}}>
                                                         <h5 className="card-title mb-0 me-auto text-white">{course.course_title}</h5>
                                                         <button type="button" className="btn btn-secondary ms-auto" onClick={() => bookmarkCourse(allSortedCourse.course_category_id, course.bookmark_status, course.course_id, 3)}><FontAwesomeIcon icon={course.bookmark_status ? fasBookmark : faBookmark} className="" /></button> 
                                                     </div>
-                                                    <div className="d-flex p-2 justify-content-start" style={{minHeight: "10rem"}}>
+                                                    <div className="d-flex p-2 justify-content-start">
                                                         <p className="card-text text-start text-secondary">{course.course_description}</p>
                                                     </div>
                                                     <div className="d-flex justify-content-between align-items-center m-2">
                                                         <div className="btn-group">
-                                                            <button type="button" className="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button>
+                                                            <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => goToSelectedCourse(course.course_id)}>Go to course <FontAwesomeIcon icon="arrow-right" /></button>
                                                         </div>
                                                         <small className="text-secondary">9 mins</small>
                                                     </div>

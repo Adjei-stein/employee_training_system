@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Navbar from './components/MainNav'
 import Footer from './components/Footer'
 import Courses from './components/Courses'
-import CourseInfo from './components/CourseInfo'
+import Course from './components/Course'
 import Register from './components/Register';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
@@ -37,8 +37,8 @@ function App() {
             
             <Route path="/courses" element={<Courses />} />
             <Route path="/user-profile" element={<UserProfile />} />
-            <Route path="/course-info/:course_id" element={<CourseInfo />} />
             <Route path="/course-details/:course_id" element={<CourseDetails />} />
+            <Route path="/course/:course_id" element={<Course />} />
             <Route path="/help" element={<Help />} />
           </Routes>
 
