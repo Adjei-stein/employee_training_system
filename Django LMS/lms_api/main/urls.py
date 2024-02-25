@@ -14,6 +14,7 @@ urlpatterns = [
     path('course/<int:pk>/', views.CourseDetails.as_view()),
     path('course/chapter/', views.CourseChapterList.as_view()),
     path('courses/enrolled/', views.UserEnrolledCoursesList.as_view()),
+    path('courses/enrolled/<int:user_id_id>', views.UserEnrolledCoursesDetails.as_view()),
     path('courses/bookmarks/', views.BookmarkedCoursesList.as_view()),
     path('courses/bookmarked/<int:course_id_id>/<int:user_id_id>', views.BookmarkedCoursesRemoval.as_view()),
     path('faqs/', views.FrequentlyAskedQuestionsList.as_view()),

@@ -13,35 +13,31 @@ function Home() {
     //const [employee, getEmployee] = useState(null)
     const [mandatoryCourses, setMandatoryCourses] = useState(null)
 
+    const goToSelectedCourse = (course_id) => {
+        localStorage.setItem('course_selected', course_id);
+        window.location.href = '/course-details/' + course_id;
+    }
+
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const mandatory_courses = baseFunctions.getData("courses/mandatory")
-        const getData = async() => {
+        const getAllCoursesAndInfo = async () => {
             if (token){
-                axios.get(baseFunctions.baseURL + '/api/courses/mandatory', {
-                    headers: {
-                        Authorization: 'Token ' + token
-                    }
-                })
-                .then((response) => {
-                    // handle success
-                    console.log(response.data);
-                    console.log(response.data.length);
-                    setMandatoryCourses(response.data)
-                    
-                })
-                .catch((error) => {
-                    // handle error
-                    console.error(error);
-                });
+                try {
+                    const mandatory_courses = await commonTasks.getData("courses/mandatory")
+                    setMandatoryCourses(mandatory_courses)
+                    console.log("mandatory_courses is ", mandatory_courses)
+                }
+                catch (error) {
+                    console.log(error)
+                }
             }
             else {
                 window.location.href = '/';
-                
             }
-            
         }
-        getData()
+
+        
+        getAllCoursesAndInfo()
     }, []);
   return (
     <div className='container'>
@@ -129,7 +125,7 @@ function Home() {
                                                 </div>
                                                 <div className="d-flex justify-content-between align-items-center">
                                                     <div className="btn-group">
-                                                        <a href="/course-info/1" style={{textDecoration: "none"}}><button type="button" className="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button></a>
+                                                    <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => goToSelectedCourse(mandatoryCourse.id)}>Go to course <FontAwesomeIcon icon="arrow-right" /></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -139,80 +135,6 @@ function Home() {
                             </div>) : (
                                 <h1>Getting Something</h1>
                             )}
-                            {/* <div className="row d-flex" style={{flexWrap: "nowrap", overflowX: "auto", minWidth: "100%", maxWidth: "100%"}}>
-                                <div className="col-md-4 p-2">
-                                    <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
-                                        <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
-                                        <div className="card-body border-top">
-                                            <div className="d-flex justify-content-start align-items-center">
-                                                <h5 className="card-title mb-0 me-auto text-white">Visual Studio Code</h5>
-                                            </div>
-                                            <div className='d-flex justify-content-start align-items-center mb-3'>
-                                                <h5 className='m-0'><span className="badge bg-warning"><FontAwesomeIcon icon={faClock}/> 06-09-2023</span></h5>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="btn-group">
-                                                    <a href="/course-info/1" style={{textDecoration: "none"}}><button type="button" className="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 p-2">
-                                    <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
-                                        <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
-                                        <div className="card-body border-top">
-                                            <div className="d-flex justify-content-start align-items-center">
-                                                <h5 className="card-title mb-0 me-auto text-white">Visual Studio Code</h5>
-                                            </div>
-                                            <div className='d-flex justify-content-start align-items-center mb-3'>
-                                                <h5 className='m-0'><span className="badge bg-danger"><FontAwesomeIcon icon={faTriangleExclamation}/> 06-03-2023 - Overdue</span></h5>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="btn-group">
-                                                    <a href="/course-info/1" style={{textDecoration: "none"}}><button type="button" className="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 p-2">
-                                    <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
-                                        <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
-                                        <div className="card-body border-top">
-                                            <div className="d-flex justify-content-start align-items-center">
-                                                <h5 className="card-title mb-0 me-auto text-white">Visual Studio Code</h5>
-                                            </div>
-                                            <div className='d-flex justify-content-start align-items-center mb-3'>
-                                                <h5 className='m-0'><span className="badge bg-warning"><FontAwesomeIcon icon={faClock}/> 06-09-2023</span></h5>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="btn-group">
-                                                    <a href="/course-info/1" style={{textDecoration: "none"}}><button type="button" className="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 p-2">
-                                    <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
-                                        <img className="card-img-top" src="vs-code-logo.png" alt="Card image cap"/>
-                                        <div className="card-body border-top">
-                                            <div className="d-flex justify-content-start align-items-center">
-                                                <h5 className="card-title mb-0 me-auto text-white">Visual Studio Code</h5>
-                                            </div>
-                                            <div className='d-flex justify-content-start align-items-center mb-3'>
-                                                <h5 className='m-0'><span className="badge bg-warning"><FontAwesomeIcon icon={faClock}/> 06-09-2023</span></h5>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="btn-group">
-                                                    <a href="/course-info/1" style={{textDecoration: "none"}}><button type="button" className="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 </div>

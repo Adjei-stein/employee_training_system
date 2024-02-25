@@ -13,6 +13,11 @@ function CourseDetails() {
     const [CourseMaterials, setCourseMaterials] = useState();
     const [test, setTest] = useState();
 
+    const goToCourse = (course_id) => {
+        localStorage.setItem('course_selected', course_id);
+        window.location.href = '/course/' + course_id;
+    }
+
     const downloadFile = (url) => {
         console.log("Downloading file")
     
@@ -68,7 +73,7 @@ function CourseDetails() {
                 <div className="card border-0 rounded-0 text-white p-2" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
                     <div className="card-header d-flex align-items-stretch justify-content-center">
                         <div className="col-md-8 d-flex align-items-stretch justify-content-center mx-2">
-                            <img className="img-thumbnail bg-transparent border-0" src={CourseDetails ? `http://127.0.0.1:8000/static/${CourseDetails.course_image_url}` : '/Jira-Logo-White-3800x1200.jpg'} alt="..." style={{width: "100%"}}/>
+                            <img className="img-thumbnail bg-transparent border-0" src={CourseDetails ? `http://127.0.0.1:8000/static/${CourseDetails.course_image_url}` : ''} alt="..." style={{width: "100%"}}/>
                         </div>
                         <div className="col-md-4 d-flex flex-column justify-content-between mx-2 py-2">
                             <div className="border-bottom border-light">
@@ -91,7 +96,7 @@ function CourseDetails() {
                             </div>
                             <div className="d-flex stretch align-items-center justify-content-start mt-1">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-light">Start course <FontAwesomeIcon icon="arrow-right" /></button>
+                                    <button type="button" class="btn btn-sm btn-outline-light" onClick={()=>goToCourse(CourseDetails.id)}>Start course <FontAwesomeIcon icon="arrow-right" /></button>
                                 </div>
                             </div>
                         </div>

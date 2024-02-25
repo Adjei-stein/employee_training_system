@@ -35,7 +35,7 @@ def download_file(request, filename):
     extension = filepath.suffix  # Get the extension
 
     # Check if valid extension based on allowed files
-    allowed_extensions = (".pdf", ".zip", ".jpg", ".png")  # Adjust based on allowed types
+    allowed_extensions = (".pdf", ".zip", ".jpg", ".png")
     if extension not in allowed_extensions:
         return render(request, 'error.html', {'error_message': 'Invalid file type'})
 
@@ -184,6 +184,18 @@ class UserEnrolledCoursesList(generics.ListCreateAPIView):
     queryset = models.UserEnrolledCourses.objects.all()
     serializer_class = UserEnrolledCoursesSerialzer
     permission_classes = [permissions.IsAuthenticated]
+
+class UserEnrolledCoursesDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.UserEnrolledCourses.objects.all()
+    serializer_class = UserEnrolledCoursesSerialzer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        user_id = self.kwargs['user_id_id']
+        obj = get_object_or_404(queryset, user_id=user_id)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 class BookmarkedCoursesList(generics.ListCreateAPIView):
     queryset = models.BookmarkedCourses.objects.all()

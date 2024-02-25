@@ -325,7 +325,7 @@ function Courses() {
                                                             </div>
                                                             <div className="d-flex justify-content-between align-items-center">
                                                                 <div className="btn-group">
-                                                                    <a href="/course-info/1" style={{textDecoration: "none"}}><button type="button" className="btn btn-sm btn-outline-secondary">Go to course <FontAwesomeIcon icon="arrow-right" /></button></a>
+                                                                    <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => goToSelectedCourse(mandatoryCourse.id)}>Go to course <FontAwesomeIcon icon="arrow-right" /></button>
                                                                 </div>
                                                             </div>
                                                         </div>

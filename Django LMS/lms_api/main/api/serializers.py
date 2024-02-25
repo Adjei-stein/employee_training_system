@@ -29,7 +29,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['id', 'user', 'gender', 'date_of_birth', 'phone_number', 'citizenship', 'region', 'city', 'educational_level']
+        fields = ['id', 'user', 'gender', 'date_of_birth', 'phone_number', 'citizenship', 'region', 'city', 'educational_level', 'profile_image']
 
 class CourseCategorySerializer(serializers.ModelSerializer):
     class Meta:
