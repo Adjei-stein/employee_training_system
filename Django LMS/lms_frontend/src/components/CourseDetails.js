@@ -80,6 +80,9 @@ function CourseDetails() {
                                 <p className="text-start mb-0"><span className="fw-bold">Course Title:</span> {CourseDetails ? CourseDetails.title : 'None'}</p>
                             </div>
                             <div className="border-bottom border-light">
+                                <p className="text-start mb-0"><span className="fw-bold">Course Instructor:</span> {CourseDetails ? CourseDetails.course_instructor : 'None'}</p>
+                            </div>
+                            <div className="border-bottom border-light">
                                 <p className="text-start mb-0"><span className="fw-bold">Prerequisites:</span> None</p>
                             </div>
                             <div className="border-bottom border-light">
