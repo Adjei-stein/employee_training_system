@@ -180,6 +180,16 @@ class CourseChapterList(generics.ListCreateAPIView):
     serializer_class = CourseChapterSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class SpecificCourseChapters(generics.ListCreateAPIView):
+    #queryset = models.CourseChapter.objects.all()
+    serializer_class = CourseChapterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        queryset = models.CourseChapter.objects.filter(course_id=course_id)
+        return queryset
+
 class UserEnrolledCoursesList(generics.ListCreateAPIView):
     queryset = models.UserEnrolledCourses.objects.all()
     serializer_class = UserEnrolledCoursesSerialzer

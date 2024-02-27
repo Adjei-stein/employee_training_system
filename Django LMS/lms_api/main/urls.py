@@ -13,6 +13,7 @@ urlpatterns = [
     path('courses/mandatory/', views.MandatoryCoursesList.as_view()),
     path('course/<int:pk>/', views.CourseDetails.as_view()),
     path('course/chapter/', views.CourseChapterList.as_view()),
+    path('course/chapter/<int:course_id>', views.SpecificCourseChapters.as_view()),
     path('courses/enrolled/', views.UserEnrolledCoursesList.as_view()),
     path('courses/enrolled/<int:user_id_id>', views.UserEnrolledCoursesDetails.as_view()),
     path('courses/bookmarks/', views.BookmarkedCoursesList.as_view()),
