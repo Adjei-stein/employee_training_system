@@ -4,36 +4,86 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay} from '@fortawesome/free-solid-svg-icons';
 import {Document, Page} from 'react-pdf'
 import '../css/Course.css'
+import CommonTasks from '../js/CommonTasks'
 //import pdfFile from '../pdf/boarding.pdf'
 //import PdfViewer from './Pdf.js'
 
 function Course() {
     //let {course_id} = useParams()
+    const commonTasks = new CommonTasks()
+    const [activeTab, showContent] = useState(1)
+    const [courseChapters, showChapterContent] = useState(null)
+    const [courseTitle, getCourseTitle] = useState('')
+    const [chapterURL, getChapterURL] = useState('')
+    const [mediaType, getMediaType] = useState(null)
 
-    const [activeTab, showContent] = useState('1.1.1')
-
-    const showTabContent = (activate) => {
+    const showTabContent = (activate, media_type, media) => {
         showContent(activate)
+        getChapterURL(media)
+        getMediaType(media_type)
     }
 
     const iframeRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true); // Initial loading state
     const [isError, setIsError] = useState(false);
 
+    const convertDuration = (duration) => {
+        const [hours, minutes, seconds] = duration.split(':').map(Number);
+    
+        let result = '';
+        if (hours > 0) {
+            result += hours + ' hrs ';
+        }
+        if (minutes > 0 || hours > 0) {
+            result += minutes + ' mins';
+        }
+    
+        if (result === '') {
+            result = seconds + ' secs';
+        }
+    
+        return result;
+    }
+
     useEffect(() => {
         const iframe = iframeRef.current;
         const loadingIndicator = document.querySelector('.spinner-border');
 
         // Attach event listeners only if iframe is not null
-    if (iframe) {
-        iframe.onload = () => {
-          setIsLoading(false);
-        };
-  
-        iframe.onerror = () => {
-          setIsError(true);
-        };
-      }
+        if (iframe) {
+            iframe.onload = () => {
+            setIsLoading(false);
+            };
+    
+            iframe.onerror = () => {
+            setIsError(true);
+            };
+        }
+
+        
+
+        const getCourseChapters = async () => {
+            try {
+                const course_chapters = await commonTasks.getData("course/chapter/2")
+                const course = await commonTasks.getData("course/2")
+                console.log("course_chapters is ", course_chapters)
+                console.log("course chapter 1 is ", course_chapters[0].chapter_url)
+                if (course_chapters && course_chapters[0].media_type && course_chapters[0].chapter_url) {
+                    getChapterURL(course_chapters[0].chapter_url)
+                    getMediaType(course_chapters[0].media_type)
+                }
+                
+                console.log("course is ", course)
+                console.log("course title is ", course.title)
+                showChapterContent(course_chapters)
+                getCourseTitle(course.title)
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+
+        getCourseChapters()
     }, []);
     
 
@@ -41,7 +91,7 @@ function Course() {
         <div className="container">
             <div className="row">
                 <div className="fixed-height col-md-12 d-flex" style={{height: "70vh", minHeight: "70vh", overflowY: "none"}}>
-                    <div className='col-md-7 d-flex align-items-center justify-content-center' style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }}>
+                    {/* <div className='col-md-7 d-flex align-items-center justify-content-center' style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }}>
                         {activeTab === '1.1.1' && (
                             <div className="ratio ratio-16x9">
                                 <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowFullScreen></iframe>
@@ -65,96 +115,51 @@ function Course() {
                             <h2>1.1.5</h2>
                         )}
                         
+                    </div> */}
+
+                    <div className='col-md-7 d-flex align-items-center justify-content-center' style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }}>
+                        <div className="ratio ratio-16x9">
+
+                            {mediaType && chapterURL ? (mediaType === 1 ? <iframe width="560" height="315" src={`https://www.youtube.com/embed/${chapterURL}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe> : mediaType === 2 ? <iframe src={chapterURL} width="600" height="400"></iframe> : <img src={chapterURL}  alt="..." width="600" height="400"/>) : ('')}
+                            
+                        </div>
+                        
                     </div>
                     <div className="col-md-5" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
                         <div className="col-md-12" style={{minHeight: "10%", width: "100%"}}>
-                            <h2 className='text-white'>Chapter Title Field</h2>
+                            <h3 className='text-white'>{courseTitle ? courseTitle : ''}</h3>
                         </div>
                         <div className="col-md-12" style={{overflowY: "auto", overflowX: "hidden", maxHeight: "90%"}}>
                             <div className="card bg-transparent border-0 first-card">
                                 <nav className="nav nav-pills flex-column flex-sm-column m-3" style={{maxHeight: "100%" }}>
                                     <div>
-                                        {/* showTabContent('course_id.  course_chapter  .course_chapter_verse') */}
-                                        <a className={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === '1.1.1' ? 'active' : ''}`} onClick={() => showTabContent('1.1.1')}>
+                                    {courseChapters ? (courseChapters.map((chapter, index) => (
+                                        <a key={index} className={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === chapter.chapter_number ? 'active' : 'bg-secondary'}`} onClick={() => showTabContent(chapter.chapter_number, chapter.media_type, chapter.chapter_url)}>
                                             <div className="col-sm-1 d-flex align-items-center justify-content-center">
                                                 <FontAwesomeIcon icon={faPlay}/>
                                             </div>
                                             <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
                                                 <div className="col-sm-12">
-                                                    <span><b>Getting Started</b></span>
+                                                    <span><b>{chapter.chapter_title}</b></span>
                                                 </div>
                                                 <div className="col-sm-12">
-                                                    <small>Video</small>
+                                                    <small>{chapter ? (chapter.media_type === 1 ? 'Video' : chapter.media_type === 2 ? 'PDF' : 'Image') : ''}</small>
                                                 </div>
                                             </div>
                                             <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                <small className="text-white">00:50</small>
+                                                <small className="text-white">{convertDuration(chapter.estimated_completion_time)}</small>
                                             </div>
                                         </a>
-                                        <a class={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === '1.1.2' ? 'active' : ''}`} onClick={() => showTabContent('1.1.2')}>
-                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                <FontAwesomeIcon icon={faPlay}/>
-                                            </div>
-                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
+                                    ))) : (
+                                        <a className="flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1">
+                                            <div className="col-sm-12" style={{paddingLeft: "2%", paddingRight: "2%"}}>
                                                 <div className="col-sm-12">
-                                                    <span><b>Introduction to IDE</b></span>
+                                                    <span><b>No chapters available</b></span>
                                                 </div>
-                                                <div className="col-sm-12">
-                                                    <small>Video</small>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                <small className="text-white">01:23</small>
                                             </div>
                                         </a>
-                                        <a class={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === '1.1.3' ? 'active' : ''}`} onClick={() => showTabContent('1.1.3')}>
-                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                <FontAwesomeIcon icon={faPlay}/>
-                                            </div>
-                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
-                                                <div className="col-sm-12">
-                                                    <span><b>Setup and Walkthrough on Features: Part 1</b></span>
-                                                </div>
-                                                <div className="col-sm-12">
-                                                    <small>Video</small>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                <small className="text-white">03:45</small>
-                                            </div>
-                                        </a>
-                                        <a class={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === '1.1.4' ? 'active' : ''}`} onClick={() => showTabContent('1.1.4')}>
-                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                <FontAwesomeIcon icon={faPlay}/>
-                                            </div>
-                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
-                                                <div className="col-sm-12">
-                                                    <span><b>Setup and Walkthrough on Features: Part 2</b></span>
-                                                </div>
-                                                <div className="col-sm-12">
-                                                    <small>Video</small>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                <small className="text-white">05:50</small>
-                                            </div>
-                                        </a>
-                                        <a class={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === '1.1.5' ? 'active' : ''}`} onClick={() => showTabContent('1.1.5')}>
-                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                <FontAwesomeIcon icon={faPlay}/>
-                                            </div>
-                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
-                                                <div className="col-sm-12">
-                                                    <span><b>Shortcut Keys</b></span>
-                                                </div>
-                                                <div className="col-sm-12">
-                                                    <small>Video</small>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                <small className="text-white">50:00</small>
-                                            </div>
-                                        </a>
+                                    )}
+
                                     </div>
                                 </nav>
                             </div>

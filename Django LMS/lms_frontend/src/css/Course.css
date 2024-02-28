@@ -21,3 +21,8 @@ table tbody .even {
 .download-file-div:hover {
     cursor: pointer;
 }
+
+.nav-pills .nav-link.active {
+    background-color: #272d33 !important;
+    /* Add any other styles you'd like for the active link */
+}
