@@ -53,6 +53,28 @@ export default class CommonTasks {
         }
     }
 
+    async putData(directory, payload) {
+        let token = localStorage.getItem('token');
+        if (token){
+            try {
+                const response = await axios.put(baseURL + '/api/' + directory + "/", payload, {
+                    headers: {
+                        Authorization: 'Token ' + token
+                    }
+                })
+                return response
+            }
+            catch(error) {
+                // handle error
+                console.error(error);
+                return error
+            };
+        }
+        else {
+            window.location.href = '/';
+        }
+    }
+
     async loginUser (username, password) {
         try {
             const response = await axios.post(baseURL + '/api/login/', { username, password });

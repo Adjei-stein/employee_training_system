@@ -39,6 +39,30 @@ function ProfileSettings() {
     };
 
     useEffect (() => {
+
+        const test_employee_list_update = async () => {
+            try {
+                let data = {
+                        "id": 1,
+                        "user": 3,
+                        "gender": "F",
+                        "date_of_birth": "2024-02-14",
+                        "phone_number": "0500067545",
+                        "citizenship": "Ghanaian",
+                        "region": "Greater Accra",
+                        "city": "Kasoa",
+                        "educational_level": "BSc. Computer Science",
+                        "profile_image": "joker-in-cop-car.jpg"
+                    }
+                const post_data = await commonTasks.putData("employee/3", data)
+                console.log("post_data isssss ", post_data)
+            }
+            catch (error){
+
+            }
+        }
+
+
         const userID = localStorage.getItem('userID');
         const getUserDetails = async () => {
             try {
@@ -56,7 +80,7 @@ function ProfileSettings() {
         }
 
         getUserDetails()
-
+        test_employee_list_update()
     }, [])
 
     return (

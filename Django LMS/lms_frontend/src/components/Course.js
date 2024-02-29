@@ -9,7 +9,7 @@ import CommonTasks from '../js/CommonTasks'
 //import PdfViewer from './Pdf.js'
 
 function Course() {
-    //let {course_id} = useParams()
+    const {course_id} = useParams()
     const commonTasks = new CommonTasks()
     const [activeTab, showContent] = useState(1)
     const [courseChapters, showChapterContent] = useState(null)
@@ -63,9 +63,10 @@ function Course() {
         
 
         const getCourseChapters = async () => {
+            console.log(`course/chapter/${course_id}`)
             try {
-                const course_chapters = await commonTasks.getData("course/chapter/2")
-                const course = await commonTasks.getData("course/2")
+                const course_chapters = await commonTasks.getData(`course/chapter/${course_id}`)
+                const course = await commonTasks.getData(`course/${course_id}`)
                 console.log("course_chapters is ", course_chapters)
                 console.log("course chapter 1 is ", course_chapters[0].chapter_url)
                 if (course_chapters && course_chapters[0].media_type && course_chapters[0].chapter_url) {
@@ -126,7 +127,7 @@ function Course() {
                         
                     </div>
                     <div className="col-md-5" style={{background: 'rgba(0, 0, 0, 0.8)'}}>
-                        <div className="col-md-12" style={{minHeight: "10%", width: "100%"}}>
+                        <div className="col-md-12 mb-1" style={{minHeight: "10%", width: "100%", backgroundColor: "black"}}>
                             <h3 className='text-white'>{courseTitle ? courseTitle : ''}</h3>
                         </div>
                         <div className="col-md-12" style={{overflowY: "auto", overflowX: "hidden", maxHeight: "90%"}}>
@@ -159,7 +160,6 @@ function Course() {
                                             </div>
                                         </a>
                                     )}
-
                                     </div>
                                 </nav>
                             </div>
