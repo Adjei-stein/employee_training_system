@@ -7,7 +7,33 @@ import CommonTasks from '../js/CommonTasks'
 function ProfileSettings() {
     const commonTasks = new CommonTasks()
     const [getUserDetails, setUserDetails] = useState();
+    const [gender, setGender] = useState();
+    const [dateOfBirth, setDateOfBirth] = useState();
+    const [phoneNumber, setPhoneNumber] = useState();
+    const [citizenship, setCitizenship] = useState();
+    const [region, setRegion] = useState();
+    const [city, setCity] = useState();
+    const [educationalLevel, setEducationalLevel] = useState(0);
+
+    //List of educational levels
+    const educationalLevels = [
+        { id: 1, name: "No formal education" },
+        { id: 2, name: "Primary education" },
+        { id: 3, name: "Secondary education" },
+        { id: 4, name: "High school diploma or equivalent" },
+        { id: 5, name: "Vocational qualification" },
+        { id: 6, name: "Associate degree" },
+        { id: 7, name: "Bachelor's degree" },
+        { id: 8, name: "Master's degree" },
+        { id: 9, name: "Doctorate or higher" }
+    ];
     
+    //List of genders
+    const genders = [
+        { id: 1, name: "Male" },
+        { id: 2, name: "Female" },
+    ];
+
     // Get today's date
     const today = new Date();
     
@@ -25,6 +51,34 @@ function ProfileSettings() {
         console.log(date.target.value)
         setSelectedDate(date.target.value);
     };
+
+    const handleCityChange = (e) => {
+        console.log(e.target.value)
+        setCity(e.target.value);
+    };
+
+    const handlePhoneNumberChange = (e) => {
+        setPhoneNumber(e.target.value);
+    };
+
+    const handleGenderChange = (e) => {
+        setGender(e.target.value);
+    };
+
+    const handleCitizenshipChange = (e) => {
+        setCitizenship(e.target.value);
+    };
+
+    const handleRegionChange = (e) => {
+        setRegion(e.target.value);
+    };
+
+    const handleEducationalLevelChange = (e) => {
+        setEducationalLevel(e.target.value);
+    };
+
+
+    ////////////////////////////////////////////
 
     const fileInputRef = useRef(null);
 
@@ -73,6 +127,13 @@ function ProfileSettings() {
                 console.log("employee is ", employee)
                 Object.assign(employee, users)
                 setUserDetails(employee)
+                setGender(employee.gender)
+                setDateOfBirth(employee.date_of_birth)
+                setPhoneNumber(employee.phone_number)
+                setCitizenship(employee.citizenship)
+                setRegion(employee.region)
+                setCity(employee.city)
+                //setEducationalLevel(employee.educational_level)
             }
             catch (error) {
                 console.log(error)
@@ -80,14 +141,14 @@ function ProfileSettings() {
         }
 
         getUserDetails()
-        test_employee_list_update()
+        //test_employee_list_update()
     }, [])
 
     return (
         <div className="col-md-12 bg-transparent" style={{overflowY: "auto", overflowX: "hidden", height: "100%" }} id="list-profile-settings" role="tabpanel" aria-labelledby="list-profile-settings">
             <div className="col-md-12">
                 <div className="card mx-2 bg-transparent border-0 my-4">
-                    <form>
+                    <div>
                             <div className="row mb-2">
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                     <div class="input-file input-file-image">
@@ -157,8 +218,9 @@ function ProfileSettings() {
                                             <div className="input-group">
                                                 <select id="region" className="form-control bg-dark text-white border-secondary">
                                                     <option disabled selected hidden>Select Gender</option>
-                                                    <option>Male</option>
-                                                    <option>Female</option>
+                                                    {genders.map(gen => (
+                                                        <option key={gen.id} value={gen.id}>{gen.name}</option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
@@ -185,7 +247,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}><FontAwesomeIcon icon={faPhone}/></span>
                                                 </div> */}
-                                                <input type="tel" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Mobile Number" value={getUserDetails ? getUserDetails.phone_number : "null"}/>
+                                                <input type="tel" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Mobile Number" value={phoneNumber ? phoneNumber : ""} onChange={handlePhoneNumberChange }/>
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +294,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">City</span>
                                                 </div> */}
-                                                <input type="text" className="form-control bg-dark text-white border-secondary" id="inputCity" placeholder="Town/Village/City" value={getUserDetails ? getUserDetails.city : "null"}/>
+                                                <input type="text" className="form-control bg-dark text-white border-secondary" id="inputCity" placeholder="Town/Village/City" value={city ? city : ""} onChange={handleCityChange}/>
                                             </div>
                                         </div>
                                     </div>
@@ -249,8 +311,10 @@ function ProfileSettings() {
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}>Educational level</span>
                                                 </div> */}
                                                 <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                    <option selected>Choose Educational Level</option>
-                                                    <option>Bachelor's Degree</option>
+                                                    <option selected disabled hidden>Choose Educational Level</option>
+                                                    {educationalLevels.map(level => (
+                                                        <option key={level.id} value={level.id}>{level.name}</option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
@@ -258,7 +322,7 @@ function ProfileSettings() {
                                 </div>
                             </div>  
                         <button type="submit" className="btn btn-success">Submit <FontAwesomeIcon icon={faTelegram}/></button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
