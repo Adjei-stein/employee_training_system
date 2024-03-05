@@ -15,6 +15,65 @@ function ProfileSettings() {
     const [city, setCity] = useState();
     const [educationalLevel, setEducationalLevel] = useState(0);
 
+
+    //List of countries
+    const africanCountries = [
+        { id: 1, name: 'Algeria' },
+        { id: 2, name: 'Angola' },
+        { id: 3, name: 'Benin' },
+        { id: 4, name: 'Botswana' },
+        { id: 5, name: 'Burkina Faso' },
+        { id: 6, name: 'Burundi' },
+        { id: 7, name: 'Cabo Verde' },
+        { id: 8, name: 'Cameroon' },
+        { id: 9, name: 'Central African Republic' },
+        { id: 10, name: 'Chad' },
+        { id: 11, name: 'Comoros' },
+        { id: 12, name: 'Congo' },
+        { id: 13, name: 'Democratic Republic of the Congo' },
+        { id: 14, name: 'Djibouti' },
+        { id: 15, name: 'Egypt' },
+        { id: 16, name: 'Equatorial Guinea' },
+        { id: 17, name: 'Eritrea' },
+        { id: 18, name: 'Eswatini' },
+        { id: 19, name: 'Ethiopia' },
+        { id: 20, name: 'Gabon' },
+        { id: 21, name: 'Gambia' },
+        { id: 22, name: 'Ghana' },
+        { id: 23, name: 'Guinea' },
+        { id: 24, name: 'Guinea-Bissau' },
+        { id: 25, name: 'Ivory Coast' },
+        { id: 26, name: 'Kenya' },
+        { id: 27, name: 'Lesotho' },
+        { id: 28, name: 'Liberia' },
+        { id: 29, name: 'Libya' },
+        { id: 30, name: 'Madagascar' },
+        { id: 31, name: 'Malawi' },
+        { id: 32, name: 'Mali' },
+        { id: 33, name: 'Mauritania' },
+        { id: 34, name: 'Mauritius' },
+        { id: 35, name: 'Morocco' },
+        { id: 36, name: 'Mozambique' },
+        { id: 37, name: 'Namibia' },
+        { id: 38, name: 'Niger' },
+        { id: 39, name: 'Nigeria' },
+        { id: 40, name: 'Rwanda' },
+        { id: 41, name: 'Sao Tome and Principe' },
+        { id: 42, name: 'Senegal' },
+        { id: 43, name: 'Seychelles' },
+        { id: 44, name: 'Sierra Leone' },
+        { id: 45, name: 'Somalia' },
+        { id: 46, name: 'South Africa' },
+        { id: 47, name: 'South Sudan' },
+        { id: 48, name: 'Sudan' },
+        { id: 49, name: 'Tanzania' },
+        { id: 50, name: 'Togo' },
+        { id: 51, name: 'Tunisia' },
+        { id: 52, name: 'Uganda' },
+        { id: 53, name: 'Zambia' },
+        { id: 54, name: 'Zimbabwe' }
+    ];
+
     //List of educational levels
     const educationalLevels = [
         { id: 1, name: "No formal education" },
@@ -127,12 +186,34 @@ function ProfileSettings() {
                 console.log("employee is ", employee)
                 Object.assign(employee, users)
                 setUserDetails(employee)
-                setGender(employee.gender)
+                if (employee.gender == "F") {
+                    setGender(2)
+                }
+                else if (employee.gender == "M") {
+                    setGender(1)
+                }
+                else {
+                    setGender(0)
+                }
+                
                 setDateOfBirth(employee.date_of_birth)
                 setPhoneNumber(employee.phone_number)
-                setCitizenship(employee.citizenship)
+
+                for (let i = 0; i < africanCountries.length; i++) {
+                    if (africanCountries[i].name === employee.citizenship) {
+                        setCitizenship(africanCountries[i].id)
+                    }
+                }
+                //setCitizenship(employee.citizenship)
                 setRegion(employee.region)
                 setCity(employee.city)
+
+                
+                for (let i = 0; i < educationalLevels.length; i++) {
+                    if (educationalLevels[i].name === employee.educational_level) {
+                        setEducationalLevel(educationalLevels[i].id)
+                    }
+                }
                 //setEducationalLevel(employee.educational_level)
             }
             catch (error) {
@@ -216,8 +297,8 @@ function ProfileSettings() {
                                         </div>
                                         <div className="col-md-11 mx-2">
                                             <div className="input-group">
-                                                <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                    <option disabled selected hidden>Select Gender</option>
+                                                <select id="region" value={gender} className="form-control bg-dark text-white border-secondary">
+                                                    <option key={0} value={0} disabled selected hidden>Select Gender</option>
                                                     {genders.map(gen => (
                                                         <option key={gen.id} value={gen.id}>{gen.name}</option>
                                                     ))}
@@ -254,14 +335,15 @@ function ProfileSettings() {
                                     
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Telephone</strong></h5></label>
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Country</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
-                                                <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                    <option disabled selected hidden>Select citizenship</option>
-                                                    <option>Ghanaian</option>
-                                                    <option>Togolese</option>
+                                                <select id="citizenships" className="form-control bg-dark text-white border-secondary" value={citizenship}>
+                                                    <option key={0} value={0} disabled selected hidden>Select Country</option>
+                                                    {africanCountries .map(country => (
+                                                        <option key={country.id} value={country.id}>{country.name}</option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
@@ -271,17 +353,14 @@ function ProfileSettings() {
                                 <div className="d-flex align-items-center justify-content-center">
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Region</strong></h5></label>
+                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>State/Province</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Region</span>
                                                 </div> */}
-                                                <select id="region" className="form-control bg-dark text-white border-secondary">
-                                                    <option selected>Choose Region</option>
-                                                    <option>...</option>
-                                                </select>
+                                                <input type="text" className="form-control bg-dark text-white border-secondary" id="inputCity" placeholder="State/Province" value={region ? region : ""} onChange={handleRegionChange}/>
                                             </div>
                                         </div>
                                     </div>
@@ -310,7 +389,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}>Educational level</span>
                                                 </div> */}
-                                                <select id="region" className="form-control bg-dark text-white border-secondary">
+                                                <select id="region" className="form-control bg-dark text-white border-secondary" value={educationalLevel}>
                                                     <option selected disabled hidden>Choose Educational Level</option>
                                                     {educationalLevels.map(level => (
                                                         <option key={level.id} value={level.id}>{level.name}</option>
