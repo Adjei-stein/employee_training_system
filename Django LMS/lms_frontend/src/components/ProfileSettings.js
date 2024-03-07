@@ -6,6 +6,8 @@ import CommonTasks from '../js/CommonTasks'
 
 function ProfileSettings() {
     const commonTasks = new CommonTasks()
+    const [getUserID, setUserID] = useState();
+    const [getEmployeeID, setEmployeeID] = useState();
     const [getUserDetails, setUserDetails] = useState();
     const [gender, setGender] = useState();
     const [dateOfBirth, setDateOfBirth] = useState();
@@ -108,11 +110,12 @@ function ProfileSettings() {
 
     const handleDateChange = (date) => {
         console.log(date.target.value)
-        setSelectedDate(date.target.value);
+        setDateOfBirth(date.target.value);
     };
 
     const handleCityChange = (e) => {
         console.log(e.target.value)
+        console.log("educationalLevel ^^^^^^^", educationalLevel)
         setCity(e.target.value);
     };
 
@@ -120,21 +123,76 @@ function ProfileSettings() {
         setPhoneNumber(e.target.value);
     };
 
-    const handleGenderChange = (e) => {
-        setGender(e.target.value);
+    const handleGenderChange = (id) => {
+        setGender(Number(id));
     };
 
-    const handleCitizenshipChange = (e) => {
-        setCitizenship(e.target.value);
+    const handleCitizenshipChange = (id) => {
+        setCitizenship(Number(id));
     };
 
     const handleRegionChange = (e) => {
         setRegion(e.target.value);
     };
 
-    const handleEducationalLevelChange = (e) => {
-        setEducationalLevel(e.target.value);
+    const handleEducationalLevelChange = (id) => {
+        console.log(id)
+        setEducationalLevel(Number(id));
     };
+
+    const updateUserDetails = () => {
+        console.log(educationalLevel)
+        console.log(citizenship)
+        console.log(gender)
+        let chosenCountry = ""
+        let education = ""
+        let chosenGender = ""
+        for (let i = 0; i < africanCountries.length; i++) {
+            if (africanCountries[i].id === citizenship) {
+                chosenCountry = africanCountries[i].name
+                break
+            }
+        }
+
+        for (let i = 0; i < educationalLevels.length; i++) {
+            if (educationalLevels[i].id === educationalLevel) {
+                education = educationalLevels[i].name
+                break
+            }
+        }
+
+        for (let i = 0; i < genders.length; i++) {
+            if (genders[i].id === gender) {
+                chosenGender = genders[i].name.substring(0, 1)
+                break
+            }
+        }
+        console.log(chosenCountry)
+        console.log(education)
+        console.log(chosenGender)
+
+        //return
+
+        try {
+            let data = {
+                    "id": getEmployeeID,
+                    "user": getUserID,
+                    "gender": chosenGender,
+                    "date_of_birth": dateOfBirth,
+                    "phone_number": phoneNumber,
+                    "citizenship": chosenCountry,
+                    "region": region,
+                    "city": city,
+                    "educational_level": education,
+                    "profile_image": "joker-in-cop-car.jpg"
+                }
+            const post_data = commonTasks.putData("employee/" + getUserID, data)
+            console.log("post_data isssss ", post_data)
+        }
+        catch (error){
+
+        }
+    }
 
 
     ////////////////////////////////////////////
@@ -153,30 +211,11 @@ function ProfileSettings() {
 
     useEffect (() => {
 
-        const test_employee_list_update = async () => {
-            try {
-                let data = {
-                        "id": 1,
-                        "user": 3,
-                        "gender": "F",
-                        "date_of_birth": "2024-02-14",
-                        "phone_number": "0500067545",
-                        "citizenship": "Ghanaian",
-                        "region": "Greater Accra",
-                        "city": "Kasoa",
-                        "educational_level": "BSc. Computer Science",
-                        "profile_image": "joker-in-cop-car.jpg"
-                    }
-                const post_data = await commonTasks.putData("employee/3", data)
-                console.log("post_data isssss ", post_data)
-            }
-            catch (error){
-
-            }
-        }
-
-
         const userID = localStorage.getItem('userID');
+        if (userID){
+            setUserID(userID)
+        }
+        
         const getUserDetails = async () => {
             try {
                 const employee = await commonTasks.getData("employee/" + userID)
@@ -196,6 +235,7 @@ function ProfileSettings() {
                     setGender(0)
                 }
                 
+                setEmployeeID(employee.id)
                 setDateOfBirth(employee.date_of_birth)
                 setPhoneNumber(employee.phone_number)
 
@@ -232,8 +272,8 @@ function ProfileSettings() {
                     <div>
                             <div className="row mb-2">
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
-                                    <div class="input-file input-file-image">
-                                    <img class="img-upload-preview img-circle" width="100" height="100" src="avatar-profile-picture.png" alt="preview" style={{borderRadius: "50%"}}/>
+                                    <div className="input-file input-file-image">
+                                    <img className="img-upload-preview img-circle" width="100" height="100" src="avatar-profile-picture.png" alt="preview" style={{borderRadius: "50%"}}/>
                                     </div>
                                 </div>
                                 {/* <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
@@ -252,7 +292,7 @@ function ProfileSettings() {
                                 <div className="d-flex align-items-center justify-content-center">
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Firstname</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Firstname</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
@@ -265,7 +305,7 @@ function ProfileSettings() {
                                     </div>
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Lastname</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Lastname</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
@@ -280,7 +320,7 @@ function ProfileSettings() {
                                 <div className="d-flex align-items-center justify-content-center">
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Email</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Email</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
@@ -293,12 +333,12 @@ function ProfileSettings() {
                                     </div>
                                     <div className="col-md-3 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Gender</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Gender</strong></h5></label>
                                         </div>
                                         <div className="col-md-11 mx-2">
                                             <div className="input-group">
-                                                <select id="region" value={gender} className="form-control bg-dark text-white border-secondary">
-                                                    <option key={0} value={0} disabled selected hidden>Select Gender</option>
+                                                <select id="region" value={gender} className="form-control bg-dark text-white border-secondary" onChange={(e)=>(handleGenderChange(e.target.value))}>
+                                                    <option key={0} value={0} disabled defaultValue hidden>Select Gender</option>
                                                     {genders.map(gen => (
                                                         <option key={gen.id} value={gen.id}>{gen.name}</option>
                                                     ))}
@@ -308,11 +348,11 @@ function ProfileSettings() {
                                     </div>
                                     <div className="col-md-3 mb-2">
                                         <div className="col-md-10 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Date Of Birth</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Date Of Birth</strong></h5></label>
                                         </div>
                                         <div className="col-md-10 mx-2">
                                             <div className="form-group">
-                                                <input type="date" id="datepicker" value={getUserDetails ? getUserDetails.lastname : selectedDate} onChange={handleDateChange} min={maxDateFormatted} max={todayFormatted} className='form-control bg-dark text-white border-secondary'/>
+                                                <input type="date" id="datepicker" value={dateOfBirth ? dateOfBirth : ""} onChange={handleDateChange} min={maxDateFormatted} max={todayFormatted} className='form-control bg-dark text-white border-secondary'/>
                                             </div>
                                         </div>
                                     </div>
@@ -321,7 +361,7 @@ function ProfileSettings() {
                                 <div className="col-md-12 d-flex align-items-center justify-content-center">
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Telephone</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Telephone</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
@@ -335,12 +375,12 @@ function ProfileSettings() {
                                     
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Country</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Country</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
-                                                <select id="citizenships" className="form-control bg-dark text-white border-secondary" value={citizenship}>
-                                                    <option key={0} value={0} disabled selected hidden>Select Country</option>
+                                                <select id="citizenships" className="form-control bg-dark text-white border-secondary" value={citizenship} onChange={(e) => (handleCitizenshipChange(e.target.value))}>
+                                                    <option key={0} value={0} disabled defaultValue hidden>Select Country</option>
                                                     {africanCountries .map(country => (
                                                         <option key={country.id} value={country.id}>{country.name}</option>
                                                     ))}
@@ -353,7 +393,7 @@ function ProfileSettings() {
                                 <div className="d-flex align-items-center justify-content-center">
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>State/Province</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>State/Province</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
@@ -366,7 +406,7 @@ function ProfileSettings() {
                                     </div>
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>City</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>City</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
@@ -382,15 +422,15 @@ function ProfileSettings() {
                                 <div className="d-flex align-items-center">
                                     <div className="col-md-6 mb-2">
                                         <div className="col-md-11 d-flex align-items-center mx-2">
-                                            <label for="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Educational Level</strong></h5></label>
+                                            <label htmlFor="exampleFormControlInput1"><h5 className='text-white m-0'><strong>Educational Level</strong></h5></label>
                                         </div>
                                         <div className="col-sm-11 mx-2">
                                             <div className="input-group">
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1" style={{height: "100%"}}>Educational level</span>
                                                 </div> */}
-                                                <select id="region" className="form-control bg-dark text-white border-secondary" value={educationalLevel}>
-                                                    <option selected disabled hidden>Choose Educational Level</option>
+                                                <select id="region" className="form-control bg-dark text-white border-secondary" value={educationalLevel} onChange={(e) => handleEducationalLevelChange(e.target.value)}>
+                                                    <option defaultValue disabled hidden>Choose Educational Level</option>
                                                     {educationalLevels.map(level => (
                                                         <option key={level.id} value={level.id}>{level.name}</option>
                                                     ))}
@@ -400,7 +440,7 @@ function ProfileSettings() {
                                     </div>
                                 </div>
                             </div>  
-                        <button type="submit" className="btn btn-success">Submit <FontAwesomeIcon icon={faTelegram}/></button>
+                        <button type="submit" className="btn btn-success" onClick={updateUserDetails}>Submit <FontAwesomeIcon icon={faTelegram}/></button>
                     </div>
                 </div>
             </div>
