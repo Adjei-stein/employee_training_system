@@ -1,14 +1,19 @@
 import React, {useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhone, faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faBookmark, faFileImage } from '@fortawesome/free-solid-svg-icons';
 import { faTelegram } from '@fortawesome/free-brands-svg-icons'
 import CommonTasks from '../js/CommonTasks'
+import '../css/ProfileSettings.css'
 
 function ProfileSettings() {
     const commonTasks = new CommonTasks()
     const [getUserID, setUserID] = useState();
     const [getEmployeeID, setEmployeeID] = useState();
     const [getUserDetails, setUserDetails] = useState();
+    const [getUsername, setUsername] = useState();
+    const [getUserFirstName, setUserFirstName] = useState();
+    const [getUserLastName, setUserLastName] = useState();
+    const [getUserEmail, setUserEmail] = useState();
     const [gender, setGender] = useState();
     const [dateOfBirth, setDateOfBirth] = useState();
     const [phoneNumber, setPhoneNumber] = useState();
@@ -16,7 +21,7 @@ function ProfileSettings() {
     const [region, setRegion] = useState();
     const [city, setCity] = useState();
     const [educationalLevel, setEducationalLevel] = useState(0);
-
+    const [profileImage, setProfileImage] = useState(null);
 
     //List of countries
     const africanCountries = [
@@ -106,7 +111,22 @@ function ProfileSettings() {
     const todayFormatted = today.toISOString().split('T')[0];
     const maxDateFormatted = maxDate.toISOString().split('T')[0];
 
-    const [selectedDate, setSelectedDate] = useState("2022-09-29");
+    //const [selectedDate, setSelectedDate] = useState("2022-09-29");
+    const handleUsername = (e) => {
+        setUsername(e.target.value);
+    };
+
+    const handleUserFirstName = (e) => {
+        setUserFirstName(e.target.value);
+    };
+
+    const handleUserLastName = (e) => {
+        setUserLastName(e.target.value);
+    };
+
+    const handleUserEmail = (e) => {
+        setUserEmail(e.target.value);
+    };
 
     const handleDateChange = (date) => {
         console.log(date.target.value)
@@ -174,6 +194,14 @@ function ProfileSettings() {
         //return
 
         try {
+            let main_user_details = {
+                "username": getUsername,
+                "email": getUserEmail,
+                "first_name": getUserFirstName,
+                "last_name": getUserLastName
+            }
+            const post_user_data = commonTasks.putData("user/update/" + getUserID, main_user_details)
+
             let data = {
                     "id": getEmployeeID,
                     "user": getUserID,
@@ -187,10 +215,12 @@ function ProfileSettings() {
                     "profile_image": "joker-in-cop-car.jpg"
                 }
             const post_data = commonTasks.putData("employee/" + getUserID, data)
+            console.log("post_user_data isssss ", post_user_data)
             console.log("post_data isssss ", post_data)
+            window.location.href = '/user-profile';
         }
         catch (error){
-
+            console.log(error)
         }
     }
 
@@ -204,10 +234,22 @@ function ProfileSettings() {
     };
 
     const handleFileChange = (e) => {
-        // Handle file change logic here
         const selectedFile = e.target.files[0];
-        console.log('Selected File:', selectedFile);
+        setProfileImage(selectedFile);
     };
+
+    const handleUploadImage = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('user_profile_image', profileImage);
+            const response = await commonTasks.putImageData('employee/profile-image/' + getUserID + '/', formData);
+            console.log('Image upload response:', response);
+            // Optionally, you can update the UI to reflect the uploaded image
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    };
+    
 
     useEffect (() => {
 
@@ -215,6 +257,19 @@ function ProfileSettings() {
         if (userID){
             setUserID(userID)
         }
+
+        const fetchProfileImage = async () => {
+            try {
+                const response = await commonTasks.getData('employee/profile-image/' + userID);
+                if (response && response.data && response.data.profile_image) {
+                    setProfileImage(response.data.profile_image);
+                }
+            } catch (error) {
+                console.error('Error fetching profile image:', error);
+            }
+        };
+
+        
         
         const getUserDetails = async () => {
             try {
@@ -224,6 +279,10 @@ function ProfileSettings() {
                 console.log("employee is ", users)
                 console.log("employee is ", employee)
                 Object.assign(employee, users)
+                setUsername(users.username)
+                setUserFirstName(users.first_name)
+                setUserLastName(users.last_name)
+                setUserEmail(users.email)
                 setUserDetails(employee)
                 if (employee.gender == "F") {
                     setGender(2)
@@ -261,6 +320,7 @@ function ProfileSettings() {
             }
         }
 
+        fetchProfileImage();
         getUserDetails()
         //test_employee_list_update()
     }, [])
@@ -273,8 +333,27 @@ function ProfileSettings() {
                             <div className="row mb-2">
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                     <div className="input-file input-file-image">
-                                    <img className="img-upload-preview img-circle" width="100" height="100" src="avatar-profile-picture.png" alt="preview" style={{borderRadius: "50%"}}/>
+                                        <div className="col-md-12">
+                                            <img className="img-upload-preview" width="150" src={profileImage ? URL.createObjectURL(profileImage) : "http://placehold.it/150x150"} alt="preview" />
+                                        </div>
+                                        <div className="col-md-12">
+                                            <div className='bg-dark text-white'>
+                                                <input type="file" className="form-control form-control-file" id="uploadImg2" name="uploadImg2" accept="image/*" onChange={handleFileChange} required />
+                                                <label htmlFor="uploadImg2" className="label-input-file btn text-white btn-black btn-round">
+                                                    <span className="btn-label">
+                                                        <FontAwesomeIcon icon={faFileImage} />
+                                                    </span>
+                                                    Upload an Image
+                                                </label>
+                                            </div>
+                                            
+                                        </div>
+                                        <button className="btn btn-primary" onClick={handleUploadImage}>Save Image</button>
                                     </div>
+                                
+                                {/* <div className="input-file input-file-image">
+                                    <img className="img-upload-preview img-circle" width="100" height="100" src="avatar-profile-picture.png" alt="preview" style={{borderRadius: "50%"}}/>
+                                    </div> */}
                                 </div>
                                 {/* <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                         <div className="btn btn-dark" onClick={handleEditButtonClick}>
@@ -285,7 +364,7 @@ function ProfileSettings() {
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                     <div className="col-sm-3 mx-2">
                                         <div className="input-group bg-transparent">
-                                            <input type="text" className="form-control bg-dark text-white border-0" placeholder="Username" id="username" value={getUserDetails ? getUserDetails.username : "null"}/>
+                                            <input type="text" className="form-control bg-dark text-white border-0" placeholder="Username" id="username" value={getUsername ? getUsername : "null"} onChange={handleUsername}/>
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +378,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Firstname</span>
                                                 </div> */}
-                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value={getUserDetails ? getUserDetails.first_name : "null"}/>
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="First Name" id="firstname" value={getUserFirstName ? getUserFirstName : "null"} onChange={handleUserFirstName}/>
                                             </div>
                                         </div>
                                     </div>
@@ -312,7 +391,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Lastname</span>
                                                 </div> */}
-                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value={getUserDetails ? getUserDetails.last_name : "null"}/>
+                                                <input type="text" className="form-control px-3 bg-dark text-white border-secondary" placeholder="Last Name" id="lastname" value={getUserLastName ? getUserLastName : "null"} onChange={handleUserLastName}/>
                                             </div>
                                         </div>
                                     </div>
@@ -327,7 +406,7 @@ function ProfileSettings() {
                                                 {/* <div className="input-group-prepend">
                                                     <span className="input-group-text rounded-end-0 bg-secondary border-secondary" id="basic-addon1">Email</span>
                                                 </div> */}
-                                                <input type="email" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" placeholder="Enter email" value={getUserDetails ? getUserDetails.email : "null"}/>
+                                                <input type="email" className="form-control bg-dark text-white border-secondary" id="exampleInputEmail1" placeholder="Enter email" value={getUserEmail ? getUserEmail : "null"} onChange={handleUserEmail}/>
                                             </div>
                                         </div>
                                     </div>

@@ -18,13 +18,18 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = User
         fields = ['email', 'first_name', 'last_name', 'username']
 
-    def update(self, instance, validated_data):
-        instance.email = validated_data.get('email', instance.email)
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.username = validated_data.get('username', instance.username)
-        instance.save()
-        return instance
+    # def update(self, instance, validated_data):
+    #     instance.email = validated_data.get('email', instance.email)
+    #     instance.first_name = validated_data.get('first_name', instance.first_name)
+    #     instance.last_name = validated_data.get('last_name', instance.last_name)
+    #     instance.username = validated_data.get('username', instance.username)
+    #     instance.save()
+    #     return instance
+
+class ProfileImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['user_profile_image']
 
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:

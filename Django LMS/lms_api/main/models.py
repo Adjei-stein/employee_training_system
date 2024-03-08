@@ -25,6 +25,7 @@ class Employee(models.Model):
     city = models.CharField(max_length=100, blank=True, null=True)
     educational_level = models.CharField(max_length=100, blank=True, null=True)
     profile_image = models.CharField(max_length=255, blank=True, null=True, editable=True)
+    user_profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     #date_created = models.DateTimeField(default=datetime.now)
 
 class CourseCategory(models.Model):

@@ -1,11 +1,14 @@
 from django.urls import path
+from django.conf import settings
 #from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
-#from .views import UserLoginAPIView
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('users', views.UserList.as_view()),
     path('users/<int:pk>/', views.UserDetails.as_view()),
+    path('user/update/<int:id>/', views.UserDetailsUpdateView.as_view()),
+    path('employee/profile-image/<int:user_id>/', views.ProfileImageView.as_view()),
     path('employees/', views.EmployeeList.as_view()),
     path('employee/<int:user_id>/', views.EmployeeDetails.as_view()),
     path('courses/category/', views.CourseCategoryList.as_view()),
@@ -24,6 +27,6 @@ urlpatterns = [
     path('course-material-url', views.CourseMaterialURLList.as_view()),
     path('download/<str:filename>/', views.download_file, name='download_file')
     #path('logout/', logout_view, name='logout'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #urlpatterns = format_suffix_patterns(urlpatterns)

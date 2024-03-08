@@ -136,6 +136,30 @@ class UserDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class UserDetailsUpdateView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserUpdateSerializer
+    lookup_field = 'id'
+
+class ProfileImageView(generics.RetrieveUpdateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = ProfileImageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        try:
+            user_id = self.kwargs['user_id']
+            return Employee.objects.get(user_id=user_id)
+        except Employee.DoesNotExist:
+            return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 class EmployeeList(generics.ListCreateAPIView):
     queryset = models.Employee.objects.all()

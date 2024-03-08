@@ -1,0 +1,15 @@
+.input-file input[type="file"], .input-file .form-control, .input-file .form-control-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.form-control {
+    font-size: 14px;
+    border-color: #ebedf2;
+    padding: 0.6rem 1rem;
+    height: inherit !important;
+}
