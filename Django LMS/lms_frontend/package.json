@@ -24,6 +24,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^4.25.0",
     "react-dom": "^18.2.0",
+    "react-easy-crop": "^5.0.5",
     "react-masonry": "^1.0.7",
     "react-pdf": "^7.7.0",
     "react-router-dom": "^6.21.1",

@@ -1,6 +1,8 @@
 import React, {useState, useRef, useEffect } from 'react'
+import { Modal, Button } from 'react-bootstrap';
+import Cropper from 'react-easy-crop';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhone, faBookmark, faFileImage } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faBookmark, faFileImage, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faTelegram } from '@fortawesome/free-brands-svg-icons'
 import CommonTasks from '../js/CommonTasks'
 import '../css/ProfileSettings.css'
@@ -22,6 +24,10 @@ function ProfileSettings() {
     const [city, setCity] = useState();
     const [educationalLevel, setEducationalLevel] = useState(0);
     const [profileImage, setProfileImage] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [croppedImage, setCroppedImage] = useState(null);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
 
     //List of countries
     const africanCountries = [
@@ -235,8 +241,82 @@ function ProfileSettings() {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        setProfileImage(selectedFile);
+        console.log(selectedFile)
+        console.log(URL.createObjectURL(selectedFile))
+        setProfileImage(URL.createObjectURL(selectedFile));
     };
+
+    const handleUpload = (croppedImageUrl) => {
+        // Handle the upload of the cropped image here
+        console.log('Cropped image URL:', croppedImageUrl);
+        // You can update the profile image URL in the state or trigger an API call to save it
+        // For now, let's just log the cropped image URL
+        //setCroppedImage(croppedImageUrl)
+        setShowModal(false); // Close the modal after uploading
+    };
+
+    const handleCropComplete = (croppedArea, croppedAreaPixels) => {
+        console.log("croppedArea ---- ", croppedArea)
+        console.log("croppedAreaPixels ---- ", croppedAreaPixels)
+        // Create a canvas element to draw the cropped image
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const image = document.createElement('img');
+        image.src = profileImage; // Assuming profileImageUrl is the source image
+
+        // Set canvas size to match cropped area size
+        canvas.width = croppedAreaPixels.width;
+        canvas.height = croppedAreaPixels.height;
+
+        // Draw cropped area of the image onto the canvas
+        ctx.drawImage(
+            image,
+            croppedAreaPixels.x,
+            croppedAreaPixels.y,
+            croppedAreaPixels.width,
+            croppedAreaPixels.height,
+            0,
+            0,
+            croppedAreaPixels.width,
+            croppedAreaPixels.height
+        );
+
+        // Convert canvas to base64 data URL
+        const croppedImageDataUrl = canvas.toDataURL('image/jpeg');
+
+        // Set the cropped image data URL to state
+        console.log(profileImage)
+        console.log(croppedImageDataUrl)
+        convertDataUrlToFile(croppedImageDataUrl, 'test')
+        setCroppedImage(croppedImageDataUrl);
+    };
+
+    function dataURItoBlob(dataURI) {
+        // Convert base64/URLEncoded data component to raw binary data held in a string
+        const byteString = atob(dataURI.split(',')[1]);
+    
+        // Separate the MIME type from the data
+        const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    
+        // Write the bytes of the string to an ArrayBuffer
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+    
+        // Create a Blob object from the ArrayBuffer
+        return new Blob([ab], { type: mimeString });
+    }
+    
+    function convertDataUrlToFile(dataUrl, filename) {
+        const blob = dataURItoBlob(dataUrl);
+        // Create a File object from the Blob
+        const file = new File([blob], filename, { type: blob.type });
+        console.log("file is---", file)
+        return file;
+    }
+    
 
     const handleUploadImage = async () => {
         try {
@@ -334,10 +414,11 @@ function ProfileSettings() {
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                     <div className="input-file input-file-image">
                                         <div className="col-md-12">
-                                            <img className="img-upload-preview" width="150" src={profileImage ? URL.createObjectURL(profileImage) : "http://placehold.it/150x150"} alt="preview" />
+                                            <img className="img-upload-preview" width="150" src={croppedImage ? croppedImage : "http://placehold.it/150x150"} alt="preview" />
+                                            
                                         </div>
                                         <div className="col-md-12">
-                                            <div className='bg-dark text-white'>
+                                            {/* <div className='bg-dark text-white'>
                                                 <input type="file" className="form-control form-control-file" id="uploadImg2" name="uploadImg2" accept="image/*" onChange={handleFileChange} required />
                                                 <label htmlFor="uploadImg2" className="label-input-file btn text-white btn-black btn-round">
                                                     <span className="btn-label">
@@ -345,10 +426,41 @@ function ProfileSettings() {
                                                     </span>
                                                     Upload an Image
                                                 </label>
-                                            </div>
+                                            </div> */}
+                                            <button className="btn btn-info" onClick={() => setShowModal(true)}><FontAwesomeIcon icon={faPencil} /> Edit</button>
+                                            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title>Upload and Crop Picture</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                    {/* Place your image cropping component here */}
+                                                    <div className="cropper-container">
+                                                        <Cropper
+                                                        image={profileImage}
+                                                        crop={crop}
+                                                        zoom={zoom}
+                                                        aspect={1} // Set aspect ratio to square (1:1)
+                                                        onCropChange={setCrop}
+                                                        onCropComplete={handleCropComplete}
+                                                        onZoomChange={setZoom}
+                                                        restrictPosition={true} // Restrict cropping position
+                                                        showGrid={false} // Hide grid
+                                                        showZoomControls={false} // Hide zoom controls
+                                                        zoomSpeed={0.5} // Set zoom speed
+                                                        />
+                                                    </div>
+                                                    {/* Example cropping component */}
+                                                    
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                    <input type="file" className="form-control form-control-file" id="uploadImg2" name="uploadImg2" accept="image/*" onChange={handleFileChange} required />
+                                                    <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
+                                                    <Button variant="primary" onClick={() => handleUpload('croppedImageUrl')}>Upload</Button>
+                                                </Modal.Footer>
+                                            </Modal>
                                             
                                         </div>
-                                        <button className="btn btn-primary" onClick={handleUploadImage}>Save Image</button>
+                                        {/* <button className="btn btn-primary" onClick={handleUploadImage}>Save Image</button> */}
                                     </div>
                                 
                                 {/* <div className="input-file input-file-image">
