@@ -9,8 +9,11 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 import mimetypes
 import os
+import subprocess
 from pathlib import Path
 
 def download_file(request, filename):
@@ -155,6 +158,22 @@ class ProfileImageView(generics.RetrieveUpdateAPIView):
     
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
+
+        # Check if the employee has an existing profile picture
+        if instance.user_profile_image:
+            file_path = instance.user_profile_image.path
+            print("file_path +++", file_path)
+            if os.path.exists(file_path):
+                try:
+                    # Delete the file
+                    os.remove(file_path)
+                    # Optionally, you can log a message here to confirm successful deletion
+                    print(f"Deleted profile image file: {file_path}")
+                except Exception as e:
+                    # Log the error if deletion fails
+                    print(f"Error deleting profile image file: {e}")
+
+
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

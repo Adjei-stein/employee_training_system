@@ -24,10 +24,13 @@ function ProfileSettings() {
     const [city, setCity] = useState();
     const [educationalLevel, setEducationalLevel] = useState(0);
     const [profileImage, setProfileImage] = useState(null);
+    const [currentProfileImage, setCurrentProfileImage] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [croppedImage, setCroppedImage] = useState(null);
+    const [imageCropped, setImageCropped] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
+    const [newJPG, setNewJPG] = useState()
 
     //List of countries
     const africanCountries = [
@@ -200,6 +203,8 @@ function ProfileSettings() {
         //return
 
         try {
+            handleUploadImage()
+
             let main_user_details = {
                 "username": getUsername,
                 "email": getUserEmail,
@@ -249,6 +254,12 @@ function ProfileSettings() {
     const handleUpload = (croppedImageUrl) => {
         // Handle the upload of the cropped image here
         console.log('Cropped image URL:', croppedImageUrl);
+        console.log(imageCropped)
+        if (imageCropped) {
+            console.log(imageCropped)
+            setNewJPG(convertDataUrlToFile(imageCropped, 'user' + getUserID + '.jpg'))
+            setCroppedImage(imageCropped);
+        }
         // You can update the profile image URL in the state or trigger an API call to save it
         // For now, let's just log the cropped image URL
         //setCroppedImage(croppedImageUrl)
@@ -262,13 +273,12 @@ function ProfileSettings() {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         const image = document.createElement('img');
-        image.src = profileImage; // Assuming profileImageUrl is the source image
+        image.src = profileImage;
 
-        // Set canvas size to match cropped area size
+        // Set canvas size
         canvas.width = croppedAreaPixels.width;
         canvas.height = croppedAreaPixels.height;
 
-        // Draw cropped area of the image onto the canvas
         ctx.drawImage(
             image,
             croppedAreaPixels.x,
@@ -287,8 +297,8 @@ function ProfileSettings() {
         // Set the cropped image data URL to state
         console.log(profileImage)
         console.log(croppedImageDataUrl)
-        convertDataUrlToFile(croppedImageDataUrl, 'test')
-        setCroppedImage(croppedImageDataUrl);
+        setImageCropped(croppedImageDataUrl)
+        console.log(imageCropped)
     };
 
     function dataURItoBlob(dataURI) {
@@ -319,14 +329,16 @@ function ProfileSettings() {
     
 
     const handleUploadImage = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('user_profile_image', profileImage);
-            const response = await commonTasks.putImageData('employee/profile-image/' + getUserID + '/', formData);
-            console.log('Image upload response:', response);
-            // Optionally, you can update the UI to reflect the uploaded image
-        } catch (error) {
-            console.error('Error uploading image:', error);
+        if (imageCropped){
+            try {
+                const formData = new FormData();
+                formData.append('user_profile_image', newJPG);
+                const response = await commonTasks.putData('employee/profile-image/' + getUserID, formData);
+                console.log('Image upload response:', response);
+                // Optionally, you can update the UI to reflect the uploaded image
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
         }
     };
     
@@ -341,9 +353,17 @@ function ProfileSettings() {
         const fetchProfileImage = async () => {
             try {
                 const response = await commonTasks.getData('employee/profile-image/' + userID);
-                if (response && response.data && response.data.profile_image) {
-                    setProfileImage(response.data.profile_image);
+                console.log(response)
+                if (response && response.user_profile_image) {
+                    console.log(response)
+                    // Split the URL by "/"
+                    const parts = response.user_profile_image.split("/");
+
+                    // Get the last three parts of the split URL
+                    const image_path = parts.slice(-3).join("/");
+                    setCurrentProfileImage(image_path);
                 }
+                console.log(currentProfileImage)
             } catch (error) {
                 console.error('Error fetching profile image:', error);
             }
@@ -414,7 +434,7 @@ function ProfileSettings() {
                                 <div className="col-md-12 d-flex align-items-center justify-content-center mb-2">
                                     <div className="input-file input-file-image">
                                         <div className="col-md-12">
-                                            <img className="img-upload-preview" width="150" src={croppedImage ? croppedImage : "http://placehold.it/150x150"} alt="preview" />
+                                            <img className="img-upload-preview" width="150" src={croppedImage ? croppedImage : currentProfileImage ? `http://127.0.0.1:8000/static/${currentProfileImage}`: "http://placehold.it/150x150"} alt="preview" />
                                             
                                         </div>
                                         <div className="col-md-12">
@@ -428,11 +448,11 @@ function ProfileSettings() {
                                                 </label>
                                             </div> */}
                                             <button className="btn btn-info" onClick={() => setShowModal(true)}><FontAwesomeIcon icon={faPencil} /> Edit</button>
-                                            <Modal show={showModal} onHide={() => setShowModal(false)}>
-                                                <Modal.Header closeButton>
+                                            <Modal className='text-white' show={showModal} onHide={() => setShowModal(false)}>
+                                                <Modal.Header className='bg-dark' closeButton>
                                                     <Modal.Title>Upload and Crop Picture</Modal.Title>
                                                 </Modal.Header>
-                                                <Modal.Body>
+                                                <Modal.Body  className='bg-dark'>
                                                     {/* Place your image cropping component here */}
                                                     <div className="cropper-container">
                                                         <Cropper
@@ -452,10 +472,10 @@ function ProfileSettings() {
                                                     {/* Example cropping component */}
                                                     
                                                 </Modal.Body>
-                                                <Modal.Footer>
+                                                <Modal.Footer  className='bg-dark'>
                                                     <input type="file" className="form-control form-control-file" id="uploadImg2" name="uploadImg2" accept="image/*" onChange={handleFileChange} required />
                                                     <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-                                                    <Button variant="primary" onClick={() => handleUpload('croppedImageUrl')}>Upload</Button>
+                                                    <Button variant="success" onClick={handleUpload}>Done</Button>
                                                 </Modal.Footer>
                                             </Modal>
                                             

@@ -38,8 +38,8 @@ function Navbar() {
                     setEmployeeName(user_name)
                 }
                 
-                console.log("profile_image is", employee.profile_image)
-                setEmployeeImage(employee.profile_image)
+                /* console.log("profile_image is", employee.profile_image)
+                setEmployeeImage(employee.profile_image) */
                 /* Object.assign(employee, users)
                 setUserDetails(employee) */
             }
@@ -48,8 +48,26 @@ function Navbar() {
             }
         }
 
-        getUserDetails()
+        const fetchProfileImage = async () => {
+            try {
+                const response = await commonTasks.getData('employee/profile-image/' + userID);
+                console.log(response)
+                if (response && response.user_profile_image) {
+                    console.log(response)
+                    // Split the URL by "/"
+                    const parts = response.user_profile_image.split("/");
 
+                    // Get the last three parts of the split URL
+                    const image_path = parts.slice(-3).join("/");
+                    setEmployeeImage(image_path);
+                }
+            } catch (error) {
+                console.error('Error fetching profile image:', error);
+            }
+        };
+
+        getUserDetails()
+        fetchProfileImage()
     }, [])
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">

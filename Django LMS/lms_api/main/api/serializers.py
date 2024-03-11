@@ -31,6 +31,26 @@ class ProfileImageSerializer(serializers.ModelSerializer):
         model = Employee
         fields = ['user_profile_image']
 
+    """ def save(self, **kwargs):
+        # Get the instance (Employee object) associated with the serializer
+        instance = super().save(**kwargs)
+
+        # Check if a profile image was provided in the request data
+        if 'user_profile_image' in self.validated_data:
+            # Get the uploaded image file
+            image_file = self.validated_data['user_profile_image']
+
+            # Set the file name to be the same as the existing profile image
+            if instance.user_profile_image:
+                image_file.name = instance.user_profile_image.name
+
+            # Save the uploaded image file
+            instance.user_profile_image.save(image_file.name, image_file, save=False)
+
+        # Save the instance (Employee object) with the updated profile image
+        instance.save()
+        return instance """
+
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
