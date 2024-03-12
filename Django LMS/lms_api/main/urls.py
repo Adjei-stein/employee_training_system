@@ -9,6 +9,7 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserDetails.as_view()),
     path('user/update/<int:id>/', views.UserDetailsUpdateView.as_view()),
     path('employee/profile-image/<int:user_id>/', views.ProfileImageView.as_view()),
+    path('password-change/', views.PasswordChangeAPIView.as_view(), name='password_change_api'),
     path('employees/', views.EmployeeList.as_view()),
     path('employee/<int:user_id>/', views.EmployeeDetails.as_view()),
     path('courses/category/', views.CourseCategoryList.as_view()),

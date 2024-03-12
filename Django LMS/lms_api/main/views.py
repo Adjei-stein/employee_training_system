@@ -8,6 +8,8 @@ from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -66,32 +68,36 @@ def download_file(request, filename):
 
     return response
 
-# Create your views here.
-"""class EmployeeList(APIView):
-    def get(self, request):
-        employees=models.Employee.objects.all()
-        serializer = EmployeeSerializer(employees, many=True)
-        return Response(serializer.data)"""
+class PasswordChangeAPIView(generics.UpdateAPIView):
+    """
+    API endpoint to change user's password.
+    """
+    queryset = User.objects.all()
 
-""" def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return JsonResponse({'message': 'Login successful'})
-        else:
-            return JsonResponse({'error': 'Invalid credentials'}, status=400)
-    else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+    def post(self, request, *args, **kwargs):
+        old_password = request.data.get('old_password')
+        new_password = request.data.get('new_password1')
+        confirm_new_password = request.data.get('new_password2')
 
-def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-        return JsonResponse({'message': 'Logout successful'})
-    else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405) """
+        user = self.request.user
+
+        # Check if old password matches
+        if not user.check_password(old_password):
+            return Response({'error': 'Old password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if new password matches its confirmation
+        print("")
+        if new_password != confirm_new_password:
+            return Response({'error': 'New password and confirmation do not match'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Change the password
+        user.set_password(new_password)
+        user.save()
+
+        # Important: Update the session to avoid logout
+        update_session_auth_hash(request, user)
+
+        return Response({'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
 
 class UserLoginAPIView(generics.CreateAPIView):
     serializer_class = UserLoginSerializer
