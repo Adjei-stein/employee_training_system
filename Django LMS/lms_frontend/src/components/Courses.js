@@ -13,9 +13,13 @@ import '../css/Courses.css'
 function Courses() {
     const commonTasks = new CommonTasks()
     const [allSortedCourses, setAllSortedCourses] = useState([]);
+    const [allSortedCourses2, setAllSortedCourses2] = useState([]);
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [isCollapsedArray, setIsCollapsedArray] = useState([]);
     const [filteredOption, getFilteredOption] = useState(allSortedCourses);
+    const [search, getSearch] = useState("")
+
+    let sortedOutCourses = allSortedCourses2
 
     const goToSelectedCourse = (course_id) => {
         localStorage.setItem('course_selected', course_id);
@@ -38,6 +42,51 @@ function Courses() {
                 }
             }
         }
+    }
+
+    const capitalizeFirstLetters = (str) => {
+        return str.toLowerCase().replace(/(^\w|\s\w)/g, match => match.toUpperCase());
+    }
+
+    const handleSearchInput = (input) => {
+        let text = input.target.value
+        let inputTaken = capitalizeFirstLetters(text)
+        getSearch(text)
+        let tempSearched = []
+        let tempSortedCoursesHolder = JSON.parse(JSON.stringify(allSortedCourses))
+        if (text.length < 1) {
+            getFilteredOption(allSortedCourses)
+            return
+        }
+        else {
+            
+            let i = 0
+            while(i < tempSortedCoursesHolder.length) {
+                let lens = inputTaken.length
+                if (tempSortedCoursesHolder[i].courses_row.length == 1){
+                    console.log(tempSortedCoursesHolder[i].courses_row)
+                    if (String(inputTaken) != String(tempSortedCoursesHolder[i].courses_row[0].course_title.substring(0, lens))){
+                        tempSortedCoursesHolder[i].courses_row = []
+                    }
+                }
+                else {
+                    for (let j = 0; j < tempSortedCoursesHolder[i].courses_row.length; j++) {
+                        tempSortedCoursesHolder[i].courses_row = tempSortedCoursesHolder[i].courses_row.filter(course => String(inputTaken) == String(course.course_title.substring(0, lens)));
+                    }
+                }
+                i++
+            }
+
+            let k = 0
+            tempSearched = []
+            while(k < tempSortedCoursesHolder.length) {
+                if (tempSortedCoursesHolder[k].courses_row.length > 0){
+                    tempSearched.push(tempSortedCoursesHolder[k])
+                }
+                k++
+            }
+        }
+        getFilteredOption(tempSearched)
     }
 
     const handleToggle = () => {
@@ -107,9 +156,7 @@ function Courses() {
     const [mandatoryCourses, setMandatoryCourses] = useState(null)
 
     useEffect(() => {
-
-        localStorage.removeItem('course_selected');
-        const getAllCategories = async () => {
+        /* const getAllCategories = async () => {
             try {
                 const categories = await commonTasks.getData("courses/category")
                 console.log("categories is ", categories)
@@ -119,12 +166,13 @@ function Courses() {
             catch (error) {
                 console.log(error)
             }
-        }
+        } */
 
         const getAllCourses = async () => {
             try {
                 
                 const all_categories = await commonTasks.getData("courses/category")
+                setCategories(all_categories)
                 const courses = await commonTasks.getData("courses")
                 const bookmarks = await getListOfBookmarked()
                 console.log("courses is ", courses)
@@ -218,6 +266,8 @@ function Courses() {
                 console.log(coursesArray)
                 setIsCollapsedArray(Array(coursesArray.length).fill(false));
                 setAllSortedCourses(coursesArray)
+                sortedOutCourses = coursesArray
+                setAllSortedCourses2(coursesArray)
                 getFilteredOption(coursesArray)
             }
             catch (error) {
@@ -253,9 +303,11 @@ function Courses() {
         }
         
         
+    
+
+        localStorage.removeItem('course_selected');
         
-        
-        getAllCategories()
+        getAllCourses()
         getAllCoursesAndInfo()
     }, []);
 
@@ -272,7 +324,7 @@ function Courses() {
                                 <div className="form-group d-flex align-items-center justify-content-start">
                                     <label htmlFor="CourseTitle">Course Title</label>
                                     <div className="input-group">
-                                        <input type="text" className="form-control rounded-end-0" id="CourseTitle" placeholder="Course Title"/>
+                                        <input type="text" className="form-control rounded-end-0" id="CourseTitle" placeholder="Course Title" onChange={(e) => handleSearchInput(e)} value={search}/>
                                         <div className="input-group-prepend" style={{minHeight: "100%"}}>
                                             <button className="input-group-text rounded-start-0 bg-primary border-primary" id="basic-addon1" style={{minHeight: "100%"}}><FontAwesomeIcon icon={faSearch}/></button>
                                         </div>

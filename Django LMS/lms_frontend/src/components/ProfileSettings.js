@@ -410,7 +410,9 @@ function ProfileSettings() {
                 
                 for (let i = 0; i < educationalLevels.length; i++) {
                     if (educationalLevels[i].name === employee.educational_level) {
+                        console.log(educationalLevels[i].id)
                         setEducationalLevel(educationalLevels[i].id)
+                        break
                     }
                 }
                 //setEducationalLevel(employee.educational_level)
