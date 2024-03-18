@@ -288,3 +288,8 @@ class CourseMaterialURLList(generics.ListCreateAPIView):
     queryset = models.CourseMaterialURL.objects.all()
     serializer_class = CourseMaterialURLSerialzer
     permission_classes = [permissions.IsAuthenticated]
+
+class SupportRequests(generics.CreateAPIView):
+    # queryset = models.SupportRequests.objects.all()
+    serializer_class = SupportRequestsSerialzer
+    permission_classes = [permissions.IsAuthenticated]

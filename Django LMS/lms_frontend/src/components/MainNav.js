@@ -93,7 +93,7 @@ function Navbar() {
                         <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
                             
                             <li><a className="dropdown-item" href="/user-profile"><FontAwesomeIcon icon="user" /> My Profile</a></li>
-                            <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="screwdriver-wrench" /> Preferences</a></li>
+                            {/* <li><a className="dropdown-item" href="/"><FontAwesomeIcon icon="screwdriver-wrench" /> Preferences</a></li> */}
                             <li>
                                 <hr className="dropdown-divider"/>
                             </li>

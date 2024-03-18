@@ -90,3 +90,8 @@ class CourseMaterialURLSerialzer(serializers.ModelSerializer):
     class Meta:
         model = CourseMaterialURL
         fields = ['id', 'course_id', 'material_url']
+
+class SupportRequestsSerialzer(serializers.ModelSerializer):
+    class Meta:
+        model = SupportRequests
+        fields = ['title', 'description']

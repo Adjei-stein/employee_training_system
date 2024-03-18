@@ -79,3 +79,7 @@ class FrequentlyAskedQuestions(models.Model):
 class CourseMaterialURL(models.Model):
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     material_url = models.CharField(max_length=255, blank=False, null=False)
+
+class SupportRequests(models.Model):
+    title = models.CharField(max_length=250, blank=True, null=True)
+    description = models.CharField(max_length=1000, blank=True, null=True)
