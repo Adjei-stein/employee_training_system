@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import Swal from "sweetalert2";  
 import CommonTasks from '../js/CommonTasks'
+import '../css/Help.css'
 
 function Help() {
     const commonTasks = new CommonTasks()
     const [faqsArray, getFaqsArray] = useState(null)
     const [isCollapsedArray, setIsCollapsedArray] = useState([]);
+    const [supportTitle, setSupportTitle] = useState("")
+    const [supportDescription, setSupportDescription] = useState("")
     const handleToggle2 = (index) => {
         setIsCollapsedArray((prevArray) => {
             const newArray = [...prevArray];
@@ -15,6 +19,70 @@ function Help() {
             return newArray;
         });
     };
+
+    const handleOnchangeTitle = (e) => {
+        console.log(e.target.value)
+        setSupportTitle(e.target.value)
+    }
+
+    const handleOnchangeDescription = (e) => {
+        console.log(e.target.value)
+        setSupportDescription(e.target.value)
+    }
+
+    const handleSupportSubmit = async() => {
+        
+        try {
+            Swal.fire({
+                title: "Status",
+                text: "Please wait...",
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                }
+            })
+            let data = {
+                "title": supportTitle,
+                "description": supportDescription
+            }
+            const post_data = await commonTasks.postData("new-support-request", data)
+            console.log("post_data isssss ", post_data)
+            
+            if (post_data.status) {
+                Swal.close()
+                Swal.fire({
+                    title: "Status",
+                    icon: "success",
+                    text: "Request sent",
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    timer: 3000,
+                })
+            }
+            else {
+                Swal.close()
+                //console.log(error)
+                Swal.fire({
+                    title: "Status",
+                    icon: "error",
+                    text: "Failed! Please try again later",
+                    allowOutsideClick: false,
+                    showConfirmButton: true,
+                })
+            }
+        }
+        catch (error){
+            Swal.close()
+            console.log(error)
+            Swal.fire({
+                title: "Status",
+                icon: "error",
+                text: "Failed! Please try again later",
+                allowOutsideClick: false,
+                showConfirmButton: true,
+            })
+        }
+    }
 
     useEffect(() =>{
         const getAllFAQs = async () => {
@@ -46,7 +114,7 @@ function Help() {
                                             <label htmlFor="exampleFormControlInput1">Title/Subject</label>
                                         </div>
                                         <div className="input-group">
-                                            <input type="text" className="form-control bg-dark text-white border-secondary" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1"/>
+                                            <input type="text" className="form-control bg-dark text-white border-secondary" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1" value={supportTitle} onChange={handleOnchangeTitle}/>
                                         </div>
                                     </div>
                                     <div className="col-sm-12 mb-2 text-white justify-content-center">
@@ -54,12 +122,12 @@ function Help() {
                                             <label htmlFor="exampleFormControlInput1">Description</label>
                                         </div>
                                         <div className="input-group">
-                                        <textarea id="description" className='form-control bg-dark text-white border-secondary' name="description" rows="4" cols="50"></textarea>
+                                        <textarea id="description" className='form-control bg-dark text-white border-secondary' name="description" rows="4" cols="50" value={supportDescription} onChange={handleOnchangeDescription}></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="card-footer pb-5">
-                                    <button type="submit" className="btn btn-success">Send</button>
+                                    <button type="submit" className="btn btn-success" onClick={handleSupportSubmit}>Send</button>
                                 </div>
                             </div>
                         </div>

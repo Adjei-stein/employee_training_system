@@ -26,6 +26,7 @@ urlpatterns = [
     path('login/', views.UserLoginAPIView.as_view(), name='user-login'),
     path('logout/', views.LogoutAPIView.as_view(), name='logout'),
     path('course-material-url', views.CourseMaterialURLList.as_view()),
+    path('new-support-request/', views.SupportRequests.as_view()),
     path('download/<str:filename>/', views.download_file, name='download_file')
     #path('logout/', logout_view, name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
