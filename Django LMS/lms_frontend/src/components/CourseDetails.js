@@ -11,11 +11,33 @@ function CourseDetails() {
     const commonTasks = new CommonTasks()
     const [CourseDetails, setCourseDetails] = useState();
     const [CourseMaterials, setCourseMaterials] = useState();
+    const [courseChapters, showChapterContent] = useState(null)
+    const [courseTitle, getCourseTitle] = useState('')
+    const [chapterURL, getChapterURL] = useState('')
+    const [mediaType, getMediaType] = useState(null)
     const [test, setTest] = useState();
 
     const goToCourse = (course_id) => {
         localStorage.setItem('course_selected', course_id);
         window.location.href = '/course/' + course_id;
+    }
+
+    const convertDuration = (duration) => {
+        const [hours, minutes, seconds] = duration.split(':').map(Number);
+    
+        let result = '';
+        if (hours > 0) {
+            result += hours + ' hrs ';
+        }
+        if (minutes > 0 || hours > 0) {
+            result += minutes + ' mins';
+        }
+    
+        if (result === '') {
+            result = seconds + ' secs';
+        }
+    
+        return result;
     }
 
     const downloadFile = (url) => {
@@ -53,7 +75,7 @@ function CourseDetails() {
         
         const userID = localStorage.getItem('userID');
         const getCourseDetails = async () => {
-            const course_id = localStorage.getItem('course_selected');
+            const course_id = await localStorage.getItem('course_selected');
                 const main_course_details = await commonTasks.getData("course/" + course_id)
                 const courseMaterialUrl = await commonTasks.getData("course-material-url")
                 
@@ -63,6 +85,31 @@ function CourseDetails() {
         }
 
         getCourseDetails()
+
+        const getCourseChapters = async () => {
+            const course_id = await localStorage.getItem('course_selected');
+            console.log(`course/chapter/${course_id}`)
+            try {
+                const course_chapters = await commonTasks.getData(`course/chapter/${course_id}`)
+                const course = await commonTasks.getData(`course/${course_id}`)
+                console.log("course_chapters is ", course_chapters)
+                console.log("course chapter 1 is ", course_chapters[0].chapter_url)
+                if (course_chapters && course_chapters[0].media_type && course_chapters[0].chapter_url) {
+                    getChapterURL(course_chapters[0].chapter_url)
+                    getMediaType(course_chapters[0].media_type)
+                }
+                
+                console.log("course is ", course)
+                console.log("course title is ", course.title)
+                showChapterContent(course_chapters)
+                getCourseTitle(course.title)
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+
+        getCourseChapters()
 
     }, [])
 
@@ -139,7 +186,43 @@ function CourseDetails() {
                                             <div className="mx-2" style={{minWidth: "100%"}}>
                                                 <table id="basic-datatables" class="m-0 display table table-striped table-hover dataTable" role="grid" aria-describedby="basic-datatables_info">
                                                     <tbody>
-                                                        <tr role="row" class="odd d-flex">
+                                                    {courseChapters ? (courseChapters.map((chapter, index) => (
+                                                        <tr key={index} role="row" class="odd d-flex">
+                                                            <a href="" className='text-white bg-transparent p-0' style={{textDecoration: 'none', width: '100%'}}>
+                                                                <div className="card rounded-0 text-white border-0 bg-transparent">
+                                                                    <div className="card-body d-flex p-1 bg-transparent">
+                                                                        <div className="col-sm-1 d-flex align-items-center justify-content-center">
+                                                                            <FontAwesomeIcon icon={faPlay}/>
+                                                                        </div>
+                                                                        <div className="col-sm-9" style={{paddingRight: "2%"}}>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                                <span><b>{chapter.chapter_title}</b></span>
+                                                                            </div>
+                                                                            <div className="col-sm-12 d-flex align-items-start justify-content-start">
+                                                                            <small>{chapter ? (chapter.media_type === 1 ? 'Video - ' : chapter.media_type === 2 ? 'PDF - ' : 'Image - ') : ''}</small>
+                                                                                &nbsp;
+                                                                                <small className="text-white">{convertDuration(chapter.estimated_completion_time)}</small>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-sm-2 d-flex align-items-center justify-content-center">
+                                                                            <div class="form-check">
+                                                                                <span class="badge bg-success">Completed</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </tr>
+                                                    ))) : (
+                                                        <a className="flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1">
+                                                            <div className="col-sm-12" style={{paddingLeft: "2%", paddingRight: "2%"}}>
+                                                                <div className="col-sm-12">
+                                                                    <span><b>No chapters available</b></span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    )}
+                                                        {/* <tr role="row" class="odd d-flex">
                                                             <a href="" className='text-white bg-transparent p-0' style={{textDecoration: 'none', width: '100%'}}>
                                                                 <div className="card rounded-0 text-white border-0 bg-transparent">
                                                                     <div className="card-body d-flex p-1 bg-transparent">
@@ -216,7 +299,7 @@ function CourseDetails() {
                                                                     </div>
                                                                 </div>
                                                             </a>
-                                                        </tr>
+                                                        </tr> */}
                                                     </tbody>
                                                 </table>
                                             </div>
