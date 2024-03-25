@@ -135,21 +135,33 @@ function Course() {
                                 <nav className="nav nav-pills flex-column flex-sm-column m-3" style={{maxHeight: "100%" }}>
                                     <div>
                                     {courseChapters ? (courseChapters.map((chapter, index) => (
-                                        <a key={index} className={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === chapter.chapter_number ? 'active' : 'bg-secondary'}`} onClick={() => showTabContent(chapter.chapter_number, chapter.media_type, chapter.chapter_url)}>
-                                            <div className="col-sm-1 d-flex align-items-center justify-content-center">
-                                                <FontAwesomeIcon icon={faPlay}/>
-                                            </div>
-                                            <div className="col-sm-9" style={{paddingLeft: "2%", paddingRight: "2%"}}>
-                                                <div className="col-sm-12">
-                                                    <span><b>{chapter.chapter_title}</b></span>
+                                        <a key={index} className={`flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1 ${activeTab === chapter.chapter_number ? 'active' : 'bg-secondary'}`}>
+                                            <div className='col-md-10 d-flex align-items-center justify-content-center'  onClick={() => showTabContent(chapter.chapter_number, chapter.media_type, chapter.chapter_url)}>
+                                                <div className="col-sm-2 d-flex align-items-center justify-content-center">
+                                                    <FontAwesomeIcon icon={faPlay}/>
                                                 </div>
-                                                <div className="col-sm-12">
-                                                    <small>{chapter ? (chapter.media_type === 1 ? 'Video' : chapter.media_type === 2 ? 'PDF' : 'Image') : ''}</small>
+                                                <div className="col-sm-10" style={{paddingLeft: "2%", paddingRight: "2%"}}>
+                                                    <div className="col-sm-12">
+                                                        <span><b>{chapter.chapter_title}</b></span>
+                                                    </div>
+                                                    <div className="col-sm-12">
+                                                        <small>{chapter ? (chapter.media_type === 1 ? 'Video' : chapter.media_type === 2 ? 'PDF' : 'Image') : ''}</small>
+                                                        <small className="text-white mx-2">{convertDuration(chapter.estimated_completion_time)}</small>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="col-sm-2 d-flex align-items-center justify-content-center">
-                                                <small className="text-white">{convertDuration(chapter.estimated_completion_time)}</small>
-                                            </div>
+                                                <div className="col-sm-2">
+                                                    {/* <div className="col-md-12 d-flex align-items-center justify-content-center">
+                                                        
+                                                    </div> */}
+                                                    <div className="col-md-12 d-flex align-items-center justify-content-center">
+                                                        <label className="container-check">
+                                                            <input type="checkbox"/>
+                                                            <span className="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            
                                         </a>
                                     ))) : (
                                         <a className="flex-sm-fill text-sm-center nav-link d-flex align-items-center justify-content-center my-1">
