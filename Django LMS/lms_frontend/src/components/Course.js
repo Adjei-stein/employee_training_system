@@ -16,6 +16,12 @@ function Course() {
     const [courseTitle, getCourseTitle] = useState('')
     const [chapterURL, getChapterURL] = useState('')
     const [mediaType, getMediaType] = useState(null)
+    const [getUserID, setUserID] = useState();
+    const [totalChaptersCompleted, getCompletedChapters] = useState()
+
+    const checkChapter = (chapter) => {
+
+    }
 
     const showTabContent = (activate, media_type, media) => {
         showContent(activate)
@@ -46,6 +52,10 @@ function Course() {
     }
 
     useEffect(() => {
+        const userID = localStorage.getItem('userID');
+        if (userID){
+            setUserID(userID)
+        }
         const iframe = iframeRef.current;
         const loadingIndicator = document.querySelector('.spinner-border');
 
@@ -67,6 +77,7 @@ function Course() {
             try {
                 const course_chapters = await commonTasks.getData(`course/chapter/${course_id}`)
                 const course = await commonTasks.getData(`course/${course_id}`)
+                const enrolled_courses = await commonTasks.getData("courses/enrolled/" + getUserID)
                 console.log("course_chapters is ", course_chapters)
                 console.log("course chapter 1 is ", course_chapters[0].chapter_url)
                 if (course_chapters && course_chapters[0].media_type && course_chapters[0].chapter_url) {
@@ -76,8 +87,13 @@ function Course() {
                 
                 console.log("course is ", course)
                 console.log("course title is ", course.title)
+                console.log("Enrolled courses are ", enrolled_courses)
                 showChapterContent(course_chapters)
                 getCourseTitle(course.title)
+                /* for(let i in enrolled_courses.response.data){
+                    console.log("Enrolled course is, ", i)
+                } */
+                //getCompletedChapters()
             }
             catch (error) {
                 console.log(error)

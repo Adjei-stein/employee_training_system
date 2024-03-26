@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 import mimetypes
@@ -244,17 +244,17 @@ class UserEnrolledCoursesList(generics.ListCreateAPIView):
     serializer_class = UserEnrolledCoursesSerialzer
     permission_classes = [permissions.IsAuthenticated]
 
-class UserEnrolledCoursesDetails(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.UserEnrolledCourses.objects.all()
+class UserEnrolledCoursesDetails(generics.ListAPIView):
     serializer_class = UserEnrolledCoursesSerialzer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        user_id = self.kwargs['user_id_id']
-        obj = get_object_or_404(queryset, user_id=user_id)
-        self.check_object_permissions(self.request, obj)
-        return obj
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        queryset = models.UserEnrolledCourses.objects.filter(user_id=user_id)
+        if not queryset.exists():
+            raise Http404("No enrolled courses found for the user")
+        self.check_object_permissions(self.request, queryset.first())  # Check permissions against the first object
+        return queryset
 
 class BookmarkedCoursesList(generics.ListCreateAPIView):
     queryset = models.BookmarkedCourses.objects.all()
