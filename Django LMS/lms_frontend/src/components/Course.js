@@ -51,11 +51,18 @@ function Course() {
         return result;
     }
 
+    const checkCheckBox = (chapter) => {
+        console.log("here wai")
+        if (chapter <= totalChaptersCompleted) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
     useEffect(() => {
         const userID = localStorage.getItem('userID');
-        if (userID){
-            setUserID(userID)
-        }
         const iframe = iframeRef.current;
         const loadingIndicator = document.querySelector('.spinner-border');
 
@@ -73,11 +80,15 @@ function Course() {
         
 
         const getCourseChapters = async () => {
+            
+            if (userID){
+                setUserID(userID)
+            }
             console.log(`course/chapter/${course_id}`)
             try {
                 const course_chapters = await commonTasks.getData(`course/chapter/${course_id}`)
                 const course = await commonTasks.getData(`course/${course_id}`)
-                const enrolled_courses = await commonTasks.getData("courses/enrolled/" + getUserID)
+                const enrolled_courses = await commonTasks.getData("courses/enrolled/" + userID)
                 console.log("course_chapters is ", course_chapters)
                 console.log("course chapter 1 is ", course_chapters[0].chapter_url)
                 if (course_chapters && course_chapters[0].media_type && course_chapters[0].chapter_url) {
@@ -87,10 +98,19 @@ function Course() {
                 
                 console.log("course is ", course)
                 console.log("course title is ", course.title)
+                console.log("course chapters is ", course_chapters)
                 console.log("Enrolled courses are ", enrolled_courses)
                 showChapterContent(course_chapters)
                 getCourseTitle(course.title)
-                /* for(let i in enrolled_courses.response.data){
+                for(let i in enrolled_courses){
+                    console.log("Enrolled course is, ", enrolled_courses[i].chapters_completed)
+                    if (course_id == enrolled_courses[i].course_id){
+                        getCompletedChapters(enrolled_courses[i].chapters_completed)
+                        break
+                    }
+                    
+                }
+                /* for(let i = 0; i < enrolled_courses.length; i++){
                     console.log("Enrolled course is, ", i)
                 } */
                 //getCompletedChapters()
@@ -172,7 +192,7 @@ function Course() {
                                                     </div> */}
                                                     <div className="col-md-12 d-flex align-items-center justify-content-center">
                                                         <label className="container-check">
-                                                            <input type="checkbox"/>
+                                                            <input type="checkbox" checked={checkCheckBox(chapter.chapter_number)} disabled/>
                                                             <span className="checkmark"></span>
                                                         </label>
                                                     </div>

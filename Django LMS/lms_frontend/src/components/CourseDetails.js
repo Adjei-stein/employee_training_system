@@ -16,6 +16,8 @@ function CourseDetails() {
     const [chapterURL, getChapterURL] = useState('')
     const [mediaType, getMediaType] = useState(null)
     const [test, setTest] = useState();
+    const [isCourseEnrolled, getIsCourseEnrolled] = useState(false)
+    const [totalChaptersCompleted, getCompletedChapters] = useState()
 
     const goToCourse = (course_id) => {
         localStorage.setItem('course_selected', course_id);
@@ -68,7 +70,29 @@ function CourseDetails() {
     };
     
     
-    
+    const completedCourses = (chapter) => {
+        if (chapter <= totalChaptersCompleted) {
+            console.log("here wai")
+            return <span class="badge bg-success">Completed</span>
+        }
+        else if (Number(chapter) == Number(totalChaptersCompleted) + 1) {
+            console.log("here wai 2")
+            return <span class="badge bg-warning">In Progress</span>
+        }
+        else {
+            console.log("here wai 3")
+            return <span class="badge bg-secondary">Not Started</span>
+        }
+    }
+
+    const isEnrolled = () => {
+        if (isCourseEnrolled) {
+            return <span>Resume</span>
+        }
+        else {
+            return <span>Start course</span>
+        }
+    }
     
 
     useEffect (() => {
@@ -92,6 +116,7 @@ function CourseDetails() {
             try {
                 const course_chapters = await commonTasks.getData(`course/chapter/${course_id}`)
                 const course = await commonTasks.getData(`course/${course_id}`)
+                const enrolled_courses = await commonTasks.getData("courses/enrolled/" + userID)
                 console.log("course_chapters is ", course_chapters)
                 console.log("course chapter 1 is ", course_chapters[0].chapter_url)
                 if (course_chapters && course_chapters[0].media_type && course_chapters[0].chapter_url) {
@@ -101,6 +126,15 @@ function CourseDetails() {
                 
                 console.log("course is ", course)
                 console.log("course title is ", course.title)
+                for(let i in enrolled_courses){
+                    console.log("Enrolled course is, ", enrolled_courses[i].chapters_completed)
+                    if (course_id == enrolled_courses[i].course_id){
+                        getIsCourseEnrolled(true)
+                        getCompletedChapters(enrolled_courses[i].chapters_completed)
+                        break
+                    }
+                    
+                }
                 showChapterContent(course_chapters)
                 getCourseTitle(course.title)
             }
@@ -146,7 +180,7 @@ function CourseDetails() {
                             </div>
                             <div className="d-flex stretch align-items-center justify-content-start mt-1">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-light" onClick={()=>goToCourse(CourseDetails.id)}>Start course <FontAwesomeIcon icon="arrow-right" /></button>
+                                    <button type="button" class="btn btn-sm btn-outline-light" onClick={()=>goToCourse(CourseDetails.id)}>{isEnrolled()} <FontAwesomeIcon icon="arrow-right" /></button>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +240,8 @@ function CourseDetails() {
                                                                         </div>
                                                                         <div className="col-sm-2 d-flex align-items-center justify-content-center">
                                                                             <div class="form-check">
-                                                                                <span class="badge bg-success">Completed</span>
+                                                                                {completedCourses(chapter.chapter_number)}
+                                                                                {/* <span class="badge bg-success">Completed</span> */}
                                                                             </div>
                                                                         </div>
                                                                     </div>
