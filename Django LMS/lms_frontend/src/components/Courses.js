@@ -354,16 +354,18 @@ function Courses() {
             {mandatoryCourses ? (<div className="col-md-12 mb-2">
                             <div className="row">
                                 <div className="card border-0 rounded-0 text-white pb-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-                                    <div className="card-header p-0 d-flex justify-content-start border-dark" id="headingOne" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded={isCollapsed ? 'false' : 'true'} aria-controls="collapseOne" role="button" onClick={handleToggle}>
-                                        <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                            <h2 className='m-2'>Mandatory Courses</h2>
-                                        </div>
-                                        <div className="col-md-1 d-flex align-items-center justify-content-center">
-                                            <h2 className='m-2'><FontAwesomeIcon icon={isCollapsed ? faPlus : faMinus}/></h2>
+                                    <div className="card-header p-0 d-flex border-dark" id="headingOne" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded={isCollapsed ? 'false' : 'true'} aria-controls="collapseOne" role="button" onClick={handleToggle}>
+                                        <div className="col-md-12 d-flex align-items-center justify-content-center" style={{minWidth: '100%'}}>
+                                            <div className="col-md-11 d-flex align-items-center justify-content-start" style={{minWidth: "90%"}}>
+                                                <h2 className='m-2 text-start'>Mandatory Courses</h2>
+                                            </div>
+                                            <div className="col-md-1 d-flex align-items-center justify-content-center" style={{minWidth: "10%"}}>
+                                                <h2 className='m-2'><FontAwesomeIcon icon={isCollapsed ? faPlus : faMinus}/></h2>
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="collapseOne" className="collapse" aria-labelledby="headingOne">
-                                        <div className="card-body p-0 d-flex align-items-center justify-content-start">
+                                        <div className="card-body p-0">
                                             {mandatoryCourses.map((mandatoryCourse, index) =>(
                                                 <div className="col-md-4 p-2" key={index}>
                                                     <div className="card mt-4 border-0" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>
@@ -396,17 +398,19 @@ function Courses() {
             {filteredOption ? (filteredOption.map((allSortedCourse, index) =>(<div className="col-md-12 mb-2" key={index}>
                     <div className="row">
                         <div className="card border-0 rounded-0 text-white pb-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-                            <div className="card-header p-0 d-flex justify-content-start border-dark" id="headingOne" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded={isCollapsedArray[index] ? 'false' : 'true'} aria-controls="collapseOne" role="button" onClick={() => handleToggle2(index)}>
-                                <div className="col-md-11 d-flex align-items-center justify-content-start">
-                                    <h2 className='m-2'>{allSortedCourse.course_category_title}</h2>
-                                </div>
-                                <div className="col-md-1 d-flex align-items-center justify-content-center">
-                                    <h2 className='m-2'><FontAwesomeIcon icon={isCollapsedArray[index] ? faMinus : faPlus}/></h2>
+                            <div className="card-header p-0 border-dark" id="headingOne" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded={isCollapsedArray[index] ? 'false' : 'true'} aria-controls="collapseOne" role="button" onClick={() => handleToggle2(index)}>
+                                <div className="col-md-12 d-flex align-items-center justify-content-center" style={{minWidth: '100%'}}>
+                                    <div className="col-md-11 d-flex align-items-center justify-content-start" style={{minWidth: "90%"}}>
+                                        <h2 className='m-2 text-start'>{allSortedCourse.course_category_title}</h2>
+                                    </div>
+                                    <div className="col-md-1 d-flex align-items-center justify-content-center" style={{minWidth: "10%"}}>
+                                        <h2 className='m-2'><FontAwesomeIcon icon={isCollapsedArray[index] ? faMinus : faPlus}/></h2>
+                                    </div>
                                 </div>
                             </div>
                             
                             <div id={`collapse${index}`} className="collapse" aria-labelledby="headingOne">
-                                <div className="card-body p-0 d-flex align-items-stretch justify-content-start">
+                                <div className="card-body p-0">
                                     {allSortedCourse.courses_row.map((course, index) =>(
                                         <div className="col-md-4 p-2 h-100" key={index}>
                                             <div className="card mt-4 border-0 h-100" style={{ backgroundColor: 'rgba(0, 0, 0)' }}>

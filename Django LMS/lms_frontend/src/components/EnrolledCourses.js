@@ -7,6 +7,7 @@ function EnrolledCourses(){
     const [allEnrolledCourses, setAllEnrolledCourses] = useState([]);
 
     useEffect(() => {
+        const userID = localStorage.getItem('userID');
 
         const getAllCoursesAndInfo = async () => {
             try {
@@ -35,7 +36,7 @@ function EnrolledCourses(){
 
         const getListOfEnrolled = async () => {
             try {
-                const enrolled_courses = await commonTasks.getData("courses/enrolled")
+                const enrolled_courses = await commonTasks.getData("courses/enrolled/" + userID)
                 console.log("enrolled_courses is ", enrolled_courses)
                 let enrolled_arr = []
                 for (let i = 0; i < enrolled_courses.length; i++){

@@ -30,6 +30,7 @@ function Course() {
     }
 
     const iframeRef = useRef(null);
+    const videoRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true); // Initial loading state
     const [isError, setIsError] = useState(false);
 
@@ -49,6 +50,21 @@ function Course() {
         }
     
         return result;
+    }
+
+    const handleVideoEnd = () => {
+        const overlay = document.createElement('div')
+        overlay.style.position = 'absolute';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'transparent';
+        overlay.style.zIndex = '999';
+
+        videoRef.current.parentNode.appendChild(overlay);
+
+        overlay.addEventListener('click', (event) => {
+            event.stopPropagation()
+        })
     }
 
     const checkCheckBox = (chapter) => {
@@ -157,7 +173,7 @@ function Course() {
                     <div className='col-md-7 d-flex align-items-center justify-content-center' style={{background: 'rgba(0, 0, 0, 0.5)', overflowY: "auto", overflowX: "hidden", height: "100%" }}>
                         <div className="ratio ratio-16x9">
 
-                            {mediaType && chapterURL ? (mediaType === 1 ? <iframe width="560" height="315" src={`https://www.youtube.com/embed/${chapterURL}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe> : mediaType === 2 ? <iframe src={chapterURL} width="600" height="400"></iframe> : <img src={chapterURL}  alt="..." width="600" height="400"/>) : ('')}
+                            {mediaType && chapterURL ? (mediaType === 1 ? <div className='d-flex align-items-center justify-content-center w-100' ref={videoRef}><iframe width="560" height="315" src={`https://www.youtube-nocookie.com/embed/${chapterURL}?rel=0&modestbranding=1&start=1&end=890&autoplay=1&enablejsapi=1`} frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allowFullScreen onEnded={handleVideoEnd}></iframe></div> : mediaType === 2 ? <iframe src={chapterURL} width="600" height="400"></iframe> : <img src={chapterURL}  alt="..." width="600" height="400"/>) : ('')}
                             
                         </div>
                         

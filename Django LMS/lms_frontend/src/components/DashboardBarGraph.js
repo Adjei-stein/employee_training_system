@@ -17,7 +17,8 @@ function DashboardBarGraph() {
         backgroundColor: 'rgba(75,192,192)',
         borderColor: 'rgba(75,192,192,1)',
         borderWidth: 1,
-        data: [65, 59, 80, 75, 92, 12, 1],
+        data: []
+        //data: [0, 59, 80, 75, 92, 12, 1],
       },
       // Add more datasets as needed
     ],
